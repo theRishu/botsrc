@@ -13,3 +13,4 @@ __pycache__/
 *.pyo
 *.pyw
 *.pyo
+config.py

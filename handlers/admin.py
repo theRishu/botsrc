@@ -85,12 +85,11 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
             days_count = args_list[1] if len(args_list) > 1 else 90
 
             x = await db.select_user(int(culprit))
-            if x.premium:
+            if x.premium ==False:
                 try:
                     await db.make_user_premium(x.user_id , days_count)
                 except Exception as e:
                     await message.answer(f"Error ocurred\n{str(e)}")
-
             else:
                 await message.reply("User is already premium.")
         except Exception as e:

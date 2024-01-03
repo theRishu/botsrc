@@ -22,7 +22,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
     if user.partner_id:
         try:
-            await bot.send_message(user.partner_id, f"message.text")
+            await bot.send_message(user.partner_id, message.text)
         except Exception:
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
     elif user.banned:
