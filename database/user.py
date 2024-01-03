@@ -1,7 +1,7 @@
 from typing import Optional
 from sqlalchemy import select, insert
 from .model import User
-from main import async_session  
+from .setup  import async_session  
 
 async def select_user(user_id: int) -> Optional[User]:
     async with async_session() as session:

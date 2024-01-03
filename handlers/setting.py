@@ -155,7 +155,7 @@ Unlock VIP Privileges in 2 Simple Ways:
 To buy VIP, just message @BotsphereSupport !
 """
 
-from config import SUPPORT_URL
+from constant import SUPPORT_URL
 
 def vip_keyboard(tg_referral_url, wa_referral_url):
     kb = InlineKeyboardMarkup(

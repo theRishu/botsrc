@@ -3,11 +3,9 @@ from aiogram.filters import Command
 from database import  user as db
 from aiogram.utils.markdown import hbold
 
-from constant import BOT_SUPPORT
+from constant import SUPPORT_URL
 
 ADMINS= 1109490670 ,1460123566, 1428457408 ,1291389760 ,1407808667 ,991914469
-ADMINS = [int(admin_id.strip()) for admin_id in ADMINS.split(",")]
-
 
 def is_user_admin(user_id):
     return user_id in ADMINS
