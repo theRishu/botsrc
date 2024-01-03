@@ -1,0 +1,3 @@
+
+BOT_NAME = "test"
+BOT_TOKEN = "5212580140:AAHamwrcPjOomp4WCgR_H-3bkwy1Uu0qTGA"
