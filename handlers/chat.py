@@ -41,11 +41,11 @@ async def command_start_handler(message:types.Message,bot:Bot) -> None:
                 await db.delist_user(match)
                 await db.create_match(user_id = message.from_user.id , partner_id = match)
                 try:
-                    await bot.send_message( message.from_user.id , "You found a match",reply_markup=types.ReplyKeyboardRemove())
+                    await bot.send_message( message.from_user.id , hbold("Partner Found!"),reply_markup=types.ReplyKeyboardRemove())
                 except Exception:
                     pass
                 try:
-                    await bot.send_message( match ,"You found a match",reply_markup=types.ReplyKeyboardRemove())
+                    await bot.send_message( match,hbold("Partner Found!"),reply_markup=types.ReplyKeyboardRemove())
                 except Exception:
                     pass
             else:
@@ -87,7 +87,7 @@ async def command_start_handler(message:types.Message,bot:Bot) -> None:
                 await db.delist_user(match)
                 await db.create_match(user_id = message.from_user.id , partner_id = match)
                 try:
-                    await bot.send_message(message.from_user.id , "You found a match",reply_markup=types.ReplyKeyboardRemove())
+                    await bot.send_message(message.from_user.id , hbold("Partner Found!"),reply_markup=types.ReplyKeyboardRemove())
                 except Exception:
                     pass
                 try:

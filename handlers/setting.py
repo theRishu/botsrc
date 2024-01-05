@@ -225,6 +225,7 @@ async def show_help(message: Message, bot: Bot) -> None:
         f"Max Age: `{user.max_age}`\n"
         f"Lang: `{user.lang}`\n"
         f"Is Banned: `{user.banned}`\n"
+        f"Previous ID: `{user.previous_id}`\n"
         f"Banned Expiry: `{user.ban_expiry}`\n"
         f"Created At: `{user.created_at}`\n\n"
     )

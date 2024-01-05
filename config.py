@@ -1,28 +1,15 @@
 
+import sys
+
+BOT_NAME = sys.argv[2]
+BOT_TOKEN = sys.argv[1]
+
+"""
+python main.py 1482537711:AAEn2ki_6QfJYhaT1Bh8pScmpV8E8_T7I4A test
+
+
 BOT_NAME = "test"
 BOT_TOKEN = "1482537711:AAEn2ki_6QfJYhaT1Bh8pScmpV8E8_T7I4A"
 
-"""
-BOT_NAME = "englishmeet"
-BOT_TOKEN = "1733234541:AAHEoMhP6Si8OYlhE0FYVCWhqJrsl24BPLQ"
-
-
-BOT_NAME = "globalmeet"
-BOT_TOKEN ="1880922381:AAHxQKZxBfmExA_40FeSzk-LHajcoEP1NVU"
-
-
-
-BOT_NAME = "indonesiameet"
-BOT_TOKEN ="1797827070:AAElbtzoqVUW6Q_l84asbf8VNhc2qO3ymiI"
-
-
-
-BOT_NAME = "indomeet"
-BOT_TOKEN ="1619646513:AAH0lJv_azAzlEjynIrcr80Pi4em2Kl5Tzw"
-
-
-
-BOT_NAME = "globalmeet"
-BOT_TOKEN ="1880922381:AAHxQKZxBfmExA_40FeSzk-LHajcoEP1NVU"
 
 """

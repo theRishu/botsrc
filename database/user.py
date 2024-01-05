@@ -83,8 +83,8 @@ async def delist_user(user_id: int) -> None:
 async def delete_match(user_id,partner_id):
     async with async_session() as session:
         # Use the update statement to set the partner_id for the given user_id
-        update_stmt1 = (update(User).where(User.user_id == user_id).values(partner_id=None))
-        update_stmt2 = (update(User).where(User.user_id == partner_id).values(partner_id=None))
+        update_stmt1 = (update(User).where(User.user_id == user_id).values(partner_id=None , previous_id=partner_id))
+        update_stmt2 = (update(User).where(User.user_id == partner_id).values(partner_id=None, previous_id=user_id))
         await session.execute(update_stmt1)
         await session.execute(update_stmt2)
         await session.commit()
@@ -187,6 +187,7 @@ async def get_match(user_id, gender, pgender ,previous_id):
                 select(Queue.user_id)
                 .join(User, Queue.user_id == User.user_id)
                 .filter(Queue.user_id != user_id)
+                .filter(Queue.user_id != previous_id)
                 .filter(User.gender == pgender)
                 .filter(User.pgender.in_([pgender, "U"]))
                 .order_by(asc(Queue.created_at))
@@ -199,6 +200,7 @@ async def get_match(user_id, gender, pgender ,previous_id):
                     select(Queue.user_id)
                     .join(User, Queue.user_id == User.user_id)
                     .filter(Queue.user_id != user_id)
+                    .filter(Queue.user_id != previous_id)
                     .filter(User.pgender.in_([gender, "U"]))
                     .order_by(asc(Queue.created_at))
                 )
@@ -208,6 +210,8 @@ async def get_match(user_id, gender, pgender ,previous_id):
                     select(Queue.user_id)
                     .join(User, Queue.user_id == User.user_id)
                     .filter(Queue.user_id != user_id)
+                    .filter(Queue.user_id != previous_id)
+
                     .filter(User.pgender.in_([gender, "U"]))
                     .order_by(asc(Queue.created_at))
                 )
@@ -217,6 +221,7 @@ async def get_match(user_id, gender, pgender ,previous_id):
                     select(Queue.user_id)
                     .join(User, Queue.user_id == User.user_id)
                     .filter(Queue.user_id != user_id)
+                    .filter(Queue.user_id != previous_id)
                     .filter(User.pgender == pgender)
                     .order_by(asc(Queue.created_at))
                 )

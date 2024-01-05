@@ -22,7 +22,11 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
     if user.partner_id:
         try:
-            await bot.send_message(user.partner_id, message.text)
+            print(user.gender)
+            # Assuming user.gender is guaranteed to be either "male", "female", or something else.
+            gender_to_emoji = {"M": "👨", "F": "👩", "U": "👤"}
+            emoji = gender_to_emoji.get(user.gender)  # Default to "👤" for unknown
+            await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
         except Exception:
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
     elif user.banned:
