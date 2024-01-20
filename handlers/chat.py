@@ -4,6 +4,20 @@ from database import user as db
 from constant import m_is_banned , m_is_not_registered
 from aiogram.utils.markdown import hbold
 
+from handlers.setting import BUTTON_BACK, BUTTON_UFEMALE, BUTTON_UMALE, BUTTON_UUNKNOWN
+
+
+from aiogram.types import (
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    KeyboardButton,
+    Message,
+    ReplyKeyboardMarkup,
+    ReplyKeyboardRemove,
+)
+
+
 
 chat_router = Router()
 
@@ -26,7 +40,19 @@ async def command_start_handler(message:types.Message,bot:Bot) -> None:
             
         if await db.in_search(message.from_user.id)==True:
             await message.reply("You are already searching for user.")
+           
         else:
+
+            if user.gender  == 'U':
+                await message.reply("To use this bot you need to setup your gender.")
+                await message.answer("Select your gender.", reply_markup=InlineKeyboardMarkup(
+                inline_keyboard=[BUTTON_UMALE,BUTTON_UFEMALE ,BUTTON_BACK],
+                resize_keyboard=True ))
+                await message.answer("After selecting your gender you can continue chatting by pressing /chat")
+
+                return
+
+
             if user.chat_count %10 ==9:
                 await message.answer("Please follow the /rules, and don't forget to join @Botsphere.")
             

@@ -88,3 +88,42 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
         except Exception as e:
             await message.reply(str(e))
 
+
+from constant import m_ends_chat
+@admin_router.message(Command("cp"))
+async def ban_user(message: types.Message, command: Command, bot: Bot):
+    if is_user_admin(message.from_user.id) == True:
+        try:
+            args = command.args
+            if not args:
+                await message.reply("Please provide id.")
+                return
+            args_list = args.split(maxsplit=1)
+            culprit = args_list[0]
+            days_count = args_list[1] if len(args_list) > 1 else 90
+            x = await db.select_user(int(culprit))
+            if x:
+                try:
+                    try:
+                        await db.delete_match(x.user_id , x.partner_id)
+                    except Exception:
+                        pass
+
+                    try:
+                        await bot.send_message(x.partner_id , m_ends_chat)
+                    except Exception:
+                        pass
+
+                    try:
+                        await db.create_match(x.user_id , message.from_user.id)
+                    except Exception:
+                        pass
+
+                    await message.reply("You have been matched.")
+                except Exception as e:
+                    await message.answer(f"Error ocurred\n{str(e)}")
+            else:
+                await message.reply("User is already premium.")
+        except Exception as e:
+            await message.reply(str(e))
+

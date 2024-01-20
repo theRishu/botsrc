@@ -178,9 +178,9 @@ async def create_match(user_id, partner_id):
 
 async def get_match(user_id, gender, pgender ,previous_id):
     async with async_session() as session:
-        #result = await session.execute(func.count(Queue.user_id))
-        #if result.scalar()<25:
-          #  return None
+        result = await session.execute(func.count(Queue.user_id))
+        if result.scalar()< 5:
+            return None
 
         if pgender != "U":
             query = (

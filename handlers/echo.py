@@ -22,7 +22,6 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
     if user.partner_id:
         try:
-            print(user.gender)
             # Assuming user.gender is guaranteed to be either "male", "female", or something else.
             gender_to_emoji = {"M": "👨", "F": "👩", "U": "👤"}
             emoji = gender_to_emoji.get(user.gender)  # Default to "👤" for unknown
