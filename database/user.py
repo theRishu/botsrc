@@ -176,6 +176,39 @@ async def create_match(user_id, partner_id):
         await session.close()
 
 
+async def get_all_count():
+    async with async_session() as session:
+        result = await session.execute(func.count(User.user_id))
+        return result.scalar()
+
+
+
+async def get_premium_count():
+    async with async_session() as session:
+        query = select(func.count(User.user_id)).where(User.premium == True)
+        result = await session.execute(query)
+        return result.scalar()
+
+async def get_users_count_by_gender(gender):
+    async with async_session() as session:
+        query = select(func.count(User.user_id)).where(User.gender == gender)
+        result = await session.execute(query)
+        return result.scalar()
+
+async def get_users_count_with_low_chat_count(count):
+    async with async_session() as session:
+        query = select(func.count(User.user_id)).where(User.chat_count >= count)
+        result = await session.execute(query)
+        return result.scalar()
+
+async def get_all_user_ids():
+    async with async_session() as session:
+        stmt = select(User.user_id)
+        result = await session.execute(stmt)
+        user_ids = [row[0] for row in result.fetchall()]
+        return user_ids
+
+
 async def get_match(user_id, gender, pgender ,previous_id):
     async with async_session() as session:
         result = await session.execute(func.count(Queue.user_id))

@@ -5,7 +5,7 @@ from aiogram.utils.markdown import hbold
 
 admin_router = Router()
 
-ADMINS= 1109490670 ,1460123566, 1428457408 ,1291389760 ,1407808667 ,991914469
+ADMINS= 1109490670 ,1460123566, 1428457408 ,1291389760 ,1407808667 ,991914469 ,6567013581 , 6787093249 ,6128599239 ,5624478385
 
 def is_user_admin(user_id):
     return user_id in ADMINS
@@ -90,6 +90,7 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
 
 
 from constant import m_ends_chat
+
 @admin_router.message(Command("cp"))
 async def ban_user(message: types.Message, command: Command, bot: Bot):
     if is_user_admin(message.from_user.id) == True:
@@ -127,3 +128,56 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
         except Exception as e:
             await message.reply(str(e))
 
+
+@admin_router.message(Command("stats"))
+async def send_welcome(message: types.Message):
+    all_count  = await  db.get_all_count()
+    male_count = await db.get_users_count_by_gender('M')
+    female_count = await db.get_users_count_by_gender('F')
+    premium_count = await db.get_premium_count() 
+    stats_message = (
+        f"User Statistics 📊\n\n"
+        f"Total Users: {all_count}\n"
+        f"Male Users: {male_count}\n"
+        f"Female Users: {female_count}\n"
+        f"Premium Users: {premium_count}\n"
+    )
+    await message.answer(stats_message)
+
+
+
+@admin_router.message(Command("jc"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    # Check if the command has arguments
+    users = await db.get_all_user_ids()
+    for user_id in users:
+        try:
+            await bot.send_message(user_id, "Hey please join our channel @Botsphere.")
+        except Exception:
+            pass
+
+
+@admin_router.message(Command("ob"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    # Check if the command has arguments
+    users = await db.get_all_user_ids()
+    for user_id in users:
+        try:
+            await bot.send_message(user_id,  "Hey, we have many other bots. You can get a list of all bots  using this link  https://t.me/botsphere/8" ,disable_web_page_preview=True)
+        except Exception:
+            pass
+
+
+@admin_router.message(Command("bc"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    # Check if the command has arguments
+    args = command.args
+    if not args:
+        await message.answer("no args")
+        return
+    users = await db.get_all_user_ids()
+    for user_id in users:
+        try:
+            await bot.send_message(user_id,  f"{args}\nThis message is from admin" ,disable_web_page_preview=True) 
+        except Exception:
+            pass
