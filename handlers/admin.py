@@ -2,6 +2,7 @@ from aiogram import Router, F , types , Bot
 from aiogram.filters import Command
 from database import  user as db
 from aiogram.utils.markdown import hbold
+from datetime import datetime
 
 admin_router = Router()
 
@@ -9,6 +10,7 @@ ADMINS= 1109490670 ,1460123566, 1428457408 ,1291389760 ,1407808667 ,991914469 ,6
 
 def is_user_admin(user_id):
     return user_id in ADMINS
+from aiogram.enums import ParseMode
 
 
 @admin_router.message(Command("ban"))
@@ -39,7 +41,19 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
 
 
 
+@admin_router.message(Command("clearvip"))
+async def ban_user(message: types.Message, command: Command, bot: Bot):
+    users = await  db.get_all_vip_users()
+    for user in users:
+        if user.vip_expiry < datetime.now():
+            try:
+                await bot.send_message(user.user_id ,"Your vip is expired. To buy again contact @BotsphereSupport .")
+            except Exception as e:
+                await message.answer(str(e))
+            await db.remove_user_premium(user.user_id)
+            await message.answer(f"{user.user_id} vip removed")
 
+     
 @admin_router.message(Command("unban"))
 async def ban_user(message: types.Message, command: Command, bot: Bot):
     if is_user_admin(message.from_user.id) == True:
@@ -63,6 +77,9 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
         except Exception as e:
             await message.reply(str(e))
 
+
+
+
 @admin_router.message(Command("mv"))
 async def ban_user(message: types.Message, command: Command, bot: Bot):
     if is_user_admin(message.from_user.id) == True:
@@ -73,7 +90,7 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
                 return
             args_list = args.split(maxsplit=1)
             culprit = args_list[0]
-            days_count = args_list[1] if len(args_list) > 1 else 90
+            days_count = args_list[1] if len(args_list) > 1 else 30
 
             x = await db.select_user(int(culprit))
             if x.premium == False:
@@ -81,6 +98,31 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
                     await db.make_user_premium(x.user_id , int(days_count))
                     await bot.send_message(x.user_id, f"You have been made vip for {days_count} days.")
                     await message.reply("User is been made vip.")
+                except Exception as e:
+                    await message.answer(f"Error ocurred\n{str(e)}")
+            else:
+                await message.reply("User is already premium.")
+        except Exception as e:
+            await message.reply(str(e))
+
+
+
+@admin_router.message(Command("rm"))
+async def ban_user(message: types.Message, command: Command, bot: Bot):
+    if is_user_admin(message.from_user.id) == True:
+        try:
+            args = command.args
+            if not args:
+                await message.reply("Please provide id.")
+                return
+            args_list = args.split(maxsplit=1)
+            culprit = args_list[0]
+            days_count = args_list[1] if len(args_list) > 1 else 30
+
+            x = await db.select_user(int(culprit))
+            if x.premium == True:
+                try:
+                    await db.remove_user_premium(x.user_id)  
                 except Exception as e:
                     await message.answer(f"Error ocurred\n{str(e)}")
             else:

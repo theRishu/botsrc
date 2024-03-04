@@ -182,12 +182,14 @@ async def get_all_count():
         return result.scalar()
 
 
-
-async def get_premium_count():
+async def get_all_vip_users():
     async with async_session() as session:
-        query = select(func.count(User.user_id)).where(User.premium == True)
+        query = select(User).where(User.premium == True)
         result = await session.execute(query)
-        return result.scalar()
+        vip_users = result.scalars().all()
+        return [user for user in vip_users]
+
+        
 
 async def get_users_count_by_gender(gender):
     async with async_session() as session:

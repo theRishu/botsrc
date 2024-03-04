@@ -5,4 +5,8 @@ systemctl restart indonesiameet
 systemctl restart randchats
 systemctl restart sextingbuddies
 systemctl restart desichat
+systemctl restart sextingchat
+systemctl restart globalmeet
+systemctl restart arabmeet
+systemctl restart indiammeet
 
