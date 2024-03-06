@@ -230,4 +230,4 @@ async def show_help(message: Message, bot: Bot) -> None:
         f"Created At: `{user.created_at}`\n\n"
     )
     # Send the formatted message with markdown
-    await message.answer(m, parse_mode=ParseMode.MARKDOWN_V2)
+    await message.answer(m, parse_mode=ParseMode.MARKDOWN_V2 , protect_content=False)
