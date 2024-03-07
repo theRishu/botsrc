@@ -83,8 +83,8 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
 
             try:
                 await bot.send_message(match, hbold("Partner Found!"), reply_markup=types.ReplyKeyboardRemove())
-            except Exception:
-                pass
+            except Exception as e:
+                print(str(e))
         else:
             await message.answer("🚀 Start looking for a partner for you...")
 

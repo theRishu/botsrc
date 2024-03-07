@@ -240,8 +240,6 @@ async def get_match(user_id, gender, pgender ,previous_id):
         if result.scalar()< 5:
             return None
 
-        await time.sleep(5)
-
         if pgender != "U":
             query = (
                 select(Queue.user_id)
