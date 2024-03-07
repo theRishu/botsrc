@@ -35,7 +35,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
     elif await queue(user.user_id):
         await message.answer(hbold("Waiting for someone...."), reply_markup=stop_searching())
     else:
-        await message.reply("You are not currently in a chat. Use /chat to find a new chat.")
+        await message.reply("You are not currently in a chat. Use /start to find a new chat.")
 
 
 @echo_router.message(F.sticker)
@@ -57,7 +57,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         await message.answer(hbold("Waiting for someone...."),reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text="❌ Cancel")]], resize_keyboard=True))
              
     else:
-        await message.reply("You are not currently in a chat. Use /chat to find a new chat.")
+        await message.reply("You are not currently in a chat. Use /start to find a new chat.")
 
 
 
@@ -82,7 +82,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         await message.answer(hbold("Waiting for someone...."),reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text="❌ Cancel")]], resize_keyboard=True))
              
     else:
-        await message.reply("You are not currently in a chat. Use /chat to find a new chat.")
+        await message.reply("You are not currently in a chat. Use /start to find a new chat.")
 
 
 
@@ -105,7 +105,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         await message.answer(hbold("Waiting for someone...."),reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text="❌ Cancel")]], resize_keyboard=True))
              
     else:
-        await message.reply("You are not currently in a chat. Use /chat to find a new chat.")
+        await message.reply("You are not currently in a chat. Use /start to find a new chat.")
 
 
 
@@ -130,7 +130,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         await message.answer(hbold("Waiting for someone...."),reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text="❌ Cancel")]], resize_keyboard=True))
              
     else:
-        await message.reply("You are not currently in a chat. Use /chat to find a new chat.")
+        await message.reply("You are not currently in a chat. Use /start to find a new chat.")
 
 
 
@@ -155,7 +155,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         await message.answer(hbold("Waiting for someone...."),reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text="❌ Cancel")]], resize_keyboard=True))
              
     else:
-        await message.reply("You are not currently in a chat. Use /chat to find a new chat.")
+        await message.reply("You are not currently in a chat. Use /start to find a new chat.")
 
 
 
@@ -178,7 +178,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         await message.answer(hbold("Waiting for someone...."),reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text="❌ Cancel")]], resize_keyboard=True))
              
     else:
-        await message.reply("You are not currently in a chat. Use /chat to find a new chat.")
+        await message.reply("You are not currently in a chat. Use /start to find a new chat.")
 
 
 
@@ -201,7 +201,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         await message.answer(hbold("Waiting for someone...."),reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text="❌ Cancel")]], resize_keyboard=True))
              
     else:
-        await message.reply("You are not currently in a chat. Use /chat to find a new chat.")
+        await message.reply("You are not currently in a chat. Use /start to find a new chat.")
 
 
 
@@ -224,7 +224,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         await message.answer(hbold("Waiting for someone...."),reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text="❌ Cancel")]], resize_keyboard=True))
              
     else:
-        await message.reply("You are not currently in a chat. Use /chat to find a new chat.")
+        await message.reply("You are not currently in a chat. Use /start to find a new chat.")
 
 
 
@@ -248,7 +248,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         await message.answer(hbold("Waiting for someone...."),reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text="❌ Cancel")]], resize_keyboard=True))
              
     else:
-        await message.reply("You are not currently in a chat. Use /chat to find a new chat.")
+        await message.reply("You are not currently in a chat. Use /start to find a new chat.")
 
 
 
