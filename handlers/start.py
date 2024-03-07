@@ -44,8 +44,8 @@ Spam and illegal stuff are forbidden and punished wiht ban. Read more pressing /
 Official channel: @BotSphere
 """
 
-BUTTON_UFEMALE = types.InlineKeyboardButton(text="Female 👩", callback_data="ufemale"),
-BUTTON_UMALE = types.InlineKeyboardButton(text="Male 👦", callback_data="umale"),
+BUTTON_UFEMALE = types.InlineKeyboardButton(text="Female 👩", callback_data="FFF"),
+BUTTON_UMALE = types.InlineKeyboardButton(text="Male 👦", callback_data="MMM"),
 
 
 
@@ -109,10 +109,10 @@ from aiogram import F
 from aiogram import types
 
 
-@start_router.callback_query(F.data.in_(["umale", "ufemale"]))
+@start_router.callback_query(F.data.in_(["MMM", "FFF"]))
 async def show_gender(call: types.CallbackQuery):
     try:
-        gender = "M" if call.data == "umale" else "F" if call.data == "ufemale" else None
+        gender = "M" if call.data == "MMM" else "F" if call.data == "FFF" else None
         user_id = call.from_user.id
         await db.add_user(user_id ,gender)
         await call.message.edit_text("Everything is set. Now press /start to search user.")

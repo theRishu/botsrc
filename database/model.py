@@ -27,6 +27,7 @@ class User(Base, TableNameMixin):
     can_use: Mapped[bool] = mapped_column(Boolean, server_default=text("true"))
     vip_expiry: Mapped[Optional[datetime]]= Column(DateTime, nullable=True)
     last_used:Mapped[Optional[datetime]]= Column(DateTime, nullable=True)
+    
 
 
     def __repr__(self):

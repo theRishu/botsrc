@@ -15,8 +15,8 @@ from aiogram.types import (
     ReplyKeyboardRemove,
 )
 
-BUTTON_GENDER  = InlineKeyboardButton(text="Select your Gender", callback_data="ugender"),
-BUTTON_PGENDER  = InlineKeyboardButton(text="Select partner Gender", callback_data="pgender"),
+BUTTON_GENDER  = InlineKeyboardButton(text="👨Gender 👩", callback_data="ugender"),
+BUTTON_PGENDER  = InlineKeyboardButton(text=" Gender Preference", callback_data="pgender"),
 BUTTON_MEDIA  = InlineKeyboardButton(text="🔙 Media", callback_data="media"),
 BUTTON_VIP = InlineKeyboardButton(text=" 🌟 VIP", callback_data="vip"),
 BUTTON_BACK = InlineKeyboardButton(text="🔙 Back", callback_data="back"),
@@ -35,7 +35,10 @@ from database import user as db
 
 setting_router = Router()
 
-@setting_router.message(Command("cancel"))
+
+
+@setting_router.message(Command("setting"))
+@setting_router.message(Command("settings"))
 async def setting_handler(message: Message):
     try:
         user = await db.select_user(message.from_user.id)
@@ -66,7 +69,7 @@ from aiogram.fsm.context import FSMContext
 async def show_gender(call: CallbackQuery, state: FSMContext):
     try:
         await call.message.edit_text("Settings", reply_markup=InlineKeyboardMarkup(
-                inline_keyboard=[BUTTON_UMALE,BUTTON_UFEMALE ,BUTTON_UUNKNOWN,
+                inline_keyboard=[BUTTON_UMALE,BUTTON_UFEMALE ,
                                  BUTTON_BACK],
                 resize_keyboard=True,
             ))

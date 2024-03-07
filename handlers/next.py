@@ -1,11 +1,10 @@
 from aiogram.filters import Command
 from aiogram import F, types , Router , Bot
 from database import user as db
-from constant import m_is_banned , m_is_not_registered
+from constant import m_is_banned , m_is_not_registered ,m_ends_chat
 from aiogram.utils.markdown import hbold
 
 from handlers.setting import BUTTON_BACK, BUTTON_UFEMALE, BUTTON_UMALE, BUTTON_UUNKNOWN
-
 
 from aiogram.types import (
     CallbackQuery,
@@ -19,13 +18,14 @@ from aiogram.types import (
 
 
 
-chat_router = Router()
+next_router = Router()
 
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 
 
-@chat_router.message(Command("next"))
+@next_router.message(Command("next"))
+@next_router.message(Command("chat"))
 async def command_start_handler(message: types.Message, bot: Bot) -> None:
     try:
         user = await db.select_user(message.from_user.id)
@@ -39,11 +39,11 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
         if user.partner_id:
             await db.delete_match(user.user_id, user.partner_id)
             try:
-                await bot.send_message(user.user_id, "Your chat has ended.")
+                await bot.send_message(user.user_id,hbold(m_ends_chat))
             except Exception as e:
                 print(str(e))
             try:
-                await bot.send_message(user.partner_id, "Your chat has ended.")
+                await bot.send_message(user.partner_id,hbold(m_ends_chat))
             except Exception as e:
                 print(str(e))
            
