@@ -11,6 +11,8 @@ async def queue(user_id):
         return   (await session.execute(select(Queue).where(Queue.user_id == user_id))).scalar_one_or_none()
     
 
+from constant import stop_searching
+
 
 @echo_router.message(F.text)
 async def command_info_handler(message: types.Message, bot: Bot) -> None:
@@ -31,8 +33,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
     elif user.banned:
         await message.reply(hbold("You are banned. Please contact support for assistance."))
     elif await queue(user.user_id):
-        await message.answer(hbold("Waiting for someone...."),reply_markup=types.ReplyKeyboardMarkup(keyboard=[[types.KeyboardButton(text="❌ Cancel")]], resize_keyboard=True))
-             
+        await message.answer(hbold("Waiting for someone...."), reply_markup=stop_searching())
     else:
         await message.reply("You are not currently in a chat. Use /chat to find a new chat.")
 

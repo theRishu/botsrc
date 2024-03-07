@@ -35,7 +35,7 @@ from database import user as db
 
 setting_router = Router()
 
-@setting_router.message(Command("settings"))
+@setting_router.message(Command("cancel"))
 async def setting_handler(message: Message):
     try:
         user = await db.select_user(message.from_user.id)

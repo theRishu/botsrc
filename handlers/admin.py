@@ -223,3 +223,26 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
             await bot.send_message(user_id,  f"{args}\nThis message is from admin" ,disable_web_page_preview=True) 
         except Exception:
             pass
+
+
+
+
+@admin_router.message(Command("del"))
+async def ban_user(message: types.Message, command: Command, bot: Bot):
+    await db.delete_user(message.from_user.id)
+    await message.reply("You are deleted. Thank you.")
+     
+
+
+
+
+@admin_router.message(Command("delu"))
+async def ban_user(message: types.Message, command: Command, bot: Bot):
+    users = await  db.get_all_u_users()
+    for user in users:
+            await db.delete_user(user.user_id)
+            try:
+                await bot.send_message("You are not using bot frequently. We are deleting your id from datbase. If you wish to continue you  press /start and join again.")
+            except Exception:
+                pass
+            await message.answer(f"{user.user_id} deleted.")

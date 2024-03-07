@@ -10,7 +10,7 @@ class User(Base, TableNameMixin):
     user_id: Mapped[int] = mapped_column(BIGINT, primary_key=True, autoincrement=False)
     premium: Mapped[bool] = mapped_column(Boolean, server_default=text("false"))
     bonus_count: Mapped[int] = mapped_column(SmallInteger, server_default=text("0"))
-    gender: Mapped[str] = mapped_column(String(1), server_default=text("'U'"))
+    gender: Mapped[str] = mapped_column(String(1))
     pgender: Mapped[str] = mapped_column(String(1), server_default=text("'U'"))
     age: Mapped[Optional[int]] = mapped_column(SmallInteger, nullable=True)
     min_age: Mapped[Optional[int]] = mapped_column(SmallInteger, nullable=True)

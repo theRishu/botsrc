@@ -18,11 +18,22 @@ async def check(user_id: int) -> Optional[User]:
         return result.scalar_one_or_none()
 
 
-async def add_user(user_id: int) -> None:
+async def add_user(user_id: int , gender:str) -> None:
     async with async_session() as session:
-        insert_stmt = insert(User).values(user_id=user_id)
+        insert_stmt = insert(User).values(user_id=user_id ,gender= gender)
         await session.execute(insert_stmt)
         await session.commit()
+
+
+
+
+async def delete_user(user_id: int) -> None:
+    async with async_session() as session:
+        stmt = delete(User).where(User.user_id == user_id)
+        await session.execute(stmt)
+        await session.commit()        
+        await session.close()
+
 
 
 async def is_user_banned(user_id: int) -> bool:
@@ -83,8 +94,8 @@ async def delist_user(user_id: int) -> None:
 async def delete_match(user_id,partner_id):
     async with async_session() as session:
         # Use the update statement to set the partner_id for the given user_id
-        update_stmt1 = (update(User).where(User.user_id == user_id).values(partner_id=None , previous_id=partner_id))
-        update_stmt2 = (update(User).where(User.user_id == partner_id).values(partner_id=None, previous_id=user_id))
+        update_stmt1 = (update(User).where(User.user_id == user_id).values(partner_id=None , previous_id=partner_id , chat_count =chat_count+1))
+        update_stmt2 = (update(User).where(User.user_id == partner_id).values(partner_id=None, previous_id=user_id, chat_count =chat_count+1))
         await session.execute(update_stmt1)
         await session.execute(update_stmt2)
         await session.commit()
@@ -184,12 +195,21 @@ async def get_all_count():
 
 async def get_all_vip_users():
     async with async_session() as session:
-        query = select(User).where(User.premium == True)
+        query = select(User).where(User.premium == True )
         result = await session.execute(query)
         vip_users = result.scalars().all()
         return [user for user in vip_users]
 
-        
+
+
+async def get_all_u_users():
+    async with async_session() as session:
+        query = select(User).where((User.partner_id != None) & (User.gender == "U"))
+        result = await session.execute(query)
+        u_users = result.scalars().all()
+        return u_users
+
+
 
 async def get_users_count_by_gender(gender):
     async with async_session() as session:
@@ -211,11 +231,16 @@ async def get_all_user_ids():
         return user_ids
 
 
+
+
 async def get_match(user_id, gender, pgender ,previous_id):
     async with async_session() as session:
         result = await session.execute(func.count(Queue.user_id))
+
         if result.scalar()< 5:
             return None
+
+        await time.sleep(5)
 
         if pgender != "U":
             query = (

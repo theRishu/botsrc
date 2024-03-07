@@ -1,6 +1,6 @@
 m_is_banned = "You are banned!"
 m_is_not_registered = "You are not registered to register again please press /start again."
-m_ends_chat = "Chat Ended\nPress /chat to start new chat."
+m_ends_chat = "Chat Ended\nPress /start to start new chat."
 refer_text = "Hey there! I'm inviting you to connect and chat casually with others on Telegram! 👦👧 Join now to make new friends in a friendly environment. Start a conversation anonymously today!"
 
 
@@ -8,7 +8,7 @@ help_text= """
 This bot is used to chat with anonymous users all over the Internet.
 Commands:
 
-/chat - Start a new chat.
+/start - Start a new chat.
 /end - End the current chat.
 /stop - Stop searching for a user.
 /settings - User settings.
@@ -57,7 +57,7 @@ PayPal: <a href="https://www.paypal.com/paypalme/theRishuPandey">@theRishuPandey
 Paypal: <code>@theRishuPandey</code>
 
 <strong>For Indian 🇮🇳 Supporters:</strong>
-UPI ID: <code>@theRishuPandey</code>
+UPI ID: <code>@randommeet@axl</code>
 UPI QR: <a href="https://t.me/RandomMeet/13">Scan QR Code</a>
 
 
@@ -138,3 +138,12 @@ def start_buttons():
     )
     return kb
 
+
+
+def stop_searching():
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="❌ Cancel",  callback_data="stop")],
+        ]
+    )
+    return kb

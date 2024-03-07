@@ -9,8 +9,9 @@ from database.setup import initialize_database
 
 async def setcommands(bot):
     commands = [
-        types.BotCommand(command="/chat", description="To start new chat."),
+        types.BotCommand(command="/start", description="To start new chat."),
         types.BotCommand(command="/end", description="To end this chat."),
+        types.BotCommand(command="/next", description="End current chat and start new chat."),
         types.BotCommand(command="/help", description="for help.")
         ]
     await bot.delete_my_commands()
@@ -18,7 +19,7 @@ async def setcommands(bot):
 
 
 async def main():
-    bot = Bot(BOT_TOKEN, parse_mode=ParseMode.HTML , protect_content=True)
+    bot = Bot(BOT_TOKEN, parse_mode=ParseMode.HTML, protect_content=True)
     storage = MemoryStorage()
     await setcommands(bot)
     dp = Dispatcher(storage=storage)
