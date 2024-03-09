@@ -54,6 +54,7 @@ BUTTON_UMALE = types.InlineKeyboardButton(text="Male 👦", callback_data="MMM")
 async def command_start_handler(message: types.Message, bot: Bot) -> None:
     user = await db.select_user(message.from_user.id)
     if user:
+        
         if user.partner_id:
             await message.answer("You are already in a chat.", reply_markup=types.ReplyKeyboardRemove())
             return

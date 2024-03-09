@@ -100,6 +100,9 @@ async def show_gender(call: CallbackQuery, state: FSMContext):
 
 
 
+
+
+
 @setting_router.callback_query(F.data == "pgender")
 async def show_gender(call: CallbackQuery, state: FSMContext , bot:Bot):
     try:
@@ -112,9 +115,8 @@ async def show_gender(call: CallbackQuery, state: FSMContext , bot:Bot):
                                  BUTTON_BACK],
                 resize_keyboard=True))
         else:
-            await call.answer("Only VIP user can select partner gender." , show_alert=True)
+            await call.message.edit_text("Only VIP user can select partner gender. You can see how to get vip in vip section of settings.", protect_content=False)
     except Exception as e:
-        await bot.send_message(1291389760 , f"Error in changing parnter gender {str(e)}" , protect_content=False)
         await call.message.edit_text(f"Some error occured contact admins  here is error {str(e)}" , protect_content=False)
 
 
