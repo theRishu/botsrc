@@ -112,7 +112,7 @@ async def show_gender(call: CallbackQuery, state: FSMContext , bot:Bot):
                                  BUTTON_BACK],
                 resize_keyboard=True))
         else:
-            await call.message.edit_text("Only VIP user can select partner gender. You can see how to get vip in vip section of settings.", protect_content=False)
+            await call.message.edit_text("Only VIP user can select partner gender. You can see how to get vip in vip section of settings.", reply_markup= vip_keyboard(), protect_content=False)
     except Exception as e:
         await call.message.edit_text(f"Some error occured contact admins  here is error {str(e)}" , protect_content=False)
 
