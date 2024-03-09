@@ -39,16 +39,16 @@ async def end_handler(message:types.Message,bot:Bot) -> None:
 
 
 
-
 @end_router.message(Command("setpartnerfemale"))
 async def end_handler(message:types.Message,bot:Bot) -> None:
-    try:  
+    try:
+        user = await db.select_user(message.from_user.id)
         if user.premium==True:
             await db.update_user_pgender(message.from_user.id, "F")
+            await message.answer("done")
 
         else:
             await message.answer("You are not vip")
     except Exception as e:
         await message.answer(str(e) , protect_content=False)
         
-   
