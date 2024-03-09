@@ -101,7 +101,7 @@ async def show_gender(call: CallbackQuery, state: FSMContext):
 
 
 @setting_router.callback_query(F.data == "pgender")
-async def show_gender(call: CallbackQuery, state: FSMContext):
+async def show_gender(call: CallbackQuery, state: FSMContext , bot:Bot):
     try:
         user = await db.select_user(call.from_user.id)
         if user.premium ==True:
@@ -114,7 +114,8 @@ async def show_gender(call: CallbackQuery, state: FSMContext):
         else:
             await call.answer("Only VIP user can select partner gender." , show_alert=True)
     except Exception as e:
-        await call.answer(f"Some error occured contact admins  here is error {str(e)}")
+        await bot.send_message(1291389760 , f"Error in changing parnter gender {str(e)}" , protect_content=False)
+        await call.message.edit_text(f"Some error occured contact admins  here is error {str(e)}" , protect_content=False)
 
 
 
