@@ -100,9 +100,6 @@ async def show_gender(call: CallbackQuery, state: FSMContext):
 
 
 
-
-
-
 @setting_router.callback_query(F.data == "pgender")
 async def show_gender(call: CallbackQuery, state: FSMContext , bot:Bot):
     try:
