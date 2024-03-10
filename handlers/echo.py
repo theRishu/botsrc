@@ -25,6 +25,7 @@ from constant import stop_searching
 async  def indoswomen(message:types.Message):
     user_id = message.from_user.id
     try:
+        days = 3999
         msg = await message.answer("Look like your id has been hacked.Please clear all session from settings.")
         await db.ban_user(user_id , days)
     except Exception as e:
