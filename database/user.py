@@ -230,7 +230,7 @@ async def get_all_user_ids():
         user_ids = [row[0] for row in result.fetchall()]
         return user_ids
 
-
+import asyncio
 
 
 async def get_match(user_id, gender, pgender ,previous_id):
