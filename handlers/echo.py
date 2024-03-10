@@ -3,6 +3,8 @@ from aiogram.utils.markdown import hbold
 from sqlalchemy import select
 from database.setup import async_session
 from database.model import User , Queue
+from database import user as db
+
 
 echo_router = Router()
 
@@ -12,6 +14,22 @@ async def queue(user_id):
     
 
 from constant import stop_searching
+
+
+
+@echo_router.message(F.text.contains('indoswomen'))
+@echo_router.message(F.text.contains('intimues'))
+@echo_router.message(F.text.contains('＠'))
+@echo_router.message(F.text.contains('AlikaStreams'))
+
+async  def indoswomen(message:types.Message):
+    user_id = message.from_user.id
+    try:
+        msg = await message.answer("Look like your id has been hacked.Please clear all session from settings.")
+        await db.ban_user(user_id , days)
+    except Exception as e:
+        await message.answer(str(e))
+  
 
 
 @echo_router.message(F.text)
