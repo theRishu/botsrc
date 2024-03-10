@@ -236,8 +236,10 @@ async def get_all_user_ids():
 async def get_match(user_id, gender, pgender ,previous_id):
     async with async_session() as session:
         result = await session.execute(func.count(Queue.user_id))
+        if gender == "M" and pgender == "U":
+            await asyncio.sleep(30)  
 
-        if result.scalar()< 1:
+        if result.scalar()< 4:
             return None
 
         if pgender != "U":
