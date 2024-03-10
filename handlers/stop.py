@@ -21,9 +21,9 @@ async def command_stop_handler(message:types.Message,) -> None:
             return
         if await db.in_search(message.from_user.id) ==True:
             await db.delist_user(message.from_user.id)
-            await message.answer("You have stopped searching for a user.\nPress /chat if you want to search again." ,reply_markup=types.ReplyKeyboardRemove(),)
+            await message.answer("You have stopped searching for a user.\nPress /stop if you want to search again." ,reply_markup=types.ReplyKeyboardRemove(),)
         else:
-            await message.answer("You were not searching for a user.\nPress /chat if you want find someone to chat.",reply_markup=types.ReplyKeyboardRemove(),)
+            await message.answer("You were not searching for a user.\nPress /stop if you want find someone to chat.",reply_markup=types.ReplyKeyboardRemove(),)
         
     except Exception as e:
         raise e

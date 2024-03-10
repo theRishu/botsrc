@@ -80,6 +80,8 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
 
 
 
+
+
 @admin_router.message(Command("mv"))
 async def ban_user(message: types.Message, command: Command, bot: Bot):
     if is_user_admin(message.from_user.id) == True:
@@ -176,7 +178,7 @@ async def send_welcome(message: types.Message):
     all_count  = await  db.get_all_count()
     male_count = await db.get_users_count_by_gender('M')
     female_count = await db.get_users_count_by_gender('F')
-    premium_count = await db.get_premium_count() 
+    premium_count = await db.get_all_vip_users() 
     stats_message = (
         f"User Statistics 📊\n\n"
         f"Total Users: {all_count}\n"

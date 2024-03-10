@@ -217,6 +217,17 @@ async def get_users_count_by_gender(gender):
         result = await session.execute(query)
         return result.scalar()
 
+
+
+
+async def get_vips_count():
+    async with async_session() as session:
+        query = select(func.count(User.user_id)).where(User.premium == True)
+        result = await session.execute(query)
+        return result.scalar()
+
+
+
 async def get_users_count_with_low_chat_count(count):
     async with async_session() as session:
         query = select(func.count(User.user_id)).where(User.chat_count >= count)
