@@ -6,7 +6,7 @@ from constant import start_buttons
 from database import user as db
 from aiogram.utils.markdown import hbold
 
-
+from constant import stop_searching
 
 start_router = Router()
 
@@ -60,7 +60,7 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
             return
 
         if await db.in_search(message.from_user.id):
-            await message.reply("You are already searching for a user. Please wait.")
+            await message.reply("You are already searching for a user. Please wait." ,reply_markup=stop_searching())
             return
 
 
@@ -87,7 +87,7 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
             except Exception as e:
                 print(str(e))
         else:
-            await message.answer("🚀 Start looking for a partner for you...")
+            await message.answer("🚀 Start looking for a partner for you..." , reply_markup=stop_searching())
 
     else:
         if await db.is_user_banned(message.from_user.id):
@@ -110,17 +110,16 @@ from aiogram import F
 from aiogram import types
 
 
+
+
 @start_router.callback_query(F.data.in_(["MMM", "FFF"]))
 async def show_gender(call: types.CallbackQuery):
     try:
         gender = "M" if call.data == "MMM" else "F" if call.data == "FFF" else None
         user_id = call.from_user.id
         await db.add_user(user_id ,gender)
-        await call.message.edit_text("Everything is set. Now press /start to search user.", reply_markup=types.ReplyKeyboardRemove())
+        await call.message.edit_text("Everything is set. Now press /start to search user.")
 
     except Exception as e:
         await call.message.edit_text(str(e) ,parse_mode=None)
-
-
-
         await db.update_user_pgender(call.from_user.id, data)
