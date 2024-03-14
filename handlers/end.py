@@ -30,12 +30,11 @@ async def end_handler(message:types.Message,bot:Bot) -> None:
             except Exception:
                 pass
         else:
-            await message.answer("You are not in chat.\nPress /chat to search.")
+            await message.answer("You are not in chat.\nPress /start to search.")
            
     except Exception as e:
         raise e
-
-
+   
 
 
 

@@ -172,21 +172,26 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
         except Exception as e:
             await message.reply(str(e))
 
-
 @admin_router.message(Command("stats"))
 async def send_welcome(message: types.Message):
-    all_count  = await  db.get_all_count()
-    male_count = await db.get_users_count_by_gender('M')
-    female_count = await db.get_users_count_by_gender('F')
-    premium_count = await db.get_all_vip_users() 
-    stats_message = (
-        f"User Statistics 📊\n\n"
-        f"Total Users: {all_count}\n"
-        f"Male Users: {male_count}\n"
-        f"Female Users: {female_count}\n"
-        f"Premium Users: {premium_count}\n"
-    )
-    await message.answer(stats_message)
+    try:
+        all_count  = await db.get_all_count()
+        male_count = await db.get_users_count_by_gender('M')
+        female_count = await db.get_users_count_by_gender('F')
+        premium_count = await db.get_vips_count() 
+        banned_count = await db.get_bans_count()
+        stats_message = (
+            f"User Statistics 📊\n\n"
+            f"Total Users: {all_count}\n"
+            f"Male Users: {male_count}\n"
+            f"Female Users: {female_count}\n"
+            f"Premium Users: {premium_count}\n"
+            f"Banned Users: {banned_count}\n"
+        )
+        await message.answer(stats_message)
+    except Exception as e:
+        await message.answer(f"An error occurred: {e}")
+
 
 
 

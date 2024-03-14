@@ -116,7 +116,11 @@ async def show_gender(call: types.CallbackQuery):
         gender = "M" if call.data == "MMM" else "F" if call.data == "FFF" else None
         user_id = call.from_user.id
         await db.add_user(user_id ,gender)
-        await call.message.edit_text("Everything is set. Now press /start to search user.")
+        await call.message.edit_text("Everything is set. Now press /start to search user.", reply_markup=types.ReplyKeyboardRemove())
 
     except Exception as e:
         await call.message.edit_text(str(e) ,parse_mode=None)
+
+
+
+        await db.update_user_pgender(call.from_user.id, data)
