@@ -71,4 +71,4 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
                 await message.answer("Waiting for someone....")
 
     except Exception as e:
-        raise e
+        await message.answer(f"Some error occured forward to admin. {str(e)}")

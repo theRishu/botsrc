@@ -94,8 +94,8 @@ async def delist_user(user_id: int) -> None:
 async def delete_match(user_id,partner_id):
     async with async_session() as session:
         # Use the update statement to set the partner_id for the given user_id
-        update_stmt1 = (update(User).where(User.user_id == user_id).values(partner_id=None , previous_id=partner_id , chat_count =chat_count+1))
-        update_stmt2 = (update(User).where(User.user_id == partner_id).values(partner_id=None, previous_id=user_id, chat_count =chat_count+1))
+        update_stmt1 = (update(User).where(User.user_id == user_id).values(partner_id=None , previous_id=partner_id , ))
+        update_stmt2 = (update(User).where(User.user_id == partner_id).values(partner_id=None, previous_id=user_id,))
         await session.execute(update_stmt1)
         await session.execute(update_stmt2)
         await session.commit()
@@ -225,6 +225,17 @@ async def get_vips_count():
         query = select(func.count(User.user_id)).where(User.premium == True)
         result = await session.execute(query)
         return result.scalar()
+
+
+
+
+
+async def get_bans_count():
+    async with async_session() as session:
+        query = select(func.count(User.user_id)).where(User.banned == True)
+        result = await session.execute(query)
+        return result.scalar()
+
 
 
 
