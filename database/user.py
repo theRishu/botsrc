@@ -2,6 +2,9 @@ from typing import Optional
 from sqlalchemy import select, insert
 from .model import User
 from .setup  import async_session  
+import datetime
+
+
 
 async def select_user(user_id: int) -> Optional[User]:
     async with async_session() as session:
@@ -94,15 +97,14 @@ async def delist_user(user_id: int) -> None:
 async def delete_match(user_id,partner_id):
     async with async_session() as session:
         # Use the update statement to set the partner_id for the given user_id
-        update_stmt1 = (update(User).where(User.user_id == user_id).values(partner_id=None , previous_id=partner_id , ))
-        update_stmt2 = (update(User).where(User.user_id == partner_id).values(partner_id=None, previous_id=user_id,))
+        update_stmt1 = (update(User).where(User.user_id == user_id).values(partner_id=None , previous_id=partner_id , chat_count=User.chat_count + 1))
+        update_stmt2 = (update(User).where(User.user_id == partner_id).values(partner_id=None, previous_id=user_id, chat_count=User.chat_count + 1))
         await session.execute(update_stmt1)
         await session.execute(update_stmt2)
         await session.commit()
         await session.close()
 
 
-import datetime
 
 
 async def make_user_premium(user_id: int, days: int):
