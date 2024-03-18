@@ -12,7 +12,8 @@ async def setcommands(bot):
         types.BotCommand(command="/start", description="To start new chat."),
         types.BotCommand(command="/end", description="To end this chat."),
         types.BotCommand(command="/next", description="End current chat and start new chat."),
-        types.BotCommand(command="/help", description="for help.")
+        types.BotCommand(command="/help", description="for help."),
+        types.BotCommand(command="/settings", description="user settings.")
         ]
     await bot.delete_my_commands()
     await bot.set_my_commands(commands)

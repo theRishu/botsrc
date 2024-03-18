@@ -49,12 +49,25 @@ BUTTON_UMALE = types.InlineKeyboardButton(text="Male 👦", callback_data="MMM")
 
 
 
+@start_router.message(CommandStart(deep_link=True))
+async def handler(message: types.Message, command: CommandObject):
+
+    ref = command.args
+    user = await db.select_user(message.from_user.id)
+    if not user:
+        if ref and ref.isdigit() and await db.is_user_present(int(ref)):
+            await db.update_bonus_count(int(ref))
+        await message.answer("To use this bot, you need to set up your gender. Please Select your gender.",reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE, BUTTON_UFEMALE],resize_keyboard=True))
+    else:
+        await message.answer("Please press /start to chat.")
+
+
+
 
 @start_router.message(CommandStart())
 async def command_start_handler(message: types.Message, bot: Bot) -> None:
     user = await db.select_user(message.from_user.id)
     if user:
-        
         if user.partner_id:
             await message.answer("You are already in a chat.", reply_markup=types.ReplyKeyboardRemove())
             return

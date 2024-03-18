@@ -57,7 +57,13 @@ async def update_bonus_count(user_id: int):
         except Exception as e:
             print(f"Error updating bonus count: {str(e)}")
 
-    
+
+async def is_user_present(user_id: int) -> bool:
+    async with async_session() as session:
+        stmt = select(User).where(User.user_id == user_id)
+        result = await session.execute(stmt)
+        return bool(result.scalar_one_or_none())
+
 
 from sqlalchemy import asc, delete, desc, func, insert, not_, or_, select, update
 from typing import Optional

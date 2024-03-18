@@ -33,6 +33,20 @@ async  def indoswomen(message:types.Message):
   
 
 
+@echo_router.message(F.text.startswith('/'))
+async def wrong_cmd(message: types.Message):
+    await message.answer("Wrong command. Available commands:\n\n"
+                        "/start - Start a new chat.\n"
+                         "/next  -to end current and start new .\n"
+                         "/end - End the current chat.\n"
+                         "/stop - Stop searching for a user.\n"
+                         "/settings - User settings.\n"
+                         "/commands - Additional commands.")
+
+
+
+
+
 @echo_router.message(F.text)
 async def command_info_handler(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
