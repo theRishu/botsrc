@@ -59,18 +59,18 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
 async def send_count(message: types.Message):
     # Add more counts as needed
     # For example, let's assume you want counts for different chat_count thresholds
-    count10 = await Users.get_users_count_with_low_chat_count(10)
-    count50 = await Users.get_users_count_with_low_chat_count(50)
-    count100 = await Users.get_users_count_with_low_chat_count(100)
-    count200 = await Users.get_users_count_with_low_chat_count(200)
-    count500 = await Users.get_users_count_with_low_chat_count(500)
-    count1000 = await Users.get_users_count_with_low_chat_count(1000)
-    count2000 = await Users.get_users_count_with_low_chat_count(2000)
-    count3000 = await Users.get_users_count_with_low_chat_count(3000)
-    count5000 = await Users.get_users_count_with_low_chat_count(5000)
-    count7500 = await Users.get_users_count_with_low_chat_count(7500)
-    count10000 = await Users.get_users_count_with_low_chat_count(10000)
-    count20000 = await Users.get_users_count_with_low_chat_count(20000)
+    count10 = await db.get_users_count_with_low_chat_count(10)
+    count50 = await db.get_users_count_with_low_chat_count(50)
+    count100 = await db.get_users_count_with_low_chat_count(100)
+    count200 = await db.get_users_count_with_low_chat_count(200)
+    count500 = await db.get_users_count_with_low_chat_count(500)
+    count1000 = await db.get_users_count_with_low_chat_count(1000)
+    count2000 = await db.get_users_count_with_low_chat_count(2000)
+    count3000 = await db.get_users_count_with_low_chat_count(3000)
+    count5000 = await db.get_users_count_with_low_chat_count(5000)
+    count7500 = await db.get_users_count_with_low_chat_count(7500)
+    count10000 = await db.get_users_count_with_low_chat_count(10000)
+    count20000 = await db.get_users_count_with_low_chat_count(20000)
 
     # Create a formatted message
     stats_message = (
