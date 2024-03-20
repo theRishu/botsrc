@@ -56,7 +56,7 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
 
   
 @admin_router.message(Command("count"))
-async def send_count(message: Message):
+async def send_count(message: types.Message):
     # Add more counts as needed
     # For example, let's assume you want counts for different chat_count thresholds
     count10 = await Users.get_users_count_with_low_chat_count(10)
@@ -95,7 +95,7 @@ async def send_count(message: Message):
 
 
 
-    
+
 @admin_router.message(Command("unban"))
 async def ban_user(message: types.Message, command: Command, bot: Bot):
     if is_user_admin(message.from_user.id) == True:
