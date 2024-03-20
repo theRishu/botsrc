@@ -183,6 +183,12 @@ async def unban_user(user_id: int) -> None:
         await session.commit()
 
 
+async def get_users_count_with_low_chat_count(count):
+    async with session_pool() as session:
+        query = select(func.count(User.user_id)).where(User.chat_count >= count)
+        result = await session.execute(query)
+        return result.scalar()
+
 
 async def create_match(user_id, partner_id):
     async with async_session() as session:

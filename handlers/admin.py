@@ -53,7 +53,49 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
             await db.remove_user_premium(user.user_id)
             await message.answer(f"{user.user_id} vip removed")
 
-     
+
+  
+@admin_router.message(Command("count"))
+async def send_count(message: Message):
+    # Add more counts as needed
+    # For example, let's assume you want counts for different chat_count thresholds
+    count10 = await Users.get_users_count_with_low_chat_count(10)
+    count50 = await Users.get_users_count_with_low_chat_count(50)
+    count100 = await Users.get_users_count_with_low_chat_count(100)
+    count200 = await Users.get_users_count_with_low_chat_count(200)
+    count500 = await Users.get_users_count_with_low_chat_count(500)
+    count1000 = await Users.get_users_count_with_low_chat_count(1000)
+    count2000 = await Users.get_users_count_with_low_chat_count(2000)
+    count3000 = await Users.get_users_count_with_low_chat_count(3000)
+    count5000 = await Users.get_users_count_with_low_chat_count(5000)
+    count7500 = await Users.get_users_count_with_low_chat_count(7500)
+    count10000 = await Users.get_users_count_with_low_chat_count(10000)
+    count20000 = await Users.get_users_count_with_low_chat_count(20000)
+
+    # Create a formatted message
+    stats_message = (
+        f"Chat Count Statistics 📊\n\n"
+        f"10: {count10}\n"
+        f"50: {count50}\n"
+        f"100: {count100}\n"
+        f"200: {count200}\n"
+        f"500: {count500}\n"
+        f"1000: {count1000}\n"
+        f"2000: {count2000}\n"
+        f"3000: {count3000}\n"
+        f"5000: {count5000}\n"
+        f"7500: {count7500}\n"
+        f"10000: {count10000}\n"
+        f"20000: {count20000}\n"
+    )
+
+    # Send the formatted message
+    await message.answer(stats_message)
+
+
+
+
+    
 @admin_router.message(Command("unban"))
 async def ban_user(message: types.Message, command: Command, bot: Bot):
     if is_user_admin(message.from_user.id) == True:
@@ -76,11 +118,6 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
                 await message.reply("User dont exist 404")
         except Exception as e:
             await message.reply(str(e))
-
-
-
-
-
 
 @admin_router.message(Command("mv"))
 async def ban_user(message: types.Message, command: Command, bot: Bot):
