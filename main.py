@@ -23,21 +23,23 @@ async def setcommands(bot):
 import asyncio
 from sqlalchemy import text
 from database.setup import engine
+
 async def x(engine):
     async with engine.begin() as conn:
         # Step 1: Add the Column with a Default Value of None
         await conn.run_sync(lambda conn: conn.execute(text('ALTER TABLE users ADD COLUMN reopen BOOLEAN DEFAULT TRUE')))
         await conn.run_sync(lambda conn: conn.execute(text('ALTER TABLE users ADD COLUMN request BOOLEAN DEFAULT FALSE')))
 
-
         # Step 2: Update Existing Rows
-
-
+        await conn.run_sync(lambda conn: conn.execute(text("UPDATE users SET reopen = TRUE, request = FALSE")))
 
 
 
 async def main():
-    await x(engine)
+    try:
+        await x(engine)
+    except Exception as e:
+        print(str(e))
    
     
 
