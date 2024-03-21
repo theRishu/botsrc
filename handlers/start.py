@@ -68,6 +68,12 @@ async def handler(message: types.Message, command: CommandObject):
 async def command_start_handler(message: types.Message, bot: Bot) -> None:
     user = await db.select_user(message.from_user.id)
     if user:
+        if user.request == True:
+            await message.answer("You are waiting so your previous partner can match with you again." , reply_markup=stop_searching())
+            return
+
+
+
         if user.partner_id:
             await message.answer("You are already in a chat.", reply_markup=types.ReplyKeyboardRemove())
             return

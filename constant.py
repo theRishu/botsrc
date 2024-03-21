@@ -128,6 +128,15 @@ def captcha_button():
     return kb
 
 
+def reopen_button(user_id ):
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Yes", callback_data=f"reopened:{user_id}"), InlineKeyboardButton(text="No", callback_data=f"rcancel:{user_id}")]
+        ]
+    )
+    return kb
+
+
 
 def start_buttons():
     kb = InlineKeyboardMarkup(

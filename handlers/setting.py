@@ -223,6 +223,8 @@ async def show_help(message: Message, bot: Bot) -> None:
         f"Chat Count: `{user.chat_count}`\n"
         f"Age: `{user.age}`\n"
         f"Gender: `{user.gender}`\n"
+        f"request: `{user.request}`\n"
+        f"reopen: `{user.reopen}`\n"
         f"Partner pender: `{user.pgender}`\n"
         f"Min Age: `{user.min_age}`\n"
         f"Max Age: `{user.max_age}`\n"

@@ -6,6 +6,7 @@ from .stop import stop_router
 from .setting import setting_router
 from .admin import admin_router
 from .echo import echo_router
+from .reopen import reopen
 
 
 routers_list =[
@@ -15,6 +16,7 @@ routers_list =[
     stop_router,
     help_router,
     setting_router,
+    reopen,
     admin_router,
     echo_router
 ]

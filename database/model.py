@@ -27,6 +27,9 @@ class User(Base, TableNameMixin):
     can_use: Mapped[bool] = mapped_column(Boolean, server_default=text("true"))
     vip_expiry: Mapped[Optional[datetime]]= Column(DateTime, nullable=True)
     last_used:Mapped[Optional[datetime]]= Column(DateTime, nullable=True)
+    reopen: Mapped[bool] = mapped_column(Boolean, server_default=text("true"))
+    request: Mapped[bool] = mapped_column(Boolean, server_default=text("false"))
+
     
 
 
@@ -39,3 +42,6 @@ class Queue(Base, TableNameMixin):
     created_at: Mapped[datetime] = Column(
         DateTime, server_default=text("CURRENT_TIMESTAMP")
     )
+
+
+

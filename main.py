@@ -19,10 +19,57 @@ async def setcommands(bot):
     await bot.set_my_commands(commands)
 
 
+
+import asyncio
+from sqlalchemy import text
+from database.setup import engine
+
+import sqlalchemy
+from sqlalchemy import text
+
+async def add_reopen(engine):
+    async with engine.begin() as conn:
+        try:
+            # Step 1: Add the Columns with Default Values if they don't exist
+            await conn.run_sync(lambda conn: conn.execute(text('ALTER TABLE IF NOT EXISTS users ADD COLUMN reopen BOOLEAN DEFAULT TRUE')))
+
+            # Step 2: Update Existing Rows
+            await conn.run_sync(lambda conn: conn.execute(text('UPDATE users SET reopen = True WHERE reopen IS NULL')))
+
+        except Exception as e:
+          
+            print(f"An error occurred: {e}")
+
+async def add_request(engine):
+    async with engine.begin() as conn:
+        try:
+            # Step 1: Add the Column with a Default Value of False if it doesn't exist
+            await conn.run_sync(lambda conn: conn.execute(text('ALTER TABLE IF NOT EXISTS users ADD COLUMN request BOOLEAN DEFAULT FALSE')))
+
+            # Step 2: Update Existing Rows
+            await conn.run_sync(lambda conn: conn.execute(text('UPDATE users SET request = FALSE WHERE can_use IS NULL')))
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+
+
+
+
+
+
+
+
 async def main():
+    await add_reopen(engine)
+    await add_request(engine)
+    
+
+    
     bot = Bot(BOT_TOKEN, parse_mode=ParseMode.HTML, protect_content=True)
     storage = MemoryStorage()
     await setcommands(bot)
+
+    
     dp = Dispatcher(storage=storage)
     dp.include_routers(*routers_list)
     await initialize_database(reset_db=False)

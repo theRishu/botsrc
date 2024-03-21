@@ -183,6 +183,38 @@ async def unban_user(user_id: int) -> None:
         await session.commit()
 
 
+
+
+
+async def make_request_false(user_id: int) -> None:
+    async with async_session() as session:
+        stmt = update(User).where(User.user_id == user_id).values(request=False)
+        await session.execute(stmt)
+        await session.commit()
+
+
+
+
+
+async def make_request_true(user_id: int) -> None:
+    async with async_session() as session:
+        stmt = update(User).where(User.user_id == user_id).values(request=True)
+        await session.execute(stmt)
+        await session.commit()
+
+
+
+  
+
+
+async def remove_previous_id(user_id: int) -> None:
+    async with async_session() as session:
+        stmt = update(User).where(User.user_id == user_id).values(previous_id=None)
+        await session.execute(stmt)
+        await session.commit()
+
+
+
 async def get_users_count_with_low_chat_count(count):
     async with session_pool() as session:
         query = select(func.count(User.user_id)).where(User.chat_count >= count)
@@ -193,8 +225,8 @@ async def get_users_count_with_low_chat_count(count):
 async def create_match(user_id, partner_id):
     async with async_session() as session:
         # Use the update statement to set the partner_id for the given user_id
-        update_stmt1 = (update(User).where(User.user_id == user_id).values(partner_id=partner_id))
-        update_stmt2 = (update(User).where(User.user_id == partner_id).values(partner_id=user_id))
+        update_stmt1 = (update(User).where(User.user_id == user_id).values(partner_id=partner_id , request =False))
+        update_stmt2 = (update(User).where(User.user_id == partner_id).values(partner_id=user_id , request=False))
         await session.execute(update_stmt1)
         await session.execute(update_stmt2)
         await session.commit()
@@ -274,7 +306,7 @@ async def get_match(user_id, gender, pgender ,previous_id):
         result = await session.execute(func.count(Queue.user_id))
        
 
-        if result.scalar()< 4:
+        if result.scalar()< 6:
             return None
 
         if pgender != "U":
