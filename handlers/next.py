@@ -28,6 +28,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 @next_router.message(Command("chat"))
 async def command_start_handler(message: types.Message, bot: Bot) -> None:
     try:
+
         user = await db.select_user(message.from_user.id)
         if not user:
             if await db.is_user_banned(message.from_user.id):
@@ -35,6 +36,14 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
             else:
                 await message.answer(m_is_not_registered)
             return
+
+
+        if user.request == True:
+            await message.answer("You are waiting so your previous partner can match with you again. If You want to match  new partner You can press /stop and find new one." , reply_markup=stop_searching())
+            return
+
+
+        
 
         if user.partner_id:
             await db.delete_match(user.user_id, user.partner_id)
@@ -50,6 +59,8 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
 
         if await db.in_search(message.from_user.id):
             await message.reply("You are already searching for a user.")
+
+
         else:
             if user.chat_count % 10 == 9:
                 await message.answer("Please follow the /rules, and don't forget to join @Botsphere.")

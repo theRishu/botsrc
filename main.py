@@ -6,6 +6,9 @@ from config import BOT_TOKEN
 from handlers import routers_list
 from database.setup import initialize_database
 
+from sqlalchemy import text
+from database.setup import engine
+
 
 async def setcommands(bot):
     commands = [
@@ -19,11 +22,6 @@ async def setcommands(bot):
     await bot.delete_my_commands()
     await bot.set_my_commands(commands)
 
-
-
-import asyncio
-from sqlalchemy import text
-from database.setup import engine
 
 async def x(engine):
     async with engine.begin() as conn:

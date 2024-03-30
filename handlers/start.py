@@ -6,7 +6,7 @@ from constant import start_buttons
 from database import user as db
 from aiogram.utils.markdown import hbold
 
-from constant import stop_searching
+from constant import stop_searching , channel_button
 
 start_router = Router()
 
@@ -68,8 +68,9 @@ async def handler(message: types.Message, command: CommandObject):
 async def command_start_handler(message: types.Message, bot: Bot) -> None:
     user = await db.select_user(message.from_user.id)
     if user:
+
         if user.request == True:
-            await message.answer("You are waiting so your previous partner can match with you again." , reply_markup=stop_searching())
+            await message.answer("You are waiting so your previous partner can match with you again. If You want to match  new partner You can press /stop and find new one." , reply_markup=stop_searching())
             return
 
 
@@ -85,6 +86,12 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
 
         if user.chat_count % 10 == 9:
             await message.answer("Please follow the /rules, and don't forget to join @Botsphere.")
+
+        elif user.chat_count > 50:
+            result = await bot.get_chat_member("@Botsphere", user.user_id)
+            if result.status not  in ["member", "creator", "administrator"]:
+                await message.answer("To use this bot further , You need to join @Botsphere." , reply_markup=channel_button())
+                return 
         else:
             pass
 
