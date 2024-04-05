@@ -255,6 +255,13 @@ async def get_all_u_users():
         u_users = result.scalars().all()
         return u_users
 
+async def get_users_by_gender(gender):
+    async with async_session() as session:
+        query = select(User).where(User.gender == gender )
+        result = await session.execute(query)
+        vip_users = result.scalars().all()
+        return [user for user in vip_users]
+
 
 
 async def get_users_count_by_gender(gender):
@@ -297,6 +304,9 @@ async def get_all_user_ids():
         result = await session.execute(stmt)
         user_ids = [row[0] for row in result.fetchall()]
         return user_ids
+
+
+
 
 import asyncio
 

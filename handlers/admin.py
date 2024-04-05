@@ -307,13 +307,28 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
 
 
 
+@admin_router.message(Command("m"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    # Check if the command has arguments
+    args = command.args
+    if not args:
+        await message.answer("no args")
+        return
+    users = await db.get_users_by_gender("M")
+    for user in users:
+        try:
+            await bot.send_message(user.user_id,  f"{args}\nThis message is from admin" ,disable_web_page_preview=True) 
+        except Exception as e:
+            print(str(e))
+
+
+
+
 @admin_router.message(Command("del"))
 async def ban_user(message: types.Message, command: Command, bot: Bot):
     await db.delete_user(message.from_user.id)
     await message.reply("You are deleted. Thank you.")
      
-
-
 
 
 @admin_router.message(Command("delu"))
