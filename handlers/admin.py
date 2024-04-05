@@ -92,7 +92,43 @@ async def send_count(message: types.Message):
     # Send the formatted message
     await message.answer(stats_message)
 
+@admin_router.message(Command("d"))
+async def user_d(message: types.Message, command: Command, bot: Bot):
+    if is_user_admin(message.from_user.id):
+        try:
+            args = command.args
+            if not args:
+                await message.reply("Give me id to unban.")
+                return
 
+            user = await db.check(args)
+            if user:
+                # Create a formatted message with user information
+                m = (
+                    f"**User Information**\n\n"
+                    f"User ID: `{user.user_id}`\n"
+                    f"Premium: `{user.premium}`\n"
+                    f"Bonus Count: `{user.bonus_count}`\n"
+                    f"Chat Count: `{user.chat_count}`\n"
+                    f"Age: `{user.age}`\n"
+                    f"Gender: `{user.gender}`\n"
+                    f"request: `{user.request}`\n"
+                    f"reopen: `{user.reopen}`\n"
+                    f"Partner pender: `{user.pgender}`\n"
+                    f"Min Age: `{user.min_age}`\n"
+                    f"Max Age: `{user.max_age}`\n"
+                    f"Lang: `{user.lang}`\n"
+                    f"Is Banned: `{user.banned}`\n"
+                    f"Previous ID: `{user.previous_id}`\n"
+                    f"Banned Expiry: `{user.ban_expiry}`\n"
+                    f"Created At: `{user.created_at}`\n\n"
+                )
+                # Send the formatted message with markdown
+                await message.answer(m, parse_mode=ParseMode.MARKDOWN_V2, protect_content=False)
+            else:
+                await message.reply("User doesn't exist (404).")
+        except Exception as e:
+            await message.reply(str(e))
 
 
 
