@@ -101,7 +101,7 @@ async def user_d(message: types.Message, command: Command, bot: Bot):
                 await message.reply("Give me id to unban.")
                 return
 
-            user = await db.check(args)
+            user = await db.check(int(args))
             if user:
                 # Create a formatted message with user information
                 m = (
