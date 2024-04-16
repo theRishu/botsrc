@@ -23,6 +23,7 @@ from constant import stop_searching
 @echo_router.message(F.text.contains('AlikaStreams'))
 @echo_router.message(F.text.contains('intemx'))
 @echo_router.message(F.text.contains('emeloves'))
+@echo_router.message(F.text.contains('Hello.pepolx'))
 async  def indoswomen(message:types.Message):
     user_id = message.from_user.id
     try:
