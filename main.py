@@ -43,7 +43,7 @@ async def main():
     
 
     
-    bot = Bot(BOT_TOKEN, parse_mode=ParseMode.HTML, protect_content=True)
+    bot = Bot(BOT_TOKEN, parse_mode=ParseMode.HTML)
     storage = MemoryStorage()
     await setcommands(bot)
 

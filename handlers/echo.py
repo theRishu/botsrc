@@ -116,7 +116,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
     if user.partner_id:
         try:
             await bot.send_photo(
-            user.partner_id, message.photo[-1].file_id, caption=message.caption
+            user.partner_id, message.photo[-1].file_id, caption=message.caption , protect_content=True
             )
         except Exception:
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
@@ -165,7 +165,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
     if user.partner_id:
         try:
-            await bot.send_audio(user.partner_id, message.audio.file_id, caption=message.caption)
+            await bot.send_audio(user.partner_id, message.audio.file_id, caption=message.caption  ,  protect_content=True)
         except Exception:
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
     elif user.banned:
@@ -190,7 +190,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
     if user.partner_id:
         try:
-            await bot.send_document(user.partner_id, message.document.file_id, caption=message.caption)
+            await bot.send_document(user.partner_id, message.document.file_id, caption=message.caption ,  protect_content=True)
         except Exception:
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
     elif user.banned:
@@ -213,7 +213,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
     if user.partner_id:
         try:
-            await bot.send_video(user.partner_id, message.video.file_id, caption=message.caption)
+            await bot.send_video(user.partner_id, message.video.file_id, caption=message.caption , protect_content=True)
         except Exception:
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
     elif user.banned:
@@ -236,7 +236,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
     if user.partner_id:
         try:
-            await bot.send_video_note(user.partner_id, message.video_note.file_id)
+            await bot.send_video_note(user.partner_id, message.video_note.file_id, protect_content=True)
         except Exception:
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
     elif user.banned:
@@ -259,7 +259,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
     if user.partner_id:
         try:
-            await bot.send_voice(user.partner_id, message.voice.file_id)
+            await bot.send_voice(user.partner_id, message.voice.file_id , protect_content=True)
         except Exception:
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
     elif user.banned:
@@ -283,7 +283,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
     if user.partner_id:
         try:
 
-            await bot.send_location(user.partner_id, message.location.latitude  , message.location.longitude)
+            await bot.send_location(user.partner_id, message.location.latitude  , message.location.longitude, protect_content=True)
         except Exception :
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
     elif user.banned:

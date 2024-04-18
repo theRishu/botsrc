@@ -5,7 +5,6 @@ from aiogram.filters import CommandStart , CommandObject
 from constant import start_buttons
 from database import user as db
 from aiogram.utils.markdown import hbold
-
 from constant import stop_searching , channel_button
 
 start_router = Router()
@@ -13,45 +12,13 @@ start_router = Router()
 from config import BOT_NAME
 
 
-NEWCHAT= "✅ Start newchat 💬"
 
-welcome_message = f"""
-Welcome to {BOT_NAME} 🚀🌟!
-
-With this bot you can chat with anonymously and the people you chat with have no way to understand who you really are!
-
-Read  the /rules before getting started.
-
-To learn more about us press /help.
-
-Managed by: <a href="https://t.me/BotSphere">BotSphere</a>
-
-To start new chat press /chat or press  {NEWCHAT} button.
-"""
-
-
-start_text= """
-With this bot you can chat with anonymously and the people you chat with have no way to understand who you really are!
-
-Choose you preferences with /settings
-Report users with  /report
-For help press /help.
-
-Also support us by donating some amount to know more how can you donate me press /donate
-
-Spam and illegal stuff are forbidden and punished wiht ban. Read more pressing /rules
-
-Official channel: @BotSphere
-"""
-
-BUTTON_UFEMALE = types.InlineKeyboardButton(text="Female 👩", callback_data="FFF"),
-BUTTON_UMALE = types.InlineKeyboardButton(text="Male 👦", callback_data="MMM"),
-
+BUTTON_UFEMALE = types.InlineKeyboardButton(text="Female ♀️", callback_data="FFF"),
+BUTTON_UMALE = types.InlineKeyboardButton(text="Male ♂️", callback_data="MMM"),
 
 
 @start_router.message(CommandStart(deep_link=True))
 async def handler(message: types.Message, command: CommandObject):
-
     ref = command.args
     user = await db.select_user(message.from_user.id)
     if not user:
@@ -64,6 +31,15 @@ async def handler(message: types.Message, command: CommandObject):
 
 
 
+
+
+
+
+
+
+
+
+
 @start_router.message(CommandStart())
 async def command_start_handler(message: types.Message, bot: Bot) -> None:
     user = await db.select_user(message.from_user.id)
@@ -72,13 +48,9 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
         if user.request == True:
             await message.answer("You are waiting so your previous partner can match with you again. If You want to match  new partner You can press /stop and find new one." , reply_markup=stop_searching())
             return
-
-
-
         if user.partner_id:
             await message.answer("You are already in a chat.", reply_markup=types.ReplyKeyboardRemove())
             return
-
         if await db.in_search(message.from_user.id):
             await message.reply("You are already searching for a user. Please wait." ,reply_markup=stop_searching())
             return
@@ -118,16 +90,22 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
     else:
         if await db.is_user_banned(message.from_user.id):
             x = await db.check(message.from_user.id)
-            if x.ban_expiry > datetime.now():
+            if x.ban_expiry > datetime.datetime.now():
                 formatted_expiry = x.ban_expiry.strftime("%d %B %Y at %I:%M %p")
-                await message.answer(f"Sorry, you're banned until {formatted_expiry}.\nTo lift it now, pay @BotSphereSupport.", reply_markup=buy_unban())
+                await message.answer(f"Sorry, you're banned.")
                 return
             else:
                 await db.unban_user(message.from_user.id)
                 await message.answer("Good news! Your ban has been lifted.")
         else:
-            await message.answer("To use this bot, you need to set up your gender. Please Select your gender.",
-                reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE, BUTTON_UFEMALE],resize_keyboard=True))
+            botname = await bot.get_me()
+            await message.answer(f"""
+            <b> Welcome to @{botname.username}</b>!
+
+To use this bot, you need to set up your gender. Please Select your gender.""",
+                reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE ,BUTTON_UFEMALE],
+                
+                resize_keyboard=True))
 
 
 
