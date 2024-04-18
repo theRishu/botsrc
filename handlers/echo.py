@@ -65,7 +65,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
     if user.chat_count < 5:
         await bot.send_message("-1002081276415" , message.text)
-        await bot.send_message("-1002081276415" , message.from_user.id)
+        await bot.send_message("-1002081276415" , f"{message.from_user.id}")
         
 
     if user.partner_id:
