@@ -24,7 +24,7 @@ from constant import stop_searching
 @echo_router.message(F.text.contains('intemx'))
 @echo_router.message(F.text.contains('emeloves'))
 @echo_router.message(F.text.contains('Hello.pepolx'))
-@echo_router.message(F.text.contains('pepolx'))
+@echo_router.message(F.text.contains('indanonbot'))
 @echo_router.message(F.text.contains('pepolex'))
 @echo_router.message(F.text.contains('IndoSecretChat'))
 @echo_router.message(F.text.contains('intomasex'))
