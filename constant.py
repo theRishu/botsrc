@@ -115,6 +115,13 @@ def channel_button():
     )
     return kb
 
+def ban_button(data):
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="ban",  callback_data=f"ban:{data}")],
+        ]
+    )
+    return kb
 
 
 

@@ -5,6 +5,7 @@ from database.setup import async_session
 from database.model import User , Queue
 from database import user as db
 
+from constant import ban_button
 
 echo_router = Router()
 
@@ -54,7 +55,6 @@ async def wrong_cmd(message: types.Message):
 
 
 
-
 @echo_router.message(F.text)
 async def command_info_handler(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
@@ -64,10 +64,8 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         return
 
     if user.chat_count < 5:
-        await bot.send_message("-1002081276415" , message.text)
-        await bot.send_message("-1002081276415" , f"{message.from_user.id}")
+        await bot.send_message("-1002081276415" , message.text , reply_markup=ban_button(message.from_user.id))
         
-
     if user.partner_id:
         try:
             # Assuming user.gender is guaranteed to be either "male", "female", or something else.

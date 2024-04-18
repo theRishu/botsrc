@@ -3,6 +3,8 @@ from aiogram.filters import Command
 from database import  user as db
 from aiogram.utils.markdown import hbold
 from datetime import datetime
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
 
 admin_router = Router()
 
@@ -11,6 +13,16 @@ ADMINS= 1109490670 ,1460123566, 1428457408 ,1291389760 ,1407808667 ,991914469 ,6
 def is_user_admin(user_id):
     return user_id in ADMINS
 from aiogram.enums import ParseMode
+
+
+@admin_router.callback_query(F.data[F.startswith("ban:")][4:].func(int).as_("id"))
+async def func(call: types.CallbackQuery, id: int):
+    try:
+        await db.ban_user(id , 30)
+        await call.message.edit_text(f"{id} is banned #ban")
+    except Exception as e:
+        await call.message.edit_text(f"Some error occured here is error.") 
+
 
 
 @admin_router.message(Command("ban"))
