@@ -102,8 +102,7 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
             await message.answer(f"""
             <b> Welcome to @{botname.username}</b>!
 
-To use this bot, you need to set up your gender. Please Select your gender.""",
-                reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE ,BUTTON_UFEMALE],
+Thanks for starting the bot. Next step, you need to set up your gender first. Press the button below 👇""",                reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE ,BUTTON_UFEMALE],
                 
                 resize_keyboard=True))
 
