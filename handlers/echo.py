@@ -20,7 +20,7 @@ from constant import stop_searching
 @echo_router.message(F.text.contains('indoswomen'))
 @echo_router.message(F.text.contains('intimues'))
 @echo_router.message(F.text.contains('＠'))
-@echo_router.message(F.text.contains('AlikaStreams'))
+@echo_router.message(F.text.contains('IndAnonBot'))
 @echo_router.message(F.text.contains('intemx'))
 @echo_router.message(F.text.contains('emeloves'))
 @echo_router.message(F.text.contains('Hello.pepolx'))
