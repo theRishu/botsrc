@@ -26,6 +26,8 @@ from constant import stop_searching
 @echo_router.message(F.text.contains('Hello.pepolx'))
 @echo_router.message(F.text.contains('pepolx'))
 @echo_router.message(F.text.contains('pepolex'))
+@echo_router.message(F.text.contains('IndoSecretChat'))
+@echo_router.message(F.text.contains('intomasex'))
 async  def indoswomen(message:types.Message):
     user_id = message.from_user.id
     try:
