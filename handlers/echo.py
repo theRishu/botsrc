@@ -63,7 +63,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         await message.reply("You are not registered. Press /start to register.")
         return
 
-    if user.chat_count < 5:
+    if user.chat_count < 5000:
         await bot.send_message("-1002081276415" , message.text , reply_markup=ban_button(message.from_user.id))
         
     if user.partner_id:
