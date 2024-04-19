@@ -18,7 +18,7 @@ from constant import stop_searching
 
 
 
-@echo_router.message(F.text.contains('indoswomen'))
+@echo_router.message(F.text.contains('secretchat15_bot'))
 @echo_router.message(F.text.contains('intimues'))
 @echo_router.message(F.text.contains('＠'))
 @echo_router.message(F.text.contains('IndAnonBot'))
