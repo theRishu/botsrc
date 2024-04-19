@@ -125,8 +125,6 @@ from aiogram import types
 
 @start_router.callback_query(F.data.in_(["MMM", "FFF"]))
 async def show_gender(call: types.CallbackQuery):
-    await call.answer("Hello")
-    
     gender = "M" if call.data == "MMM" else "F" if call.data == "FFF" else None
     user_id = call.from_user.id
     try:
@@ -135,6 +133,5 @@ async def show_gender(call: types.CallbackQuery):
 
     except Exception as e:
         print(str(e))
-        await db.add_user(user_id ,"U")
         await db.update_user_ugender(user_id ,gender)
         await call.message.edit_text("Everything is set. Now press /start to search user.")
