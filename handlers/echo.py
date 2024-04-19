@@ -75,7 +75,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         except Exception:
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
     elif user.banned:
-        await message.reply(hbold("You are banned. Please contact support for assistance."))
+        await message.reply(hbold("Some error occured. Press /start"))
     elif await queue(user.user_id):
         await message.answer(hbold("Waiting for someone...."), reply_markup=stop_searching())
     else:

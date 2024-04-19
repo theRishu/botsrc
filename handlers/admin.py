@@ -4,11 +4,14 @@ from database import  user as db
 from aiogram.utils.markdown import hbold
 from datetime import datetime
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from constant import share_button
 
 
 admin_router = Router()
 
 ADMINS= 1109490670 ,1460123566, 1428457408 ,1291389760 ,1407808667 ,991914469 ,6567013581 , 6787093249 ,6128599239 ,5624478385
+
+
 
 def is_user_admin(user_id):
     return user_id in ADMINS
@@ -327,6 +330,41 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
         await message.answer("no args")
         return
     users = await db.get_users_by_gender("M")
+    for user in users:
+        try:
+            await bot.send_message(user.user_id,  f"{args}\nThis message is from admin" ,disable_web_page_preview=True) 
+        except Exception as e:
+            print(str(e))
+
+
+
+
+
+@admin_router.message(Command("banm"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    # Check if the command has arguments
+
+    botname = await bot.get_me()
+    users = await db.get_users_by_gender("M")
+    for user in users:
+        try:
+            await db.ban_user(user.user_id ,300)
+        except Exception as e:
+            await message.answer(f"Some error occured.Here is error\n{str(e)}")
+        try:
+            await bot.send_message(user.user_id,  f"To avoid spam we had limited free user.\nTo use this bot you need to refer to 3 people.\n🔗 Your Link: <code> https://t.me/{botname.username}?start={message.from_user.id}</code> \n\nNote: If you dont want to refer you can send money to admin.\nGlobal 1 Dollar \nIndian 25 rupees" , reply_markup=share_button(botname.username , user.user_id)) 
+        except Exception as e:
+            pass
+
+
+@admin_router.message(Command("v"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    # Check if the command has arguments
+    args = command.args
+    if not args:
+        await message.answer("no args")
+        return
+    users = await db.get_vip_user("M")
     for user in users:
         try:
             await bot.send_message(user.user_id,  f"{args}\nThis message is from admin" ,disable_web_page_preview=True) 

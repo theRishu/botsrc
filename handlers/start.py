@@ -5,7 +5,7 @@ from aiogram.filters import CommandStart , CommandObject
 from constant import start_buttons
 from database import user as db
 from aiogram.utils.markdown import hbold
-from constant import stop_searching , channel_button
+from constant import stop_searching , channel_button , share_button
 
 start_router = Router()
 
@@ -20,22 +20,15 @@ BUTTON_UMALE = types.InlineKeyboardButton(text="Male ♂️", callback_data="MMM
 @start_router.message(CommandStart(deep_link=True))
 async def handler(message: types.Message, command: CommandObject):
     ref = command.args
-    user = await db.select_user(message.from_user.id)
+    user = await db.check(message.from_user.id)
     if not user:
         if ref and ref.isdigit() and await db.is_user_present(int(ref)):
             await db.update_bonus_count(int(ref))
-        await message.answer("To use this bot, you need to set up your gender. Please Select your gender.",reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE, BUTTON_UFEMALE],resize_keyboard=True))
+
+        await message.answer("To use this bot, you need to set up your gender. Please Select your gender.", reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE, BUTTON_UFEMALE],resize_keyboard=True))
+        await db.add_user(message.from_user.id  , "U")
     else:
         await message.answer("Please press /start to chat.")
-
-
-
-
-
-
-
-
-
 
 
 
@@ -44,6 +37,10 @@ async def handler(message: types.Message, command: CommandObject):
 async def command_start_handler(message: types.Message, bot: Bot) -> None:
     user = await db.select_user(message.from_user.id)
     if user:
+        if user.gender == "U":
+            await message.answer("To use this bot, you need to set up your gender. Please Select your gender.", reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE, BUTTON_UFEMALE],resize_keyboard=True))
+            return
+
 
         if user.request == True:
             await message.answer("You are waiting so your previous partner can match with you again. If You want to match  new partner You can press /stop and find new one." , reply_markup=stop_searching())
@@ -88,17 +85,30 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
             await message.answer("🚀 Start looking for a partner for you..." , reply_markup=stop_searching())
 
     else:
+        botname = await bot.get_me()
+
         if await db.is_user_banned(message.from_user.id):
-            x = await db.check(message.from_user.id)
-            if x.ban_expiry > datetime.datetime.now():
-                formatted_expiry = x.ban_expiry.strftime("%d %B %Y at %I:%M %p")
-                await message.answer(f"Sorry, you're banned.")
-                return
-            else:
+            x = await  db.check(message.from_user.id)
+            if x.bonus_count >=3:
+                await db.consume_bonus_count(x.user_id) 
                 await db.unban_user(message.from_user.id)
-                await message.answer("Good news! Your ban has been lifted.")
+                await message.answer("You have sucessfully invited 3 people. Now you can use this bot.\n Next step, you need to set up your gender first. Press the button below ",  reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE ,BUTTON_UFEMALE]))
+
+            else:
+
+                await message.answer(f"""
+<b>⚠️ You need to invite 3 people to use this Bot ⭐️</b>
+
+You've referred {x.bonus_count} person(s)
+🔗 Your Link: <code> https://t.me/{botname.username}?start={message.from_user.id}</code>
+
+Note : If you dont want to refer you can send money to admin.\nGlobal 1 Dollar \nIndian 25 rupees""",
+
+reply_markup=share_button(botname.username , message.from_user.id))
+
         else:
-            botname = await bot.get_me()
+
+
             await message.answer(f"""
             <b> Welcome to @{botname.username}</b>!
 
@@ -117,12 +127,12 @@ from aiogram import types
 
 @start_router.callback_query(F.data.in_(["MMM", "FFF"]))
 async def show_gender(call: types.CallbackQuery):
+    gender = "M" if call.data == "MMM" else "F" if call.data == "FFF" else None
+    user_id = call.from_user.id
     try:
-        gender = "M" if call.data == "MMM" else "F" if call.data == "FFF" else None
-        user_id = call.from_user.id
-        await db.add_user(user_id ,gender)
+        await db.update_user_ugender(user_id ,gender)
         await call.message.edit_text("Everything is set. Now press /start to search user.")
 
     except Exception as e:
-        await call.message.edit_text(str(e) ,parse_mode=None)
-        await db.update_user_pgender(call.from_user.id, data)
+        
+        await call.message.edit_text(str(e))

@@ -90,6 +90,22 @@ def buy_unban():
     )
     return kb
 
+
+def share_button(username, user_id):
+    url = f"https://t.me/share/url?url=I invite you to join this best chatting bot.\n\nhttps://t.me/{username}?start={user_id}"
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Click to share 🖤", url=url)],
+            [InlineKeyboardButton(text="Pay admin for acess",  url="https://t.me/m/PleJTApSNDc1")],
+
+
+
+        ]
+    )
+    return keyboard
+
+
+
 def contact_admin():
     kb = InlineKeyboardMarkup(
         inline_keyboard=[

@@ -46,7 +46,7 @@ async def setting_handler(message: Message):
             await message.answer(m_is_not_registered)
             return
         
-        if user.bonus_count >= 30:
+        if user.bonus_count >= 3:
             await db.make_user_premium(user.user_id ,15)
             await db.consume_bonus_count(user.user_id)
             await message.answer("Wow you have been made vip for 15 days. Enjoy Press /settings to continue.")

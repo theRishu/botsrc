@@ -51,7 +51,7 @@ async def is_user_banned(user_id: int) -> bool:
 async def update_bonus_count(user_id: int):
     async with async_session() as session:
         try:
-            stmt = (update(User).where(User.user_id == user_id).values(bonus_count=User.bonus_count + 10))
+            stmt = (update(User).where(User.user_id == user_id).values(bonus_count=User.bonus_count + 1))
             await session.execute(stmt)
             await session.commit()
         except Exception as e:
@@ -155,7 +155,7 @@ async def delete_user_pgender(user_id: int):
 
 async def consume_bonus_count(user_id: int):
     async with async_session() as session:
-        stmt = (update(User).where(User.user_id == user_id).values(bonus_count=User.bonus_count - 30))
+        stmt = (update(User).where(User.user_id == user_id).values(bonus_count=User.bonus_count - 3))
         await session.execute(stmt)
         await session.commit()
 
@@ -255,9 +255,20 @@ async def get_all_u_users():
         u_users = result.scalars().all()
         return u_users
 
+
+
 async def get_users_by_gender(gender):
     async with async_session() as session:
         query = select(User).where(User.gender == gender )
+        result = await session.execute(query)
+        vip_users = result.scalars().all()
+        return [user for user in vip_users]
+
+
+
+async def get_vip_user(gender):
+    async with async_session() as session:
+        query = select(User).where(User.premium == True )
         result = await session.execute(query)
         vip_users = result.scalars().all()
         return [user for user in vip_users]
