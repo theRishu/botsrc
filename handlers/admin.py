@@ -6,6 +6,10 @@ from datetime import datetime
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from constant import share_button
 
+from constant import m_ends_chat
+
+
+
 
 admin_router = Router()
 
@@ -221,7 +225,6 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
             await message.reply(str(e))
 
 
-from constant import m_ends_chat
 
 @admin_router.message(Command("cp"))
 async def ban_user(message: types.Message, command: Command, bot: Bot):
@@ -316,25 +319,15 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
 
 
 
-
-
-
-
-
-
 @admin_router.message(Command("banm"))
 async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     # Check if the command has arguments
-
-    botname = await bot.get_me()
     users = await db.get_male_user()
     for user in users:
         try:
-            
             await db.ban_user(user.user_id ,300)
         except Exception as e:
             await message.answer(f"Some error occured.Here is error\n{str(e)}")
-
     await message.answer("Done.")
        
 
@@ -357,23 +350,8 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
             print(str(e))
 
  
-
-
-
 @admin_router.message(Command("del"))
 async def ban_user(message: types.Message, command: Command, bot: Bot):
     await db.delete_user(message.from_user.id)
     await message.reply("You are deleted. Thank you.")
      
-
-
-@admin_router.message(Command("delu"))
-async def ban_user(message: types.Message, command: Command, bot: Bot):
-    users = await  db.get_all_u_users()
-    for user in users:
-            await db.delete_user(user.user_id)
-            try:
-                await bot.send_message("You are not using bot frequently. We are deleting your id from datbase. If you wish to continue you  press /start and join again.")
-            except Exception:
-                pass
-            await message.answer(f"{user.user_id} deleted.")
