@@ -283,28 +283,6 @@ async def send_welcome(message: types.Message):
 
 
 
-@admin_router.message(Command("jc"))
-async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
-    # Check if the command has arguments
-    users = await db.get_all_user_ids()
-    for user_id in users:
-        try:
-            await bot.send_message(user_id, "Hey please join our channel @Botsphere.")
-        except Exception:
-            pass
-
-
-@admin_router.message(Command("ob"))
-async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
-    # Check if the command has arguments
-    users = await db.get_all_user_ids()
-    for user_id in users:
-        try:
-            await bot.send_message(user_id,  "Hey, we have many other bots. You can get a list of all bots  using this link  https://t.me/botsphere/8" ,disable_web_page_preview=True)
-        except Exception:
-            pass
-
-
 @admin_router.message(Command("bc"))
 async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     # Check if the command has arguments
@@ -352,9 +330,12 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     users = await db.get_male_user()
     for user in users:
         try:
+            
             await db.ban_user(user.user_id ,300)
         except Exception as e:
             await message.answer(f"Some error occured.Here is error\n{str(e)}")
+
+    await message.answer("Done.")
        
 
 @admin_router.message(Command("v"))
@@ -368,7 +349,6 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     for user in users:
         try:
             await db.unban_user(user.user_id)
-
         except Exception as e:
             await message.answer(str(e))
         try:
