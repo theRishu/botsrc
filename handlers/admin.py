@@ -329,12 +329,16 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     if not args:
         await message.answer("no args")
         return
-    users = await db.get_users_by_gender("M")
+    users = await db.get_male_user()
     for user in users:
         try:
             await bot.send_message(user.user_id,  f"{args}\nThis message is from admin" ,disable_web_page_preview=True) 
         except Exception as e:
             print(str(e))
+
+
+
+
 
 
 
@@ -345,17 +349,13 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     # Check if the command has arguments
 
     botname = await bot.get_me()
-    users = await db.get_users_by_gender("M")
+    users = await db.get_male_user()
     for user in users:
         try:
             await db.ban_user(user.user_id ,300)
         except Exception as e:
             await message.answer(f"Some error occured.Here is error\n{str(e)}")
-        try:
-            await bot.send_message(user.user_id,  f"To avoid spam we had limited free user.\nTo use this bot you need to refer to 3 people.\n🔗 Your Link: <code> https://t.me/{botname.username}?start={message.from_user.id}</code> \n\nNote: If you dont want to refer you can send money to admin.\nGlobal 1 Dollar \nIndian 25 rupees" , reply_markup=share_button(botname.username , user.user_id)) 
-        except Exception as e:
-            pass
-
+       
 
 @admin_router.message(Command("v"))
 async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
@@ -364,13 +364,19 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     if not args:
         await message.answer("no args")
         return
-    users = await db.get_vip_user("M")
+    users = await db.get_vip_user()
     for user in users:
         try:
-            await bot.send_message(user.user_id,  f"{args}\nThis message is from admin" ,disable_web_page_preview=True) 
+            await db.unban_user(user.user_id)
+
+        except Exception as e:
+            await message.answer(str(e))
+        try:
+            await bot.send_message(user.user_id,  f"{args}\nThis message is from admin for only vip users." ,disable_web_page_preview=True) 
         except Exception as e:
             print(str(e))
 
+ 
 
 
 

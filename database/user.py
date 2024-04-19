@@ -266,7 +266,16 @@ async def get_users_by_gender(gender):
 
 
 
-async def get_vip_user(gender):
+async def get_male_user():
+    async with async_session() as session:
+        query = select(User).where((User.premium == False) & (User.gender == "M"))
+        result = await session.execute(query)
+        vip_users = result.scalars().all()
+        return [user for user in vip_users]
+
+
+
+async def get_vip_user():
     async with async_session() as session:
         query = select(User).where(User.premium == True )
         result = await session.execute(query)
