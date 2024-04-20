@@ -1,4 +1,4 @@
-m_is_banned = "You are banned!"
+m_is_banned = "Some error occcred , press /start"
 m_is_not_registered = "You are not registered to register again please press /start again."
 m_ends_chat = "Chat Ended\nPress /start to start new chat."
 refer_text = "Hey there! I'm inviting you to connect and chat casually with others on Telegram! 👦👧 Join now to make new friends in a friendly environment. Start a conversation anonymously today!"
