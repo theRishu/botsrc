@@ -47,9 +47,9 @@ async def setting_handler(message: Message):
             return
         
         if user.bonus_count >= 3:
-            await db.make_user_premium(user.user_id ,15)
+            await db.make_user_premium(user.user_id , 5)
             await db.consume_bonus_count(user.user_id)
-            await message.answer("Wow you have been made vip for 15 days. Enjoy Press /settings to continue.")
+            await message.answer("Wow you have been made vip for 5 days. Enjoy Press /settings to continue.")
         else:
             await message.answer("Settings: ⚙️", reply_markup=InlineKeyboardMarkup(
                 inline_keyboard=[BUTTON_GENDER,
@@ -146,14 +146,14 @@ VIP_TEXT ="""
 Unlock VIP Privileges in 2 Simple Ways:
 
 1) Invite Friends:
-   - Obtain a  15-day VIP license by inviting 3 new users through your referral link. 
+   - Obtain a  5-day VIP license by inviting 3 new users through your referral link. 
    - Invite a minimum of 3 users to get VIP benefits.
 
 2) Purchase VIP:
    - For Global Users: 💵 $4 
    - For Indian Users: 🇮🇳 ₹300
    - For Indo Users: 🇮🇩 Rp 50.000
-   Duration: 3 months / 90 days.
+   Duration: 30 days.
 
 To buy VIP, just message @BotsphereSupport !
 """
