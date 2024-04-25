@@ -54,32 +54,39 @@ async def wrong_cmd(message: types.Message):
 
 
 
-
 @echo_router.message(F.text)
 async def command_info_handler(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
-        user=   (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
+        user = (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
     if not user:
         await message.reply("You are not registered. Press /start to register.")
         return
 
-    if user.chat_count < 5000:
-        await bot.send_message("-1002081276415" , message.text , reply_markup=ban_button(message.from_user.id))
-        
     if user.partner_id:
         try:
             # Assuming user.gender is guaranteed to be either "male", "female", or something else.
             gender_to_emoji = {"M": "👨", "F": "👩", "U": "👤"}
-            emoji = gender_to_emoji.get(user.gender)  # Default to "👤" for unknown
+            emoji = gender_to_emoji.get(user.gender, "👤")  # Default to "👤" for unknown
             await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
-        except Exception:
+        except Exception as e:
+            # Log the specific exception for debugging
+            print(f"Exception occurred while sending message to partner: {e}")
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
+
+        try:
+            await bot.send_message("-1002081276415", message.text, reply_markup=ban_button(message.from_user.id))
+        except Exception as e :
+            await bot.send_message("-1002081276415",  f"#error \n\n {str(e)}")
+
     elif user.banned:
-        await message.reply(hbold("Some error occured. Press /start"))
+        await message.reply(hbold("Some error occurred. Press /start"))
     elif await queue(user.user_id):
         await message.answer(hbold("Waiting for someone...."), reply_markup=stop_searching())
     else:
         await message.reply("You are not currently in a chat. Use /start to find a new chat.")
+
+
+        
 
 
 @echo_router.message(F.sticker)
