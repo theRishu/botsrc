@@ -23,7 +23,7 @@ from constant import stop_searching
 @echo_router.message(F.text.contains('＠'))
 @echo_router.message(F.text.contains('IndAnonBot'))
 @echo_router.message(F.text.contains('intemx'))
-@echo_router.message(F.text.contains('IndoRandomChat_bot'))
+@echo_router.message(F.text.contains('lepopopo'))
 @echo_router.message(F.text.contains('Hello.pepolx'))
 @echo_router.message(F.text.contains('indanonbot'))
 @echo_router.message(F.text.contains('pepolex'))
