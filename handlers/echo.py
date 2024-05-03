@@ -30,6 +30,8 @@ from constant import stop_searching
 @echo_router.message(F.text.contains('IndoSecretChat'))
 @echo_router.message(F.text.contains('intomasex'))
 @echo_router.message(F.text.contains('lemoleo'))
+@echo_router.message(F.text.contains('fooliak'))
+
 
 async  def indoswomen(message:types.Message):
     user_id = message.from_user.id
