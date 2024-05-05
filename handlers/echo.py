@@ -22,7 +22,7 @@ from constant import stop_searching
 @echo_router.message(F.text.contains('＠'))
 @echo_router.message(F.text.contains('fooliak'))
 @echo_router.message(F.text.contains('enter in the search 👉🏻 '))
-async  def indoswomen(message:types.Message):
+async  def indoswomen(message:types.Message ,bot:Bot):
     user_id = message.from_user.id
     try:
         days = 3999
