@@ -23,7 +23,6 @@ from constant import stop_searching
 @echo_router.message(F.text.contains('fooliak'))
 @echo_router.message(F.text.contains('enter in the search 👉🏻 '))
 @echo_router.message(F.text.contains('👉🏻'))
-
 async  def indoswomen(message:types.Message ,bot:Bot):
     user_id = message.from_user.id
     try:
