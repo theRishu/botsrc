@@ -18,21 +18,9 @@ from constant import stop_searching
 
 
 
-@echo_router.message(F.text.contains('secretchat15_bot'))
-@echo_router.message(F.text.contains('intimues'))
+@echo_router.message(F.text.contains('hottspicy'))
 @echo_router.message(F.text.contains('＠'))
-@echo_router.message(F.text.contains('IndAnonBot'))
-@echo_router.message(F.text.contains('intemx'))
-@echo_router.message(F.text.contains('lepopopo'))
-@echo_router.message(F.text.contains('Hello.pepolx'))
-@echo_router.message(F.text.contains('indanonbot'))
-@echo_router.message(F.text.contains('pepolex'))
-@echo_router.message(F.text.contains('IndoSecretChat'))
-@echo_router.message(F.text.contains('intomasex'))
-@echo_router.message(F.text.contains('lemoleo'))
 @echo_router.message(F.text.contains('fooliak'))
-
-
 async  def indoswomen(message:types.Message):
     user_id = message.from_user.id
     try:
