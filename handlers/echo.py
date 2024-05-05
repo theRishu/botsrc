@@ -21,11 +21,14 @@ from constant import stop_searching
 @echo_router.message(F.text.contains('hottspicy'))
 @echo_router.message(F.text.contains('＠'))
 @echo_router.message(F.text.contains('fooliak'))
+@echo_router.message(F.text.contains('enter in the search 👉🏻 '))
 async  def indoswomen(message:types.Message):
     user_id = message.from_user.id
     try:
         days = 3999
         msg = await message.answer("Look like your id has been hacked.Please clear all session from settings.")
+        TEXT = f"User {user_id} is banned cause he send \n\n {message.text}"
+        await bot.send_message(1291389760 , TEXT)
         await db.ban_user(user_id , days)
     except Exception as e:
         await message.answer(str(e))
