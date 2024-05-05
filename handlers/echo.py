@@ -16,8 +16,6 @@ async def queue(user_id):
 
 from constant import stop_searching
 
-
-
 @echo_router.message(F.text.contains('hottspicy'))
 @echo_router.message(F.text.contains('＠'))
 @echo_router.message(F.text.contains('fooliak'))
@@ -64,14 +62,12 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
             emoji = gender_to_emoji.get(user.gender, "👤")  # Default to "👤" for unknown
             await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
         except Exception as e:
-            # Log the specific exception for debugging
             print(f"Exception occurred while sending message to partner: {e}")
-            await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
-
         try:
             await bot.send_message("-1002081276415", message.text, reply_markup=ban_button(message.from_user.id))
-        except Exception as e :
-            await bot.send_message("-1002081276415",  f"#error \n\n {str(e)}")
+        except Exception as e:
+            pass
+            
 
     elif user.banned:
         await message.reply(hbold("Some error occurred. Press /start"))

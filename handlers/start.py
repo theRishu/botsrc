@@ -5,7 +5,7 @@ from aiogram.filters import CommandStart , CommandObject
 from constant import start_buttons
 from database import user as db
 from aiogram.utils.markdown import hbold
-from constant import stop_searching , channel_button , share_button
+from constant import stop_searching , channel_button , share_button ,backup_button
 
 start_router = Router()
 
@@ -38,8 +38,6 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
         if user.gender == "U":
             await message.answer("To use this bot, you need to set up your gender. Please Select your gender.", reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE, BUTTON_UFEMALE],resize_keyboard=True))
             return
-
-
         if user.request == True:
             await message.answer("You are waiting so your previous partner can match with you again. If You want to match  new partner You can press /stop and find new one." , reply_markup=stop_searching())
             return
@@ -49,7 +47,6 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
         if await db.in_search(message.from_user.id):
             await message.reply("You are already searching for a user. Please wait." ,reply_markup=stop_searching())
             return
-
 
         if user.chat_count % 10 == 9:
             await message.answer("Please follow the /rules, and don't forget to join @Botsphere.")
@@ -62,21 +59,19 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
         else:
             pass
 
-
         await db.enlist_user(message.from_user.id)
-
         match = await db.get_match(user.user_id, user.gender, user.pgender, user.previous_id)
+        
         if match:
             await db.delist_user(message.from_user.id)
             await db.delist_user(match)
             await db.create_match(user_id=message.from_user.id, partner_id=match)
             try:
-                await bot.send_message(message.from_user.id, hbold("Partner Found!"), reply_markup=types.ReplyKeyboardRemove())
+                await bot.send_message(message.from_user.id, hbold("Partner Found!"), reply_markup=backup_button())
             except Exception as e:
                 print(str(e))
-
             try:
-                await bot.send_message(match, hbold("Partner Found!"), reply_markup=types.ReplyKeyboardRemove())
+                await bot.send_message(match, hbold("Partner Found!"), reply_markup=backup_button())
             except Exception as e:
                 print(str(e))
         else:

@@ -3,7 +3,6 @@ from aiogram import F, types , Router , Bot
 from database import user as db
 from constant import m_is_banned , m_is_not_registered ,m_ends_chat
 from aiogram.utils.markdown import hbold
-
 from handlers.setting import BUTTON_BACK, BUTTON_UFEMALE, BUTTON_UMALE, BUTTON_UUNKNOWN
 
 from aiogram.types import (
@@ -15,7 +14,6 @@ from aiogram.types import (
     ReplyKeyboardMarkup,
     ReplyKeyboardRemove,
 )
-
 
 
 next_router = Router()
@@ -43,8 +41,6 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
             return
 
 
-        
-
         if user.partner_id:
             await db.delete_match(user.user_id, user.partner_id)
             try:
@@ -59,7 +55,6 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
 
         if await db.in_search(message.from_user.id):
             await message.reply("You are already searching for a user.")
-
 
         else:
             if user.chat_count % 10 == 9:

@@ -131,6 +131,17 @@ def channel_button():
     )
     return kb
 
+
+def backup_button():
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Join backup channel",  url="https://t.me/+u76UJeWRCvUxMTRl")],
+            [InlineKeyboardButton(text="Others Bots",  url="https://t.me/botsphere/8")],
+
+        ]
+    )
+    return kb
+
 def ban_button(data):
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
