@@ -61,7 +61,7 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
 
         await db.enlist_user(message.from_user.id)
         match = await db.get_match(user.user_id, user.gender, user.pgender, user.previous_id)
-        
+
         if match:
             await db.delist_user(message.from_user.id)
             await db.delist_user(match)
@@ -130,3 +130,8 @@ async def show_gender(call: types.CallbackQuery):
         print(str(e))
         await db.update_user_ugender(user_id ,gender)
         await call.message.edit_text("Everything is set. Now press /start to search user.")
+
+
+
+
+
