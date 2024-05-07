@@ -17,6 +17,7 @@ async def queue(user_id):
 from constant import stop_searching
 
 @echo_router.message(F.text.contains('hottspicy'))
+@echo_router.message(F.text.contains('AnonRagoBot'))
 @echo_router.message(F.text.contains('＠'))
 @echo_router.message(F.text.contains('fooliak'))
 @echo_router.message(F.text.contains('enter in the search 👉🏻 '))
