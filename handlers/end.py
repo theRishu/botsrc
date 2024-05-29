@@ -50,4 +50,11 @@ async def end_handler(message:types.Message,bot:Bot) -> None:
             await message.answer("You are not vip")
     except Exception as e:
         await message.answer(str(e) , protect_content=False)
-        
+
+
+
+@end_router.message(Command("del_by_admin"))
+async def ban_user(message: types.Message, command: Command, bot: Bot):
+    await db.delete_user(message.from_user.id)
+    await message.reply("You are deleted. Thank you.")
+     
