@@ -298,5 +298,5 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
 @echo_router.error()
 async def error_handler(exception: types.ErrorEvent , bot:Bot):
-    await bot.send_message(chat_id=1291389760, text=str(exception))
+    await bot.send_message(chat_id=1291389760, text=str(exception.exception))
    
