@@ -112,6 +112,8 @@ Thanks for starting the bot. Next step, you need to set up your gender first. Pr
 
 
 
+
+
 from aiogram import F
 from aiogram import types
 

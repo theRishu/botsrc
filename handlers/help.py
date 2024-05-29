@@ -10,7 +10,10 @@ help_router = Router()
 
 @help_router.message(Command("help"))
 async def help_handler(message: types.Message ) -> None:
-    await message.reply(help_text)
+    try:
+        await message.reply(help_text)
+    except Exception as e:
+        await message.answer(str(e))
     
 
 
