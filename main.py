@@ -38,7 +38,7 @@ async def main():
     try:
         await x(engine)
     except Exception as e:
-        print(str(e))
+        pass
    
     
 
