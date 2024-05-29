@@ -335,7 +335,7 @@ async def get_match(user_id, gender, pgender ,previous_id):
     async with async_session() as session:
         result = await session.execute(func.count(Queue.user_id))
        
-        if result.scalar()< 10:
+        if result.scalar()< 4:
             return None
 
         if pgender != "U":
