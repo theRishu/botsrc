@@ -7,7 +7,18 @@ from database import user as db
 from aiogram.utils.markdown import hbold
 from constant import stop_searching , channel_button , share_button ,backup_button
 
+from aiogram.types import (
+    LabeledPrice, 
+    PreCheckoutQuery,
+)
+
 start_router = Router()
+
+from aiogram import F
+from aiogram import types
+
+
+
 
 from config import BOT_NAME
 
@@ -95,27 +106,11 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
 You've referred {x.bonus_count} person(s)
 🔗 Your Link: <code> https://t.me/{botname.username}?start={message.from_user.id}</code>
 
-Note : If you dont want to refer you can send money to admin.\nGlobal 1 Dollar \nIndian 25 rupees""",
+Note : You can also buy access using  17 telegram stars.""",
 
 reply_markup=share_button(botname.username , message.from_user.id))
-
         else:
-
-
-            await message.answer(f"""
-            <b> Welcome to @{botname.username}</b>!
-
-Thanks for starting the bot. Next step, you need to set up your gender first. Press the button below 👇""",                reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE ,BUTTON_UFEMALE],
-                
-                resize_keyboard=True))
-
-
-
-
-
-
-from aiogram import F
-from aiogram import types
+            await message.answer(f"<b> Welcome to @{botname.username}</b>!\n\nThanks for starting the bot. Next step, you need to set up your gender first. Press the button below 👇",reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE ,BUTTON_UFEMALE],resize_keyboard=True))
 
 
 
@@ -132,6 +127,79 @@ async def show_gender(call: types.CallbackQuery):
         print(str(e))
         await db.update_user_ugender(user_id ,gender)
         await call.message.edit_text("Everything is set. Now press /start to search user.")
+
+
+
+
+
+@start_router.callback_query(F.data == "access")
+async def show_gender(call: types.CallbackQuery , bot:Bot):
+    await call.message.delete()
+    await bot.send_invoice(
+        chat_id=call.from_user.id,
+        provider_token="",
+        title="Buy access",
+        description = "You are about to purchase access. With this purchase, you will also receive VIP access for 1 day.",
+        payload="payload",
+        currency="XTR",  # XTR only, don't change
+        prices=[
+            LabeledPrice(label="label", amount=17),  # 5 telegram stars
+        ],
+    )
+
+
+
+
+@start_router.pre_checkout_query()
+async def checkout_handler(checkout_query: PreCheckoutQuery):
+    await checkout_query.answer(ok=True)
+
+
+
+@start_router.message(F.successful_payment)
+async def handle_successful_payment(msg: types.Message, bot: Bot):
+    try:
+        user_id = msg.from_user.id
+        payment_charge_id = msg.successful_payment.telegram_payment_charge_id
+        total_amount = msg.successful_payment.total_amount
+        # Process refund if necessary
+        await bot.refund_star_payment(user_id, payment_charge_id)
+
+        # Handle payment based on the amount
+        if total_amount ==17 :
+            # Unban user and grant 1-day premium access
+            await db.unban_user(user_id)
+            await db.make_user_premium(user_id, 1)
+            await msg.answer(f"Your transaction ID: {payment_charge_id}. Payment of {total_amount} successful!" , protect_content=False)
+            await msg.answer("You have been granted 1 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
+
+
+        elif total_amount == 300:
+            # Grant 300-day premium access
+            await db.make_user_premium(user_id, 30)
+            await msg.answer(f"Your transaction ID: {payment_charge_id}. Payment of {total_amount} successful!"  , protect_content=False)
+            await msg.answer("You have been granted 30 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
+
+
+
+
+        # Log transaction in the database
+        await bot.send_message(
+            chat_id=1291389760,
+            text=f"New #transaction logged:\nUser ID: {user_id}\nTransaction ID: {payment_charge_id}\nAmount: {total_amount}"
+        )
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        await msg.answer("An error occurred while processing your payment. Please contact support.")
+       
+
+
+
+
+
+
+
+
 
 
 

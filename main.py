@@ -5,6 +5,8 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from config import BOT_TOKEN
 from handlers import routers_list
 from database.setup import initialize_database
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums.parse_mode import ParseMode
 
 from sqlalchemy import text
 from database.setup import engine
@@ -41,9 +43,8 @@ async def main():
         pass
    
     
-
+    bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     
-    bot = Bot(BOT_TOKEN, parse_mode=ParseMode.HTML)
     storage = MemoryStorage()
     await setcommands(bot)
 

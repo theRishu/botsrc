@@ -44,8 +44,7 @@ async def end_handler(message:types.Message,bot:Bot) -> None:
         user = await db.select_user(message.from_user.id)
         if user.premium==True:
             await db.update_user_pgender(message.from_user.id, "F")
-            await message.answer("done")
-
+            await message.answer("✅ Done! You will now be matched exclusively with girls. Press /start to begin chatting.")
         else:
             await message.answer("You are not vip")
     except Exception as e:

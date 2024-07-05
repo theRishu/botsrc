@@ -77,6 +77,12 @@ Your contribution is most welcome for any other method contact @BotSphereSupport
 
 
 from aiogram.types import InlineKeyboardButton,InlineKeyboardMarkup
+from aiogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    MenuButtonWebApp,
+    WebAppInfo,
+)
 
 
 SUPPORT_URL = "https://t.me/BotsphereSupport"
@@ -90,20 +96,15 @@ def buy_unban():
     )
     return kb
 
-
 def share_button(username, user_id):
     url = f"https://t.me/share/url?url=I invite you to join this best chatting bot.\n\nhttps://t.me/{username}?start={user_id}"
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text="Click to share 🖤", url=url)],
-            [InlineKeyboardButton(text="Pay admin for acess",  url="https://t.me/m/PleJTApSNDc1")],
-
-
-
+            [InlineKeyboardButton(text="Buy Access using ⭐️", callback_data="access")],
         ]
     )
     return keyboard
-
 
 
 def contact_admin():
