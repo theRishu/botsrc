@@ -163,7 +163,7 @@ async def handle_successful_payment(msg: types.Message, bot: Bot):
         payment_charge_id = msg.successful_payment.telegram_payment_charge_id
         total_amount = msg.successful_payment.total_amount
         # Process refund if necessary
-        await bot.refund_star_payment(user_id, payment_charge_id)
+        #await bot.refund_star_payment(user_id, payment_charge_id)
 
         # Handle payment based on the amount
         if total_amount ==17 :
