@@ -22,7 +22,10 @@ from constant import stop_searching
 @echo_router.message(F.text.contains('fooliak'))
 @echo_router.message(F.text.contains('enter in the search 👉🏻 '))
 @echo_router.message(F.text.contains('👉🏻'))
-@echo_router.message(F.text.contains('trade cp'))
+@echo_router.message(F.text.contains('anony210'))
+@echo_router.message(F.text.contains('@Hotsqw'))
+@echo_router.message(F.text.contains('Hotsqw'))
+@echo_router.message(F.text.contains('girlfreenakedbot'))                                 
 async  def indoswomen(message:types.Message ,bot:Bot):
    
     user_id = message.from_user.id
