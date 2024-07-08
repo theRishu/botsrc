@@ -279,7 +279,7 @@ async  def  handle_confession(message: types.Message, state: FSMContext  , bot:B
         await message.answer("Cleard.")
         await state.clear()
     else:
-        await message.answer("You are not in state. to buy access press /buy_acess")
+        await message.answer("You are not in state. to buy access press /buy_access")
 
 @start_router.message(Form.sent)
 async  def  handle_confession(message: types.Message, state: FSMContext  , bot:Bot) -> None:
