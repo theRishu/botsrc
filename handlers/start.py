@@ -283,5 +283,5 @@ async  def  handle_confession(message: types.Message, state: FSMContext  , bot:B
 
 @start_router.message(Form.sent)
 async  def  handle_confession(message: types.Message, state: FSMContext  , bot:Bot) -> None:
-    await message.answer("Please wait the admin will check and you will get access.If you want to stop this you can press /don")
+    await message.answer("Please wait the admin will check and you will get access.If you want to stop this you can press /done")
 
