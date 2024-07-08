@@ -104,6 +104,7 @@ from aiogram.types import (
 )
 
 
+
 SUPPORT_URL = "https://t.me/BotsphereSupport"
 
 
@@ -111,6 +112,17 @@ def buy_unban():
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text="Buy Unban from Admin",  url=SUPPORT_URL)],
+        ]
+    )
+    return kb
+
+
+
+def unban_button(data):
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Unban + vip",  callback_data=f"unban:{data}")],
+            [InlineKeyboardButton(text="Reject",  callback_data=f"reject:{data}")],
         ]
     )
     return kb
@@ -171,13 +183,6 @@ def ban_button(data):
     return kb
 
 
-def unban_button(data):
-    kb = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(text="Unban + vip",  callback_data=f"unban:{data}")],
-        ]
-    )
-    return kb
 
 def captcha_button():
     kb = InlineKeyboardMarkup(
