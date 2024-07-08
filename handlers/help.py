@@ -25,12 +25,6 @@ async def rules_router(message: types.Message ) -> None:
 
 
 
-@help_router.message(Command(commands=["buy_vip", "vip"]))
-async def rules_router(message: types.Message ) -> None:
-    await message.reply("For purchasing vip contact @BotsphereSupport" , reply_markup=buy_vip())
-    
-
-
 @help_router.message(Command(commands=["commands", "commands"]))
 async def rules_router(message: types.Message ) -> None:
     await message.reply(commands_message)

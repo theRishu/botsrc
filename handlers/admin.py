@@ -31,6 +31,39 @@ async def func(call: types.CallbackQuery, id: int):
         await call.message.edit_text(f"Some error occured here is error.") 
 
 
+@admin_router.callback_query(F.data[F.startswith("unban:")][6:].func(int).as_("id"))
+async def func(call: types.CallbackQuery, id: int , bot:Bot):
+    try:
+        await db.unban_user(id)
+        await db.make_user_premium(id , 1)
+        await bot.send_message(id , "You have been granted 1 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
+        new_caption = f"#{id} is made VIP for 1 day #unban"
+        await bot.edit_message_caption(
+                chat_id=call.message.chat.id,
+                message_id=call.message.message_id,
+                caption=new_caption
+            )
+    except Exception as e:
+        print(str(e))
+        await call.answer(f"Some error occurred. Here is the error.{str(e)}") 
+
+
+
+@admin_router.callback_query(F.data[F.startswith("unban:")][6:].func(int).as_("id"))
+async def func(call: types.CallbackQuery, id: int, bot: Bot):
+    try:
+        await db.unban_user(id)
+        await db.make_user_premium(id, 1)
+        await bot.send_message(
+            id, 
+            "You have been granted 1 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!"
+        )
+        await call.message.edit_caption(f"{id} is made VIP for 1 day #unban")
+        #await call.message.edit_reply_markup(reply_markup=None)  # Remove the inline buttons
+    except Exception as e:
+        await call.answer(f"Some error occurred. Here is the error.{str(e)}")
+
+
 
 @admin_router.message(Command("ban"))
 async def ban_user(message: types.Message, command: Command, bot: Bot):
@@ -48,11 +81,6 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
             if x:
                 await db.ban_user(x.user_id , days_count)
                 await message.reply("User banned.")
-                try:
-                    from constant import buy_unban
-                    await bot.send_message(x.user_id, f"{hbold('Bot:')} You are banned for {days_count} days for breaking rules. You still can chat until this chat will be over. " , reply_markup=buy_unban() )                       
-                except Exception as e:
-                    await message.reply(f"Error occurred while sending message to culprit. Here is your error:\n{str(e)}")
             else:
                 await message.reply("User doesnt exist 404")
         except Exception as e:
@@ -295,10 +323,33 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
         return
     users = await db.get_all_user_ids()
     for user_id in users:
+        print(user_id)
         try:
             await bot.send_message(user_id,  f"{args}\nThis message is from admin" ,disable_web_page_preview=True) 
         except Exception:
             pass
+
+
+
+
+@admin_router.message(Command("banbc"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    # Check if the command has arguments
+    args = command.args
+    if not args:
+        await message.answer("no args")
+        return
+    users = await db.get_all_banned_users()
+    for user_id in users:
+        print(user_id)
+        try:
+            await bot.send_message(user_id,  f"{args}\nThis message is from admin" ,disable_web_page_preview=True) 
+        except Exception as e:
+            print(e)
+
+
+
+
 
 
 
@@ -330,6 +381,18 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
             await message.answer(f"Some error occured.Here is error\n{str(e)}")
     await message.answer("Done.")
        
+
+
+
+
+
+
+
+
+
+
+
+
 
 @admin_router.message(Command("v"))
 async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):

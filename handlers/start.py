@@ -1,24 +1,17 @@
 import datetime
 from typing import Optional
 from aiogram import Router , types , Bot
-from aiogram.filters import CommandStart , CommandObject
+from aiogram.filters import CommandStart , CommandObject , Command
 from constant import start_buttons
 from database import user as db
 from aiogram.utils.markdown import hbold
-from constant import stop_searching , channel_button , share_button ,backup_button
-
-from aiogram.types import (
-    LabeledPrice, 
-    PreCheckoutQuery,
-)
+from constant import stop_searching , channel_button , share_button ,backup_button ,unban_button ,vip_features
+from aiogram.types import LabeledPrice, PreCheckoutQuery
 
 start_router = Router()
 
 from aiogram import F
 from aiogram import types
-
-
-
 
 from config import BOT_NAME
 
@@ -112,9 +105,6 @@ reply_markup=share_button(botname.username , message.from_user.id))
         else:
             await message.answer(f"<b> Welcome to @{botname.username}</b>!\n\nThanks for starting the bot. Next step, you need to set up your gender first. Press the button below 👇",reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE ,BUTTON_UFEMALE],resize_keyboard=True))
 
-
-
-
 @start_router.callback_query(F.data.in_(["MMM", "FFF"]))
 async def show_gender(call: types.CallbackQuery):
     gender = "M" if call.data == "MMM" else "F" if call.data == "FFF" else None
@@ -127,6 +117,8 @@ async def show_gender(call: types.CallbackQuery):
         print(str(e))
         await db.update_user_ugender(user_id ,gender)
         await call.message.edit_text("Everything is set. Now press /start to search user.")
+
+
 
 
 
@@ -148,13 +140,49 @@ async def show_gender(call: types.CallbackQuery , bot:Bot):
     )
 
 
+@start_router.message(Command("buy_access"))
+async def show_gender(msg: types.Message , bot:Bot):
+    if await db.is_user_banned(msg.from_user.id):
+        await bot.send_invoice(
+        chat_id=msg.from_user.id,
+        provider_token="",
+        title="Buy access",
+        description = (
+            "🎉 Don't miss out! This offer is available for just 2 days. Grab it now and enjoy VIP benefits for 2 days! 🎉\n\n"
+            "Prefer not to use a star? No problem! You can buy access using UPI. Just press /upi_access to find out more."),
+        payload = "payload",
+        currency="XTR",  # XTR only, don't change
+        prices=[
+            LabeledPrice(label="label", amount=5),  # 5 telegram stars
+        ],
+    )
+    else:
+        await msg.answer("This is nost for you.Try /buy_vip instead")
+
+
+
+
+
+@start_router.message(Command("vip"))
+@start_router.message(Command("buy_vip"))
+async def show_gender(msg: types.Message , bot:Bot):
+    await msg.answer(vip_features)
+    await bot.send_invoice(
+        chat_id=msg.from_user.id,
+        provider_token="",
+        title="Buy vip",
+        description = "VIP for 1 month.",
+        payload="payload",
+        currency="XTR",  # XTR only, don't change
+        prices=[
+            LabeledPrice(label="label", amount=200),  # 5 telegram stars
+        ],
+    )
 
 
 @start_router.pre_checkout_query()
 async def checkout_handler(checkout_query: PreCheckoutQuery):
     await checkout_query.answer(ok=True)
-
-
 
 @start_router.message(F.successful_payment)
 async def handle_successful_payment(msg: types.Message, bot: Bot):
@@ -166,7 +194,14 @@ async def handle_successful_payment(msg: types.Message, bot: Bot):
         #await bot.refund_star_payment(user_id, payment_charge_id)
 
         # Handle payment based on the amount
-        if total_amount ==17 :
+        if total_amount == 5 :
+            # Unban user and grant 1-day premium access
+            await db.unban_user(user_id)
+            await db.make_user_premium(user_id, 2)
+            await msg.answer(f"Your transaction ID: {payment_charge_id}. Payment of {total_amount} successful!" , protect_content=False)
+            await msg.answer("You have been granted 1 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
+        
+        if  total_amount ==17 :
             # Unban user and grant 1-day premium access
             await db.unban_user(user_id)
             await db.make_user_premium(user_id, 1)
@@ -174,13 +209,11 @@ async def handle_successful_payment(msg: types.Message, bot: Bot):
             await msg.answer("You have been granted 1 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
 
 
-        elif total_amount == 300:
+        elif total_amount == 200:
             # Grant 300-day premium access
             await db.make_user_premium(user_id, 30)
             await msg.answer(f"Your transaction ID: {payment_charge_id}. Payment of {total_amount} successful!"  , protect_content=False)
             await msg.answer("You have been granted 30 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
-
-
 
 
         # Log transaction in the database
@@ -203,5 +236,52 @@ async def handle_successful_payment(msg: types.Message, bot: Bot):
 
 
 
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
 
+
+
+
+class Form(StatesGroup):
+    start = State()
+    sent = State()
+
+
+
+
+
+@start_router.message(Command("upi_access"))
+async def show_gender(msg: types.Message , bot:Bot,state: FSMContext):
+    if await db.is_user_banned(msg.from_user.id):
+        await msg.answer("To purchase  access , please make a payment of 15 rupees to UPI ID: <code> randommeet@axl</code>")
+        await msg.answer("By purchasing  you will get 1 day vip for free.")
+        await msg.answer("After paying please send me screenshot so we can confirm.")
+        await state.set_state(Form.start)
+    else:
+        await msg.answer("This is not for you.Try /buy_vip instead")
+
+
+# State handler for the confession state
+@start_router.message(Form.start)
+async def handle_confession(message: types.Message, state: FSMContext  , bot:Bot) -> None:
+    if message.content_type == 'photo':
+        await bot.send_photo(1291389760, message.photo[-1].file_id, caption=f"#{str(message.from_user.id)}",  reply_markup=unban_button(message.from_user.id))
+        await message.answer("Sent to admin. Please wait")
+        await state.set_state(Form.sent)
+    else:
+        await message.answer("Please send me screenshot of payment here. Dont send compressed file. 15 rupees to UPI ID: <code> randommeet@axl</code> ")
+
+
+
+@start_router.message(Command("done"))
+async  def  handle_confession(message: types.Message, state: FSMContext  , bot:Bot) -> None:
+    if await state.get_state() == Form.sent:
+        await message.answer("Cleard.")
+        await state.clear()
+    else:
+        await message.answer("You are not in state. to buy access press /buy_acess")
+
+@start_router.message(Form.sent)
+async  def  handle_confession(message: types.Message, state: FSMContext  , bot:Bot) -> None:
+    await message.answer("Please wait the admin will check and you will get access.If you want to stop this you can press /don")
 

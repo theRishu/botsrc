@@ -1,4 +1,4 @@
-m_is_banned = "Some error occcred , press /start"
+m_is_banned = "You dont have access to bot , press /start to know more"
 m_is_not_registered = "You are not registered to register again please press /start again."
 m_ends_chat = "Chat Ended\nPress /start to start new chat."
 refer_text = "Hey there! I'm inviting you to connect and chat casually with others on Telegram! 👦👧 Join now to make new friends in a friendly environment. Start a conversation anonymously today!"
@@ -17,6 +17,18 @@ Commands:
 For assistance, contact @RandomMode_Bot.
 To purchase VIP, contact @BotSpheresupport.
 """
+vip_features = """
+<b>Unlock VIP Benefits!</b>
+
+When you buy a VIP package, you support the bot and get these awesome perks:
+
+💖 <b>Match with Girls</b>
+🛡️ <b>Ban Protection</b>
+
+<i>Note: There are no refunds, so make sure you're ready before you buy. Nobody has regretted buying VIP!</i>
+"""
+
+
 
 rules_text ="""
 When using  Bot, please follow these rules:
@@ -32,6 +44,13 @@ When using  Bot, please follow these rules:
 These rules may be updated, and violations can result in actions, including bans. For updates, join our channel: @botsphere"""
 
 
+buy_vip_notice   = (
+    "<b>💳 VIP Payments Update</b>\n"
+    "We now process VIP payments through Telegram Star, giving you more payment options. For details, type /vip.\n\n"
+    "<b>🥷 Enhanced Anti-Spam</b>\n"
+    "New anti-spam measures are in place to keep your experience smooth and secure.\n\n"
+    "Stay updated with @Botsphere!"
+)
 
 
 commands_message = """
@@ -152,6 +171,13 @@ def ban_button(data):
     return kb
 
 
+def unban_button(data):
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Unban + vip",  callback_data=f"unban:{data}")],
+        ]
+    )
+    return kb
 
 def captcha_button():
     kb = InlineKeyboardMarkup(

@@ -1,6 +1,6 @@
 from aiogram import Router ,Bot ,types
 from aiogram.filters import  Command
-from constant  import m_is_banned ,m_is_not_registered , m_ends_chat
+from constant  import m_is_banned ,m_is_not_registered , m_ends_chat ,buy_vip_notice
 from database import user as db
 from aiogram.utils.markdown import hbold
 
@@ -23,6 +23,9 @@ async def end_handler(message:types.Message,bot:Bot) -> None:
             await db.delete_match(user.user_id , user.partner_id)
             try:
                 await bot.send_message(user.user_id ,hbold(m_ends_chat))
+                if user.gender =="M" and user.premium ==False:
+                    await message.answer(buy_vip_notice)
+              
             except Exception:
                 pass
             try:
