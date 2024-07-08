@@ -49,6 +49,32 @@ async def func(call: types.CallbackQuery, id: int , bot:Bot):
 
 
 
+
+
+
+
+@admin_router.callback_query(F.data[F.startswith("reject:")][7:].func(int).as_("id"))
+async def func(call: types.CallbackQuery, id: int , bot:Bot):
+    try:
+        await bot.send_message(id , "If you think there was a mistake, you can ask for support or simply press /cancel. Alternatively, you can try accessing it another way.")
+        new_caption = f"#{id} is  #rejected"
+        await bot.edit_message_caption(
+                chat_id=call.message.chat.id,
+                message_id=call.message.message_id,
+                caption=new_caption
+        )
+    except Exception as e:
+        print(str(e))
+        await call.answer(f"Some error occurred. Here is the error.{str(e)}") 
+
+
+
+
+
+
+
+
+
 @admin_router.callback_query(F.data[F.startswith("unban:")][6:].func(int).as_("id"))
 async def func(call: types.CallbackQuery, id: int, bot: Bot):
     try:
