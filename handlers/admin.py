@@ -420,7 +420,7 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     users = await db.get_all_banned_users()
     for user in users:
         try:
-            await db.unban_user(user.user_id)
+            await db.unban_user(user)
         except Exception as e:
             await message.answer(f"Some error occured.Here is error\n{str(e)}")
     await message.answer("Done.")
