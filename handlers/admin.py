@@ -414,6 +414,20 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
 
 
 
+@admin_router.message(Command("unbanm"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    # Check if the command has arguments
+    users = await db.get_all_banned_users()
+    for user in users:
+        try:
+            await db.unban_user(user.user_id)
+        except Exception as e:
+            await message.answer(f"Some error occured.Here is error\n{str(e)}")
+    await message.answer("Done.")
+       
+
+
+
 
 
 
