@@ -367,18 +367,28 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
         return
     users = await db.get_all_banned_users()
     for user_id in users:
-        print(user_id)
         try:
-            await bot.send_message(user_id,  f"{args}\nThis message is from admin" ,disable_web_page_preview=True) 
-        except Exception as e:
-            print(e)
+            await bot.send_message(user_id,  args ,disable_web_page_preview=True) 
+        except Exception:
+            pass
 
 
 
 
 
-
-
+@admin_router.message(Command("onlym"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    # Check if the command has arguments
+    args = command.args
+    if not args:
+        await message.answer("no args")
+        return
+    users = await db.get_all_male_users()
+    for user_id in users:
+        try:
+            await bot.send_message(user_id,  f"{args}") 
+        except Exception:
+            pass
 
 @admin_router.message(Command("m"))
 async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):

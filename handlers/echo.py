@@ -4,8 +4,8 @@ from sqlalchemy import select
 from database.setup import async_session
 from database.model import User , Queue
 from database import user as db
-
 from constant import ban_button
+from constant import stop_searching
 
 echo_router = Router()
 
@@ -14,7 +14,6 @@ async def queue(user_id):
         return   (await session.execute(select(Queue).where(Queue.user_id == user_id))).scalar_one_or_none()
     
 
-from constant import stop_searching
 
 @echo_router.message(F.text.contains('hottspicy'))
 @echo_router.message(F.text.contains('AnonRagoBot'))
@@ -32,27 +31,23 @@ async  def indoswomen(message:types.Message ,bot:Bot):
     user_id = message.from_user.id
     try:
         days = 3999
-        msg = await message.answer("Look like your id has been hacked.Please clear all session from settings.")
-        TEXT = f"User {user_id} is banned cause he send \n\n {message.text}"
-        await bot.send_message(1291389760 , TEXT)
+        await message.answer("Look like your id has been hacked.Please clear all session from settings.")
         await db.ban_user(user_id , days)
     except Exception as e:
         await message.answer(str(e))
-  
-
 
 @echo_router.message(F.text.startswith('/'))
 async def wrong_cmd(message: types.Message):
-    
-    await message.answer("Wrong command. Available commands:\n\n"
-                        "/start - Start a new chat.\n"
-                         "/next  -to end current and start new .\n"
-                         "/end - End the current chat.\n"
-                         "/stop - Stop searching for a user.\n"
-                         "/settings - User settings.\n"
-                         "/commands - Additional commands.")
-
-
+    commands = [
+        "/start - Start a new chat.",
+        "/next - End current and start new.",
+        "/end - End the current chat.",
+        "/stop - Stop searching for a user.",
+        "/settings - User settings.",
+        "/commands - Additional commands."
+    ]
+    response = "Wrong command. Available commands:\n\n" + "\n".join(commands)
+    await message.answer(response)
 
 @echo_router.message(F.text)
 async def command_info_handler(message: types.Message, bot: Bot) -> None: 
@@ -72,9 +67,8 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
             print(f"Exception occurred while sending message to partner: {e}")
         try:
             await bot.send_message("-1002081276415", message.text, reply_markup=ban_button(message.from_user.id))
-        except Exception as e:
+        except Exception:
             pass
-            
 
     elif user.banned:
         await message.reply(hbold("Some error occurred. Press /start"))
@@ -298,8 +292,6 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
              
     else:
         await message.reply("You are not currently in a chat. Use /start to find a new chat.")
-
-
 
 
 @echo_router.error()

@@ -1,21 +1,18 @@
-import datetime
-from typing import Optional
-from aiogram import Router , types , Bot
+from aiogram import Router , types , Bot ,F
 from aiogram.filters import CommandStart , CommandObject , Command
 from constant import start_buttons
 from database import user as db
 from aiogram.utils.markdown import hbold
 from constant import stop_searching , channel_button , share_button ,backup_button ,unban_button ,vip_features
 from aiogram.types import LabeledPrice, PreCheckoutQuery
+from config import BOT_NAME
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
+
+
+
 
 start_router = Router()
-
-from aiogram import F
-from aiogram import types
-
-from config import BOT_NAME
-
-
 
 BUTTON_UFEMALE = types.InlineKeyboardButton(text="Female ♀️", callback_data="FFF"),
 BUTTON_UMALE = types.InlineKeyboardButton(text="Male ♂️", callback_data="MMM"),
@@ -55,10 +52,10 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
         if user.chat_count % 10 == 9:
             await message.answer("Please follow the /rules, and don't forget to join @Botsphere.")
 
-        elif user.chat_count > 50:
-            result = await bot.get_chat_member("@Botsphere", user.user_id)
-            if result.status not  in ["member", "creator", "administrator"]:
-                await message.answer("To use this bot further , You need to join @Botsphere." , reply_markup=channel_button())
+        elif user.chat_count > 25:
+            result = await bot.get_chat("@Botsphere", user.user_id)
+            if result.status not in ["member", "creator", "administrator"]:
+                await message.answer("To use this bot, You need to join @Botsphere first." , reply_markup=channel_button())
                 return 
         else:
             pass
@@ -231,13 +228,6 @@ async def handle_successful_payment(msg: types.Message, bot: Bot):
 
 
 
-
-
-
-
-
-from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import State, StatesGroup
 
 
 
