@@ -53,7 +53,7 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
             await message.answer("Please follow the /rules, and don't forget to join @Botsphere.")
 
         elif user.chat_count > 25:
-            result = await bot.get_chat("@Botsphere", user.user_id)
+            result = await bot.get_chat_member("@Botsphere", user.user_id)
             if result.status not in ["member", "creator", "administrator"]:
                 await message.answer("To use this bot, You need to join @Botsphere first." , reply_markup=channel_button())
                 return 
