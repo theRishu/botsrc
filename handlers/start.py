@@ -137,27 +137,20 @@ async def show_gender(call: types.CallbackQuery , bot:Bot):
     )
 
 
-@start_router.message(Command("buy_access"))
+@start_router.message(Command("trial"))
 async def show_gender(msg: types.Message , bot:Bot):
-    if await db.is_user_banned(msg.from_user.id):
-        await bot.send_invoice(
+    await bot.send_invoice(
         chat_id=msg.from_user.id,
         provider_token="",
         title="Buy access",
-        description = (
-            "🎉 Don't miss out! This offer is available for just 2 days. Grab it now and enjoy VIP benefits for 2 days! 🎉\n\n"
-            "Prefer not to use a star? No problem! You can buy access using UPI. Just press /upi_access to find out more."),
+        description = "Trial for 1 day",    
         payload = "payload",
         currency="XTR",  # XTR only, don't change
         prices=[
-            LabeledPrice(label="label", amount=5),  # 5 telegram stars
+            LabeledPrice(label="label", amount=18),  # 5 telegram stars
         ],
     )
-    else:
-        await msg.answer("This is nost for you.Try /buy_vip instead")
-
-
-
+  
 
 
 @start_router.message(Command("vip"))
@@ -198,12 +191,20 @@ async def handle_successful_payment(msg: types.Message, bot: Bot):
             await msg.answer(f"Your transaction ID: {payment_charge_id}. Payment of {total_amount} successful!" , protect_content=False)
             await msg.answer("You have been granted 1 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
         
-        if  total_amount ==17 :
+        if  total_amount == 17 :
             # Unban user and grant 1-day premium access
             await db.unban_user(user_id)
             await db.make_user_premium(user_id, 1)
             await msg.answer(f"Your transaction ID: {payment_charge_id}. Payment of {total_amount} successful!" , protect_content=False)
             await msg.answer("You have been granted 1 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
+
+        elif total_amount == 200:
+            # Grant 300-day premium access
+            await db.make_user_premium(user_id, 30)
+            await msg.answer(f"Your transaction ID: {payment_charge_id}. Payment of {total_amount} successful!"  , protect_content=False)
+            await msg.answer("You have been granted 30 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
+
+
 
 
         elif total_amount == 300:
