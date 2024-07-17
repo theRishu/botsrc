@@ -172,7 +172,7 @@ async def show_gender(msg: types.Message , bot:Bot):
         payload="payload",
         currency="XTR",  # XTR only, don't change
         prices=[
-            LabeledPrice(label="label", amount=200),  # 5 telegram stars
+            LabeledPrice(label="label", amount=300),  # 5 telegram stars
         ],
     )
 
@@ -206,7 +206,7 @@ async def handle_successful_payment(msg: types.Message, bot: Bot):
             await msg.answer("You have been granted 1 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
 
 
-        elif total_amount == 200:
+        elif total_amount == 300:
             # Grant 300-day premium access
             await db.make_user_premium(user_id, 30)
             await msg.answer(f"Your transaction ID: {payment_charge_id}. Payment of {total_amount} successful!"  , protect_content=False)
@@ -235,8 +235,6 @@ async def handle_successful_payment(msg: types.Message, bot: Bot):
 class Form(StatesGroup):
     start = State()
     sent = State()
-
-
 
 
 
