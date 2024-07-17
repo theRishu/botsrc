@@ -387,8 +387,8 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     for user_id in users:
         try:
             await bot.send_message(user_id,  f"{args}") 
-        except Exception:
-            pass
+        except Exception as e:
+            print(str(e))
 
 
 @admin_router.message(Command("onlyv"))
@@ -402,8 +402,9 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     for user_id in users:
         try:
             await bot.send_message(user_id,  f"{args}") 
-        except Exception:
-            pass
+        except Exception as e:
+            print(str(e))
+            
 
 @admin_router.message(Command("m"))
 async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
