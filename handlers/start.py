@@ -142,7 +142,7 @@ async def show_gender(msg: types.Message , bot:Bot):
     await bot.send_invoice(
         chat_id=msg.from_user.id,
         provider_token="",
-        title="Buy access",
+        title="Buy trial",
         description = "Trial for 1 day",    
         payload = "payload",
         currency="XTR",  # XTR only, don't change
@@ -190,11 +190,20 @@ async def handle_successful_payment(msg: types.Message, bot: Bot):
             await db.make_user_premium(user_id, 2)
             await msg.answer(f"Your transaction ID: {payment_charge_id}. Payment of {total_amount} successful!" , protect_content=False)
             await msg.answer("You have been granted 1 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
-        
+
         if  total_amount == 17 :
             # Unban user and grant 1-day premium access
-            await db.unban_user(user_id)
             await db.make_user_premium(user_id, 1)
+            await db.unban_user(user_id)
+            
+            await msg.answer(f"Your transaction ID: {payment_charge_id}. Payment of {total_amount} successful!" , protect_content=False)
+            await msg.answer("You have been granted 1 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
+
+        
+        if  total_amount == 18 :
+            # Unban user and grant 1-day premium access
+            await db.make_user_premium(user_id, 1)
+            await db.unban_user(user_id)
             await msg.answer(f"Your transaction ID: {payment_charge_id}. Payment of {total_amount} successful!" , protect_content=False)
             await msg.answer("You have been granted 1 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
 
@@ -203,7 +212,6 @@ async def handle_successful_payment(msg: types.Message, bot: Bot):
             await db.make_user_premium(user_id, 30)
             await msg.answer(f"Your transaction ID: {payment_charge_id}. Payment of {total_amount} successful!"  , protect_content=False)
             await msg.answer("You have been granted 30 day premium access. You can change your partner's gender directly by pressing /setpartnerfemale. Enjoy your VIP access!")
-
 
 
 
@@ -223,14 +231,6 @@ async def handle_successful_payment(msg: types.Message, bot: Bot):
         print(f"An error occurred: {e}")
         await msg.answer("An error occurred while processing your payment. Please contact support.")
        
-
-
-
-
-
-
-
-
 
 
 class Form(StatesGroup):
