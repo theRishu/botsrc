@@ -273,6 +273,16 @@ async def get_male_user():
         vip_users = result.scalars().all()
         return [user for user in vip_users]
 
+async def get_male_users():
+    async with async_session() as session:
+        query = select(User).where(
+            (User.premium == False) & 
+            (User.gender == "M") & 
+            (User.chat_count > 9)
+        )
+        result = await session.execute(query)
+        male_users = result.scalars().all()
+        return male_users
 
 
 async def get_vip_user():

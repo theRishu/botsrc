@@ -383,6 +383,21 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     if not args:
         await message.answer("no args")
         return
+    users = await db.get_male_users()
+    for user_id in users:
+        try:
+            await bot.send_message(user_id,  f"{args}") 
+        except Exception:
+            pass
+
+
+@admin_router.message(Command("onlyv"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    # Check if the command has arguments
+    args = command.args
+    if not args:
+        await message.answer("no args")
+        return
     users = await db.get_all_male_users()
     for user_id in users:
         try:
