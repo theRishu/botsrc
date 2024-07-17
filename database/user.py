@@ -274,12 +274,26 @@ async def get_male_user():
         return [user for user in vip_users]
 
 
+
 async def get_all_male_users():
     async with async_session() as session:
-        query = select(User).where((User.premium == False) & (User.gender == "M") & (User.chat_count < 9 ))
+        query = select(User.id).where(
+            (User.premium == False) & 
+            (User.gender == "M") & 
+            (User.chat_count < 9)
+        )
         result = await session.execute(query)
-        vip_users = result.scalars().all()
-        return [user for user in vip_users]
+        user_ids = [row[0] for row in result.all()]
+        return user_ids
+
+
+
+
+
+
+
+
+
 
 
 async def get_vip_user():
@@ -327,7 +341,6 @@ async def get_all_banned_users():
         result = await session.execute(stmt)
         user_ids = [row[0] for row in result.fetchall()]
         return user_ids
-        print(user_ids)
 
 
 
