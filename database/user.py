@@ -275,18 +275,6 @@ async def get_male_user():
 
 
 
-async def get_all_male_users():
-    async with async_session() as session:
-        query = select(User.id).where(
-            (User.premium == False) & 
-            (User.gender == "M") & 
-            (User.chat_count < 9)
-        )
-        result = await session.execute(query)
-        user_ids = [row[0] for row in result.all()]
-        return user_ids
-
-
 
 
 
@@ -329,7 +317,7 @@ async def get_bans_count():
         query = select(func.count(User.user_id)).where(User.banned == True)
         result = await session.execute(query)
         return result.scalar()
-        print("excuted")
+       
 
 
 
@@ -340,6 +328,19 @@ async def get_all_banned_users():
         stmt = select(User.user_id).where(User.banned == True)
         result = await session.execute(stmt)
         user_ids = [row[0] for row in result.fetchall()]
+        return user_ids
+
+
+
+async def get_all_male_users():
+    async with async_session() as session:
+        query = select(User.user_id).where(
+            (User.premium == False) & 
+            (User.gender == "M") & 
+            (User.chat_count < 9)
+        )
+        result = await session.execute(query)
+        user_ids = [row[0] for row in result.all()]
         return user_ids
 
 
