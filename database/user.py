@@ -345,6 +345,9 @@ async def get_all_vip_users():
         result = await session.execute(query)
         user_ids = [row[0] for row in result.all()]
         return user_ids
+        
+    
+    
 
 async def get_all_user_ids():
     async with async_session() as session:

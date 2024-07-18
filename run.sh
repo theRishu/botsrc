@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python main.py 6583674796:AAHfGg-MCBFZpeCnt87BABkO6VluJkPAeLI botsrc
+python main.py 7344858592:AAH74r31ugK8Av0IYuWRSxoTGM0epiI3cNM botsrc 

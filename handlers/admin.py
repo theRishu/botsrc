@@ -391,7 +391,7 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     users = await db.get_all_vip_users()
     for user_id in users:
         try:
-            await bot.send_message(user_id,  args) 
+            await bot.send_message(user_id.user_id,  args) 
         except Exception as e:
             print(str(e))
             
