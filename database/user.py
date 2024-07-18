@@ -239,14 +239,6 @@ async def get_all_count():
         return result.scalar()
 
 
-async def get_all_vip_users():
-    async with async_session() as session:
-        query = select(User).where(User.premium == True )
-        result = await session.execute(query)
-        vip_users = result.scalars().all()
-        return [user for user in vip_users]
-
-
 
 async def get_all_u_users():
     async with async_session() as session:
@@ -272,6 +264,7 @@ async def get_male_user():
         result = await session.execute(query)
         vip_users = result.scalars().all()
         return [user for user in vip_users]
+
 
 
 
@@ -346,6 +339,13 @@ async def get_all_male_users():
 
 
 
+async def get_all_vip_users():
+    async with async_session() as session:
+        query = select(User).where(User.premium == True )
+        result = await session.execute(query)
+        user_ids = [row[0] for row in result.all()]
+        return user_ids
+
 async def get_all_user_ids():
     async with async_session() as session:
         stmt = select(User.user_id)
@@ -354,20 +354,11 @@ async def get_all_user_ids():
         return user_ids
 
 
-
-
-
 async def get_users_count_with_low_chat_count(count):
     async with async_session() as session:
         query = select(func.count(User.user_id)).where(User.chat_count >= count)
         result = await session.execute(query)
         return result.scalar()
-
-
-
-
-
-
 
 
 import asyncio
@@ -425,5 +416,4 @@ async def get_match(user_id, gender, pgender ,previous_id):
                 )
 
         result = await session.execute(query)
-
         return result.scalar()

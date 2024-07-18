@@ -10,8 +10,6 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
 
-
-
 start_router = Router()
 
 BUTTON_UFEMALE = types.InlineKeyboardButton(text="Female ♀️", callback_data="FFF"),
@@ -43,7 +41,7 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
             await message.answer("You are waiting so your previous partner can match with you again. If You want to match  new partner You can press /stop and find new one." , reply_markup=stop_searching())
             return
         if user.partner_id:
-            await message.answer("You are already in a chat.", reply_markup=types.ReplyKeyboardRemove())
+            await message.answer("You are already in a chat. Press /end to end or /next to find new user.", reply_markup=types.ReplyKeyboardRemove())
             return
         if await db.in_search(message.from_user.id):
             await message.reply("You are already searching for a user. Please wait." ,reply_markup=stop_searching())

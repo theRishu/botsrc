@@ -48,11 +48,6 @@ async def func(call: types.CallbackQuery, id: int , bot:Bot):
         await call.answer(f"Some error occurred. Here is the error.{str(e)}") 
 
 
-
-
-
-
-
 @admin_router.callback_query(F.data[F.startswith("reject:")][7:].func(int).as_("id"))
 async def func(call: types.CallbackQuery, id: int , bot:Bot):
     try:
@@ -66,12 +61,6 @@ async def func(call: types.CallbackQuery, id: int , bot:Bot):
     except Exception as e:
         print(str(e))
         await call.answer(f"Some error occurred. Here is the error.{str(e)}") 
-
-
-
-
-
-
 
 
 
@@ -219,7 +208,7 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
             if x:
                 if x.banned:
                     await db.unban_user(x.user_id)
-                    await bot.send_message(x.user_id, "You are unbanned. Please follow the /rules ")
+                    #await bot.send_message(x.user_id, "You are unbanned. Please follow the /rules ")
                     await message.reply("User unbanned.")
                 else:
                     await message.reply("User is not banned.")
@@ -399,7 +388,7 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     if not args:
         await message.answer("no args")
         return
-    users = await db.get_all_male_users()
+    users = await db.get_all_vip_users()
     for user_id in users:
         try:
             await bot.send_message(user_id,  args) 

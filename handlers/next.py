@@ -15,6 +15,7 @@ from aiogram.types import (
     ReplyKeyboardRemove,
 )
 
+from constant import stop_searching
 
 next_router = Router()
 
