@@ -149,6 +149,15 @@ async def show_gender(msg: types.Message , bot:Bot):
         ],
     )
   
+@start_router.message(Command("issue"))
+async def ban_user(message: types.Message, command: Command, bot: Bot):
+    args = command.args
+    if not args:
+        await message.reply("No text. You need to write like /issue [your message]")
+    else:
+        m = await bot.send_message(1291389760, args)
+        await bot.send_message(1291389760, str(message.from_user.id), reply_to_message_id=m.message_id)
+
 
 
 @start_router.message(Command("vip"))
