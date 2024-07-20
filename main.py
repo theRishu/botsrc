@@ -22,7 +22,9 @@ async def setcommands(bot):
         types.BotCommand(command="/reopen", description="reopen previous chat"),
         types.BotCommand(command="/issue", description="write to developer")
 
+
         ]
+    await bot.send_message(1291389760 ,"Bot Started.")
     await bot.delete_my_commands()
     await bot.set_my_commands(commands)
 

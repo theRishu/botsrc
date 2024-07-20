@@ -1,4 +1,5 @@
 from .start import start_router
+from .report import report_router
 from .help import help_router
 from .next import next_router
 from .end import end_router
@@ -11,12 +12,12 @@ from .reopen import reopen
 
 routers_list =[
     start_router,
+    report_router,
     next_router,
     end_router,
     stop_router,
     help_router,
     setting_router,
-    reopen,
     admin_router,
     echo_router
 ]
