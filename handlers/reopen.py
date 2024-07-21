@@ -2,13 +2,11 @@ from aiogram.filters import Command
 from aiogram import types , Router ,F , Bot
 from database import user as db
 from aiogram.utils.markdown import hbold
-
 from constant import m_is_banned , m_is_not_registered ,reopen_button ,m_ends_chat
-reopen = Router()
 
+reopen_router = Router()
 
-
-@reopen.message(Command("reopen"))
+@reopen_router.message(Command("reopen"))
 async def command_stop_handler(message:types.Message, bot:Bot) -> None:
     try:    
         user = await db.select_user(message.from_user.id)
@@ -51,16 +49,16 @@ async def command_stop_handler(message:types.Message, bot:Bot) -> None:
     except Exception as e:
         raise e
 
-@reopen.callback_query(F.data[F.startswith("reopened:")])
-@reopen.callback_query(F.data[F.startswith("rcancel:")])
+@reopen_router.callback_query(F.data[F.startswith("reopened:")])
+@reopen_router.callback_query(F.data[F.startswith("rcancel:")])
 async def show_gender(call: types.CallbackQuery  , bot:Bot):
     user = await db.select_user(call.from_user.id)
      
     if not user:
         if  await db.is_user_banned(call.from_user.id):
-            await message.answer(m_is_banned)
+            await call.answer(m_is_banned)
         else:
-            await message.answer(m_is_not_registered)  
+            await call.answer(m_is_not_registered)  
         return
 
     components = call.data.split(":")
