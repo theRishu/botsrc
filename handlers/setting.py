@@ -3,6 +3,7 @@ from aiogram.filters import Command
 from constant import m_is_not_registered
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.fsm.context import FSMContext
 
 
 from aiogram.types import (
@@ -26,7 +27,7 @@ BUTTON_UFEMALE = InlineKeyboardButton(text="Female 👩", callback_data="ufemale
 BUTTON_UUNKNOWN = InlineKeyboardButton(text="Unknown 👤", callback_data="unone"),
 
 
-BUTTON_PMALE = InlineKeyboardButton(text="Male 👨", callback_data="pmale"),
+BUTTON_PMALE = InlineKeyboardButton(text="Male👨", callback_data="pmale"),
 BUTTON_PFEMALE = InlineKeyboardButton(text="Female 👩", callback_data="pfemale"),
 BUTTON_PUNKNOWN = InlineKeyboardButton(text="Both👨👩 ", callback_data="pnone"),
 
@@ -61,41 +62,17 @@ async def setting_handler(message: Message):
     except Exception as e:
         await message.answer(f"Some error contact admin. Here is error {str(e)}")
 
-from aiogram.fsm.context import FSMContext
 
 
 
 @setting_router.callback_query(F.data == "ugender")
 async def show_gender(call: CallbackQuery, state: FSMContext):
     try:
-        await call.message.edit_text("Settings", reply_markup=InlineKeyboardMarkup(
-                inline_keyboard=[BUTTON_UMALE,BUTTON_UFEMALE ,
-                                 BUTTON_BACK],
-                resize_keyboard=True,
-            ))
+        await call.answer("You cant change your gender." , show_alert=True)
     except Exception as e:
         await call.answer(f"Some error occured contact admins  here is error {str(e)}")
 
 
-
-
-@setting_router.callback_query(F.data == "umale")
-@setting_router.callback_query(F.data == "ufemale")
-@setting_router.callback_query(F.data == "unone")
-async def show_gender(call: CallbackQuery, state: FSMContext):
-    try:
-        if call.data == "umale":
-            data = "M"
-        elif call.data == "ufemale":
-            data = "F"
-        else:
-            data = "U"
-
-        await db.update_user_ugender(call.from_user.id, data)
-        await call.answer("Gender Selected", show_alert=True)
-
-    except Exception as e:
-        await call.message.edit_text(f"Some error occcured press /start to continue or contact admin.\nHere is erro {str(e)}")
 
 
 
