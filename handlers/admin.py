@@ -8,9 +8,6 @@ from constant import share_button
 
 from constant import m_ends_chat
 
-
-
-
 admin_router = Router()
 
 ADMINS= 1109490670 ,1460123566, 1428457408 ,1291389760 ,1407808667 ,991914469 ,6567013581 , 6787093249 ,6128599239 ,5624478385
@@ -315,7 +312,6 @@ async def send_welcome(message: types.Message):
         premium_count = await db.get_vips_count() 
         banned_count = await db.get_bans_count()
         stats_message = (
-            f"User Statistics 📊\n\n"
             f"Total Users: {all_count}\n"
             f"Male Users: {male_count}\n"
             f"Female Users: {female_count}\n"

@@ -25,7 +25,7 @@ async def queue(user_id):
 @echo_router.message(F.text.contains('anony210'))
 @echo_router.message(F.text.contains('@Hotsqw'))
 @echo_router.message(F.text.contains('Hotsqw'))
-@echo_router.message(F.text.contains('girlfreenakedbot'))                                 
+@echo_router.message(F.text.contains('girlfreenakedbot'))  
 async  def indoswomen(message:types.Message ,bot:Bot):
    
     user_id = message.from_user.id
@@ -36,18 +36,28 @@ async  def indoswomen(message:types.Message ,bot:Bot):
     except Exception as e:
         await message.answer(str(e))
 
-@echo_router.message(F.text.startswith('/'))
-async def wrong_cmd(message: types.Message):
-    commands = [
-        "/start - Start a new chat.",
-        "/next - End current and start new.",
-        "/end - End the current chat.",
-        "/stop - Stop searching for a user.",
-        "/settings - User settings.",
-        "/commands - Additional commands."
-    ]
-    response = "Wrong command. Available commands:\n\n" + "\n".join(commands)
-    await message.answer(response)
+
+@echo_router.message(F.text.contains('do you have cp?'))   
+@echo_router.message(F.text.contains('cp?'))   
+@echo_router.message(F.text.contains('cp')) 
+@echo_router.message(F.text.contains('trade cp'))                                 
+async  def indoswomen(message:types.Message ,bot:Bot):
+    user_id = message.from_user.id
+    try:
+        days = 3000
+        await message.reply("CHILD PORN IS ILLEGAL.")
+        await db.ban_user(user_id , days)
+    except Exception as e:
+        await message.answer(str(e))
+
+
+
+
+
+
+
+
+
 
 @echo_router.message(F.text)
 async def command_info_handler(message: types.Message, bot: Bot) -> None: 
