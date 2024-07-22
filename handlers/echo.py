@@ -40,7 +40,8 @@ async  def indoswomen(message:types.Message ,bot:Bot):
 @echo_router.message(F.text.contains('do you have cp?'))   
 @echo_router.message(F.text.contains('cp?'))   
 @echo_router.message(F.text.contains('cp')) 
-@echo_router.message(F.text.contains('trade cp'))                                 
+@echo_router.message(F.text.contains('trade cp'))   
+@echo_router.message(F.text.contains('child porn'))    
 async  def indoswomen(message:types.Message ,bot:Bot):
     user_id = message.from_user.id
     try:
