@@ -13,7 +13,7 @@ echo_router = Router()
 
 async def queue(user_id):
     async with async_session() as session:
-        return   (await session.execute(select(Queue).where(Queue.user_id == user_id))).scalar_one_or_none()
+        return  (await session.execute(select(Queue).where(Queue.user_id == user_id))).scalar_one_or_none()
     
 
 
@@ -28,8 +28,7 @@ async def queue(user_id):
 @echo_router.message(F.text.contains('@Hotsqw'))
 @echo_router.message(F.text.contains('Hotsqw'))
 @echo_router.message(F.text.contains('girlfreenakedbot'))  
-async  def indoswomen(message:types.Message ,bot:Bot):
-   
+async  def indoswomen(message:types.Message ):
     user_id = message.from_user.id
     try:
         days = 3999
@@ -42,7 +41,9 @@ async  def indoswomen(message:types.Message ,bot:Bot):
 @echo_router.message(F.text.contains('do you have cp?'))   
 @echo_router.message(F.text.contains('cp?'))   
 @echo_router.message(F.text.contains('cp')) 
-@echo_router.message(F.text.contains('trade cp'))   
+@echo_router.message(F.text.casefold('cp')) 
+@echo_router.message(F.text.casefold('exchange cp')) 
+@echo_router.message(F.text.casefold('trade cp'))   
 @echo_router.message(F.text.contains('child porn'))    
 async def indoswomen(message:types.Message ,bot:Bot):
     user_id = message.from_user.id
@@ -52,14 +53,6 @@ async def indoswomen(message:types.Message ,bot:Bot):
         await db.ban_user(user_id , days)
     except Exception as e:
         await message.answer(str(e))
-
-
-
-
-
-
-
-
 
 
 @echo_router.message(F.text)
@@ -84,19 +77,6 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
                                  reply_to_message_id=message.reply_to_message.message_id - 1)
             else:
                 await bot.send_message(user.partner_id,  f"<blockquote>{message.reply_to_message.text}</blockquote>{message.text}" ,parse_mode=ParseMode.HTML)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         except Exception as e:
             print(f"Exception occurred while sending message to partner: {e}")
@@ -146,7 +126,6 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
     if not user:
         await message.reply("You are not registered. Press /start to register.")
         return
-
     if user.partner_id:
         try:
             await bot.send_photo(
