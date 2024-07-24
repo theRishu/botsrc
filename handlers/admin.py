@@ -377,6 +377,26 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
             await bot.send_message(1460123566 , str(e))
         
 
+@admin_router.message(Command("onlyf"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    # Check if the command has arguments
+    args = command.args
+    if not args:
+        await message.answer("no args")
+        return
+    users = await db.get_all_female_users()
+    for user_id in users:
+        try:
+            await bot.send_message(user_id,  args) 
+        except Exception as e:
+            await bot.send_message(1460123566 , str(e))
+        
+
+
+
+
+
+
 @admin_router.message(Command("onlyv"))
 async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     # Check if the command has arguments
