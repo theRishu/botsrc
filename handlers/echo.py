@@ -45,7 +45,8 @@ async  def indoswomen(message:types.Message ):
 @echo_router.message(F.text.casefold('exchange cp'))
 @echo_router.message(F.text.casefold('trade cp')) 
 @echo_router.message(F.text.contains('trade cp'))   
-@echo_router.message(F.text.contains('child porn'))    
+@echo_router.message(F.text.contains('child porn'))   
+@echo_router.message(F.text.casefold('child porn')) 
 async def indoswomen(message:types.Message ,bot:Bot):
     user_id = message.from_user.id
     try:
