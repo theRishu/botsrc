@@ -41,20 +41,21 @@ async  def indoswomen(message:types.Message ):
 @echo_router.message(F.text.contains('do you have cp?'))   
 @echo_router.message(F.text.contains('cp?'))   
 @echo_router.message(F.text.contains('Cp')) 
-@echo_router.message(F.text.casefold('cp')) 
-@echo_router.message(F.text.casefold('exchange cp'))
-@echo_router.message(F.text.casefold('trade cp')) 
-@echo_router.message(F.text.contains('trade cp'))   
+@echo_router.message(F.text.contains('trade cp'))
+@echo_router.message(F.text.contains('cp')) 
 @echo_router.message(F.text.contains('child porn'))   
-@echo_router.message(F.text.casefold('child porn')) 
 async def indoswomen(message:types.Message ,bot:Bot):
     user_id = message.from_user.id
     try:
         days = 3000
-        await message.reply("CHILD PORN IS ILLEGAL.")
+        await message.reply("You are banned cause u asked for cp.")
         await db.ban_user(user_id , days)
     except Exception as e:
         await message.answer(str(e))
+
+
+
+
 
 
 @echo_router.message(F.text)
@@ -70,7 +71,12 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
             # Assuming user.gender is guaranteed to be either "male", "female", or something else.
             gender_to_emoji = {"M": "🙎‍♂️", "F": "🙍‍♀️", "U": "👤"}
             emoji = gender_to_emoji.get(user.gender, "👤")  # Default to "👤" for unknown
-            
+
+            if user.gender == "F":
+                if message.text == "M" or "m":
+                    user_info = f"{emoji}: {message.text} chat count {user.chat_count} Name: {user.fullname}"
+                    await bot.send_message(1291389760, user_info, reply_markup=ban_button(message.from_user.id))
+                   
             if message.reply_to_message is None:
                 await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
 
@@ -78,12 +84,12 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
                 await bot.send_message(user.partner_id, f"{emoji}: {message.text}",
                                  reply_to_message_id=message.reply_to_message.message_id - 1)
             else:
-                await bot.send_message(user.partner_id,  f"<blockquote>{message.reply_to_message.text}</blockquote>{message.text}" ,parse_mode=ParseMode.HTML)
+                await bot.send_message(user.partner_id, f"<blockquote>{message.reply_to_message.text}</blockquote>{message.text}" ,parse_mode=ParseMode.HTML)
 
         except Exception as e:
             print(f"Exception occurred while sending message to partner: {e}")
         try:
-            await bot.send_message("-1002081276415", message.text, reply_markup=ban_button(message.from_user.id))
+            await bot.send_message("-1002081276415",f"{emoji}: {message.text}", reply_markup=ban_button(message.from_user.id))
         except Exception:
             pass
 
