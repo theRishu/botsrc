@@ -57,13 +57,16 @@ async def end_handler(message:types.Message,bot:Bot) -> None:
 
 @end_router.message(Command("setgender"))
 async def end_handler(message:types.Message,bot:Bot) -> None:
-    await message.answer("Ok listen you dumbhead this to fix your gender to male.To confirm please type /confirmmale. ")           
+    await message.answer(
+    "Okay, listen up. This is your last chance to set your gender to male. To confirm, please type /confirmmale. I hope you're smart enough to get it right."
+    )
+
   
 
 @end_router.message(Command("confirmmale"))
 async def end_handler(message:types.Message,bot:Bot) -> None:
     try:
-        await db.update_user_gender(message.from_user.id, "M")
+        await db.update_user_ugender(message.from_user.id, "M")
         await message.answer("✅ Done! Your gender is set to male.")           
     except Exception as e:
         await message.answer(str(e) , protect_content=False)
