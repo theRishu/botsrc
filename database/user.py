@@ -337,6 +337,17 @@ async def get_all_male_users():
         return user_ids
 
 
+async def get_all_female_users():
+    async with async_session() as session:
+        query = select(User.user_id).where(
+            (User.premium == False) & 
+            (User.gender == "F") & 
+            (User.chat_count < 9)
+        )
+        result = await session.execute(query)
+        user_ids = [row[0] for row in result.all()]
+        return user_ids
+
 
 
 async def get_all_vip_users():
