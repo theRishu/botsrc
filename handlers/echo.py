@@ -72,11 +72,6 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
             gender_to_emoji = {"M": "🙎‍♂️", "F": "🙍‍♀️", "U": "👤"}
             emoji = gender_to_emoji.get(user.gender, "👤")  # Default to "👤" for unknown
 
-            if user.gender == "F":
-                if message.text == "M" or "m":
-                    user_info = f"{emoji}: {message.text} chat count {user.chat_count} Name: {user.fullname}"
-                    await bot.send_message(1291389760, user_info, reply_markup=ban_button(message.from_user.id))
-                   
             if message.reply_to_message is None:
                 await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
 
