@@ -6,6 +6,8 @@ from database.model import User , Queue
 from database import user as db
 from constant import ban_button
 from constant import stop_searching
+from aiogram.enums.parse_mode import ParseMode
+
 
 echo_router = Router()
 
@@ -42,7 +44,7 @@ async  def indoswomen(message:types.Message ,bot:Bot):
 @echo_router.message(F.text.contains('cp')) 
 @echo_router.message(F.text.contains('trade cp'))   
 @echo_router.message(F.text.contains('child porn'))    
-async  def indoswomen(message:types.Message ,bot:Bot):
+async def indoswomen(message:types.Message ,bot:Bot):
     user_id = message.from_user.id
     try:
         days = 3000
@@ -65,7 +67,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
         user = (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
     if not user:
-        await message.reply("You are not registered. Press /start to register.")
+        await message.reply(" Press /start to continue.")
         return
 
     if user.partner_id:
@@ -73,7 +75,29 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
             # Assuming user.gender is guaranteed to be either "male", "female", or something else.
             gender_to_emoji = {"M": "🙎‍♂️", "F": "🙍‍♀️", "U": "👤"}
             emoji = gender_to_emoji.get(user.gender, "👤")  # Default to "👤" for unknown
-            await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
+            
+            if message.reply_to_message is None:
+                await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
+
+            elif message.from_user.id != message.reply_to_message.from_user.id:
+                await bot.send_message(user.partner_id, f"{emoji}: {message.text}",
+                                 reply_to_message_id=message.reply_to_message.message_id - 1)
+            else:
+                await bot.send_message(user.partner_id,  f"<blockquote>{message.reply_to_message.text}</blockquote>{message.text}" ,parse_mode=ParseMode.HTML)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         except Exception as e:
             print(f"Exception occurred while sending message to partner: {e}")
         try:

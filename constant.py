@@ -1,6 +1,6 @@
 m_is_banned = "You dont have access to bot , press /start to know more"
 m_is_not_registered = "You are not registered to register again please press /start again."
-m_ends_chat = "Chat Ended\nPress /start to start new chat.\nPlease correct your gender from /settings if its wrong"
+m_ends_chat = "Chat Ended\nPress /start to start new chat.\n"
 refer_text = "Hey there! I'm inviting you to connect and chat casually with others on Telegram! 👦👧 Join now to make new friends in a friendly environment. Start a conversation anonymously today!"
 
 
