@@ -4,7 +4,7 @@ from database import  user as db
 from aiogram.utils.markdown import hbold
 from datetime import datetime
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from constant import share_button
+from constant import share_button, unban_button
 
 from constant import m_ends_chat
 
@@ -25,7 +25,9 @@ async def func(call: types.CallbackQuery, id: int):
         await db.ban_user(id , 30)
         await call.message.edit_text(f"{id} is banned #ban")
     except Exception as e:
-        await call.message.edit_text(f"Some error occured here is error.") 
+        await call.message.edit_text(f"Some error occured here is error.")
+        
+
 
 
 @admin_router.callback_query(F.data[F.startswith("unban:")][6:].func(int).as_("id"))
@@ -100,6 +102,55 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
 
 
 
+
+@admin_router.callback_query(F.data[F.startswith("warn:")])
+async def func(call: types.CallbackQuery, bot: Bot):
+    data = call.data[5:]
+    parts = data.split(':')
+    user_id_str, message_id_str = parts
+    user_id = int(user_id_str)
+    message_id = int(message_id_str)
+    warn_text = (
+    "🚨 This message has been flagged as spam. If it is not replied to, it means the message has been deleted.\n\n"
+    "🚫 Please stop immediately. Continued violations may result in a ban.\n\n"
+    "This warning has been pinned for your so you wont forget."
+    )
+    try:
+        try:
+            warning_message = await bot.send_message(user_id, warn_text, reply_to_message_id=message_id)
+        except Exception as e:
+            await call.message.delete()
+            await call.answer(f"An error occurred: {str(e)}",show_alert=True)
+        
+        await bot.pin_chat_message(chat_id=user_id, message_id=warning_message.message_id)
+        await call.message.delete()
+    except Exception as e:
+        await call.answer(f"An error occurred: {str(e)}",show_alert=True)
+
+
+
+
+@admin_router.callback_query(F.data[F.startswith("bam:")])
+async def func(call: types.CallbackQuery, bot: Bot):
+    data = call.data[4:]
+    parts = data.split(':')
+    user_id_str, message_id_str = parts
+    user_id = int(user_id_str)
+    message_id = int(message_id_str)
+    ban_text = "You are banned cause you had send this message if it is not replied to any message it means you had deleted the message."
+    try:
+        await db.ban_user(user_id , 30)
+        try:
+            warning_message = await bot.send_message(user_id, ban_text, reply_to_message_id=message_id)
+        except Exception as e:
+            await call.answer(f"An error occurred: {str(e)}" ,show_alert=True)
+        await bot.pin_chat_message(chat_id=user_id, message_id=warning_message.message_id)
+        await call.message.delete()
+    except Exception as e:
+        await call.answer(f"An error occurred: {str(e)}" ,show_alert=True)
+
+
+
 @admin_router.message(Command("clearvip"))
 async def ban_user(message: types.Message, command: Command, bot: Bot):
     users = await  db.get_all_vip_users()
@@ -111,6 +162,24 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
                 await message.answer(str(e))
             await db.remove_user_premium(user.user_id)
             await message.answer(f"{user.user_id} vip removed")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   

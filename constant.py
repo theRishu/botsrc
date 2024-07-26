@@ -184,6 +184,27 @@ def ban_button(data):
 
 
 
+
+def urlm_button(user_id, message_id):
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="ban", callback_data=f"bam:{user_id}:{message_id}"),
+            InlineKeyboardButton(text="warn", callback_data=f"warn:{user_id}:{message_id}")],
+        ]
+    )
+    return kb
+
+
+
+
+
+
+
+
+
+
+
+
 def captcha_button():
     kb = InlineKeyboardMarkup(
         inline_keyboard=[

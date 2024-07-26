@@ -3,7 +3,7 @@ from typing import Callable, Dict, Any, Awaitable
 from aiogram import BaseMiddleware, Dispatcher
 from aiogram.types import Message, CallbackQuery
 
-from constant import ban_button
+from constant import  urlm_button
 from database import user as db
 from aiogram import Bot
 
@@ -23,6 +23,6 @@ class URLMiddleware(BaseMiddleware):
         if entities:
             for entity in entities:
                 if entity.type in {"url", "text_link"}:
-                    await self.bot.send_message(self.url_group, event.text , reply_markup=ban_button(event.from_user.id))
+                    await self.bot.send_message(self.url_group, event.text , reply_markup=urlm_button(event.from_user.id ,event.message_id))
                     break
         return await handler(event, data)

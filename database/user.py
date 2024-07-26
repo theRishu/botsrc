@@ -169,11 +169,14 @@ async def remove_user_premium(user_id ):
 
 
 async def ban_user(user_id: int, days: int):
-    async with async_session() as session:
-        ban_expiry_date = datetime.datetime.now() + datetime.timedelta(days=days)
-        stmt = update(User).where(User.user_id == user_id).values(banned =True, ban_expiry=ban_expiry_date)
-        await session.execute(stmt)
-        await session.commit()  
+    try:
+        async with async_session() as session:
+            ban_expiry_date = datetime.datetime.now() + datetime.timedelta(days=days)
+            stmt = update(User).where(User.user_id == user_id).values(banned =True, ban_expiry=ban_expiry_date)
+            await session.execute(stmt)
+            await session.commit()  
+    except Exception as e:
+        print(str(e))
 
 
 async def unban_user(user_id: int) -> None:
