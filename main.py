@@ -7,6 +7,7 @@ from handlers import routers_list
 from database.setup import initialize_database
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums.parse_mode import ParseMode
+from middlewares.url import URLMiddleware
 
 from sqlalchemy import text
 from database.setup import engine
@@ -20,13 +21,19 @@ async def setcommands(bot):
         types.BotCommand(command="/help", description="for help."),
         types.BotCommand(command="/settings", description="user settings."),
         types.BotCommand(command="/reopen", description="reopen previous chat"),
+        types.BotCommand(command="/report", description="to report this content."),
         types.BotCommand(command="/issue", description="write to developer")
-
-
         ]
     await bot.send_message(1291389760 ,"Bot Started.")
     await bot.delete_my_commands()
     await bot.set_my_commands(commands)
+
+
+def register_global_middlewares(dp: Dispatcher , bot:Bot):
+    middleware_types = [URLMiddleware(bot)]
+    for middleware_type in middleware_types:
+        dp.message.outer_middleware(middleware_type)
+        
 
 
 async def x(engine):
@@ -39,22 +46,18 @@ async def x(engine):
         await conn.run_sync(lambda conn: conn.execute(text("UPDATE users SET reopen = TRUE, request = FALSE")))
 
 
-
 async def main():
     try:
         await x(engine)
-    except Exception as e:
+    except Exception:
         pass
-   
-    
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     
     storage = MemoryStorage()
     await setcommands(bot)
-
-    
     dp = Dispatcher(storage=storage)
     dp.include_routers(*routers_list)
+    register_global_middlewares(dp , bot)
     await initialize_database(reset_db=False)
     await dp.start_polling(bot)
 
