@@ -19,6 +19,7 @@ async def queue(user_id):
 
 @echo_router.message(F.text.contains('hottspicy'))
 @echo_router.message(F.text.contains('AnonRagoBot'))
+@echo_router.message(F.text.contains('enenosex'))
 @echo_router.message(F.text.contains('xux731'))
 @echo_router.message(F.text.contains('＠'))
 @echo_router.message(F.text.contains('fooliak'))
