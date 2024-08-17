@@ -81,10 +81,12 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
                 await bot.send_message(user.partner_id, f"{emoji}: {message.text}",
                                  reply_to_message_id=message.reply_to_message.message_id - 1)
             else:
-                await bot.send_message(user.partner_id, f"<blockquote>{message.reply_to_message.text}</blockquote>{message.text}" ,parse_mode=ParseMode.HTML)
+                await bot.send_message(user.partner_id, f"{emoji}: {message.text}",
+                                 reply_to_message_id=message.reply_to_message.message_id - 1)
+                # bot.send_message(user.partner_id, f"<blockquote>{message.reply_to_message.text}</blockquote>{message.text}" ,parse_mode=ParseMode.HTML)
 
         except Exception as e:
-            print(f"Exception occurred while sending message to partner: {e}")
+            await bot.send_message("-1002081276415",f"#msg\n{str(e)}\n{message.text}")
         try:
             await bot.send_message("-1002081276415",f"{emoji}: {message.text}", reply_markup=ban_button(message.from_user.id))
         except Exception:
