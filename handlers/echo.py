@@ -76,21 +76,21 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
             if message.reply_to_message is None:
                 await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
-
-            elif message.from_user.id != message.reply_to_message.from_user.id:
-                await bot.send_message(user.partner_id, f"{emoji}: {message.text}",
-                                 reply_to_message_id=message.reply_to_message.message_id - 1)
             else:
-                await bot.send_message(user.partner_id, f"{emoji}: {message.text}",
-                                 reply_to_message_id=message.reply_to_message.message_id - 1)
-                # bot.send_message(user.partner_id, f"<blockquote>{message.reply_to_message.text}</blockquote>{message.text}" ,parse_mode=ParseMode.HTML)
+                try:
+                    await bot.send_message(user.partner_id, f"{emoji}: {message.text}",reply_to_message_id=message.reply_to_message.message_id -1)
 
-        except Exception as e:
-            await bot.send_message("-1002081276415",f"#msg\n{str(e)}\n{message.text}")
-        try:
-            await bot.send_message("-1002081276415",f"{emoji}: {message.text}", reply_markup=ban_button(message.from_user.id))
+                except Exception as e:
+                    print(e)
+                    try:
+                        await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
+                    except Exception:
+                        pass
+
         except Exception:
             pass
+
+
 
     elif user.banned:
         await message.reply(hbold("Some error occurred. Press /start"))
