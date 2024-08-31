@@ -289,7 +289,7 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
         try:
             args = command.args
             if not args:
-                await message.reply("Please provide id.")
+                await message.reply("Please provide user_id.")
                 return
             args_list = args.split(maxsplit=1)
             culprit = args_list[0]
@@ -299,7 +299,8 @@ async def ban_user(message: types.Message, command: Command, bot: Bot):
             if x.premium == False:
                 try:
                     await db.make_user_premium(x.user_id , int(days_count))
-                    await bot.send_message(x.user_id, f"You have been made vip for {days_count} days.")
+                    await bot.send_message(x.user_id, f"Congrats You have been made vip for {days_count} days.You dont need to do anything now just press /start and u will be matched with girls only.")
+                    await db.update_user_pgender(x.user_id, "F")
                     await message.reply("User is been made vip.")
                 except Exception as e:
                     await message.answer(f"Error ocurred\n{str(e)}")
