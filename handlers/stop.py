@@ -59,7 +59,6 @@ async def command_stop_handler(call:types.CallbackQuery,) -> None:
             await call.message.edit_text("You have stopped searching for a user.\nPress /start if you want to search again." )
             return
                 
-                
         if user.partner_id != None:
             await call.answer("You are already in chat.")
             return

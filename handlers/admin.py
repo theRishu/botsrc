@@ -516,6 +516,33 @@ async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
 
 
 
+@admin_router.message(Command("can_use_true"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    # Check if the command has arguments
+    users = await db.get_male_user()
+    for user in users:
+        try:
+            await db.can_use(user.user_id, True)
+        except Exception:
+            pass
+    await message.answer("Done.")
+
+
+
+@admin_router.message(Command("can_use_false"))
+async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
+    users = await db.get_male_user()
+    for user in users:
+        try:
+            await db.can_use(user.user_id , False)
+        except Exception:
+            pass
+    await message.answer("Done.")
+
+
+
+       
+
 @admin_router.message(Command("unbanm"))
 async def vcheck_user_info(message: types.Message, command: Command, bot: Bot):
     # Check if the command has arguments

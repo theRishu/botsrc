@@ -243,3 +243,22 @@ def stop_searching():
         ]
     )
     return kb
+
+cant_use_bot="""
+Hello,
+
+As non-male VIP users, many of you are pressing "skip," which impacts the bot's performance. Additionally, with over 50,000 users, few have joined through referrals.
+
+Here’s the deal: You can only use this bot after we reach 1,000 referrals  in every bot.
+
+Please use and share these referral links:
+
+Blum https://t.me/Tomarket_ai_bot/app?startapp=00003e7v
+
+YesCoin https://t.me/theYescoin_bot/Yescoin?startapp=yWyY82
+
+Blum https://t.me/BlumCryptoBot/app?startapp=ref_wYMAcWdPJA
+
+Thank you for your understanding and cooperation.
+
+"""

@@ -188,6 +188,15 @@ async def unban_user(user_id: int) -> None:
 
 
 
+async def can_use(user_id: int ,boolean:bool ) -> None:
+    async with async_session() as session:
+        stmt = update(User).where(User.user_id == user_id).values(can_use=boolean)
+        await session.execute(stmt)
+        await session.commit()
+
+
+
+
 
 async def make_request_false(user_id: int) -> None:
     async with async_session() as session:

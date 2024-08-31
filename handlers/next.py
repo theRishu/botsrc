@@ -20,7 +20,7 @@ from constant import stop_searching
 next_router = Router()
 
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-
+from constant import cant_use_bot
 
 
 @next_router.message(Command("next"))
@@ -41,6 +41,10 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
             await message.answer("You are waiting so your previous partner can match with you again. If You want to match  new partner You can press /stop and find new one." , reply_markup=stop_searching())
             return
 
+        if user.can_use == False:
+            await message.reply(cant_use_bot)
+
+            return 
 
         if user.partner_id:
             await db.delete_match(user.user_id, user.partner_id)

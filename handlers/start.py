@@ -8,6 +8,7 @@ from aiogram.types import LabeledPrice, PreCheckoutQuery
 from config import BOT_NAME
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from constant import cant_use_bot
 
 
 start_router = Router()
@@ -34,6 +35,10 @@ async def handler(message: types.Message, command: CommandObject):
 async def command_start_handler(message: types.Message, bot: Bot) -> None:
     user = await db.select_user(message.from_user.id)
     if user:
+        if user.can_use == False:
+            await message.reply(cant_use_bot)
+
+            return 
         if user.gender == "U":
             await message.answer("To use this bot, you need to set up your gender. Please Select your gender.", reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[BUTTON_UMALE, BUTTON_UFEMALE],resize_keyboard=True))
             return

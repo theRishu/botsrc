@@ -31,8 +31,6 @@ class User(Base, TableNameMixin):
     request: Mapped[bool] = mapped_column(Boolean, server_default=text("false"))
 
     
-
-
     def __repr__(self):
         return f"<User {self.user_id}>"
 
