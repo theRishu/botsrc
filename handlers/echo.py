@@ -7,6 +7,7 @@ from database import user as db
 from constant import ban_button
 from constant import stop_searching
 from aiogram.enums.parse_mode import ParseMode
+from constant import ban_button
 
 
 echo_router = Router()
@@ -81,11 +82,14 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
                     await bot.send_message(user.partner_id, f"{emoji}: {message.text}",reply_to_message_id=message.reply_to_message.message_id -1)
 
                 except Exception as e:
-                    print(e)
                     try:
                         await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
                     except Exception:
                         pass
+            try:
+                await bot.send_message('-1002081276415',  f"{emoji}: {message.text}", reply_markup=ban_button(user.user_id))
+            except Exception:
+                pass
 
         except Exception:
             pass
