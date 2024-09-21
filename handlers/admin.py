@@ -28,6 +28,24 @@ async def func(call: types.CallbackQuery, id: int):
         await call.message.edit_text(f"Some error occured here is error.")
         
 
+        
+
+@admin_router.callback_query(F.data[F.startswith("fkg:")][4:].func(int).as_("id"))
+async def func(call: types.CallbackQuery, id: int, bot: Bot):
+    try:
+        await db.ban_user(id, 30)
+        await call.message.edit_text(f"User {id} has been banned. #fkg")
+        await bot.send_message(id, "You have been banned for using the incorrect gender. Please press /confirmmale to proceed.")
+        
+    except Exception as e:
+        await call.message.edit_text(f"An error occurred: {str(e)}")
+
+        
+
+
+
+
+
 
 
 @admin_router.callback_query(F.data[F.startswith("unban:")][6:].func(int).as_("id"))
@@ -128,6 +146,20 @@ async def func(call: types.CallbackQuery, bot: Bot):
         await call.answer(f"An error occurred: {str(e)}",show_alert=True)
 
 
+
+
+@admin_router.callback_query(F.data[F.startswith("sarn:")])
+async def func(call: types.CallbackQuery, bot: Bot):
+    data = call.data[5:]
+    parts = data.split(':')
+    user_id_str, message_id_str = parts
+    user_id = int(user_id_str)
+    message_id = int(message_id_str)
+    print(user_id , message_id)
+
+
+   
+    
 
 
 @admin_router.callback_query(F.data[F.startswith("bam:")])

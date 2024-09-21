@@ -184,6 +184,30 @@ def ban_button(data):
 
 
 
+def action_button(user_id  , partner_id , message_id):
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="Ban", callback_data=f"ban:{partner_id}"),
+                InlineKeyboardButton(text="Warn", callback_data=f"warn:{user_id}:{message_id}"),
+                InlineKeyboardButton(text="Fake girl ", callback_data=f"fkg:{partner_id}"),
+
+
+               
+            ],
+            [   InlineKeyboardButton(text="delete", callback_data=f"delete"),
+                InlineKeyboardButton(text="wrong report", callback_data=f"wrong_report:{user_id}")
+            ]
+        ]
+    )
+    return kb
+
+
+
+
+
+
+
 
 def urlm_button(user_id, message_id):
     kb = InlineKeyboardMarkup(
