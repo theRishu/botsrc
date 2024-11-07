@@ -141,9 +141,6 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
 
 
-
-
-
 @echo_router.message(F.photo)
 async def command_info_handler(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
@@ -159,10 +156,8 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
                 await bot.send_photo(user.partner_id, message.photo[-1].file_id, caption=message.caption , protect_content=True)
                 await bot.send_message("test by admin")
             
-        else:
-            await bot.send_photo(
-            user.partner_id, message.photo[-1].file_id, caption=message.caption , protect_content=True
-            )
+            else:
+                await bot.send_photo(  user.partner_id, message.photo[-1].file_id, caption=message.caption , protect_content=True )
         except Exception:
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
     elif user.banned:
