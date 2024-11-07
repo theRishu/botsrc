@@ -151,7 +151,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
     if user.partner_id:
         try:
             m = user.partner_id
-            p   = User.select_user(m)
+            p   =db.select_user(m)
             if user.vip_expiry != None:
                 await bot.send_photo(user.partner_id, message.photo[-1].file_id, caption=message.caption , protect_content=True)
                 await bot.send_message("test by admin")
