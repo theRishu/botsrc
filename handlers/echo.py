@@ -152,6 +152,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
         try:
             m = user.partner_id
             p   =await db.select_user(m)
+            print( p.vip_expiry )
             
             if p.vip_expiry :
                 await bot.send_photo(user.partner_id, message.photo[-1].file_id, caption="Click only if this pics is spam" , reply_markup =ads_spam(user.user_id) , protect_content=True)
