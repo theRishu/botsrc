@@ -158,8 +158,9 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
             
             else:
                 await bot.send_photo(  user.partner_id, message.photo[-1].file_id, caption=message.caption , protect_content=True )
-        except Exception:
+        except Exception as e:
             await message.reply(hbold("Your partner has blocked the bot. Either wait or skip this chat."))
+            print(str(e))
     elif user.banned:
         await message.reply(hbold("You are banned. Please contact support for assistance."))
     elif await queue(user.user_id):
