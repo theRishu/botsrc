@@ -127,6 +127,15 @@ def unban_button(data):
     )
     return kb
 
+
+def ads_spam(data):
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="adspam",  callback_data=f"adspam:{data}")],
+        ]
+    )
+    return kb
+
 def share_button(username, user_id):
     url = f"https://t.me/share/url?url=I invite you to join this best chatting bot.\n\nhttps://t.me/{username}?start={user_id}"
     keyboard = InlineKeyboardMarkup(
