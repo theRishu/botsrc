@@ -7,6 +7,20 @@ from aiogram.utils.markdown import hbold
 
 end_router = Router()
 
+
+@end_router.callback_query(F.data[F.startswith("adspam:")][7:].func(int).as_("id"))
+async def func(call: types.CallbackQuery, id: int):
+    try:
+        await db.ban_user(id , 3000)
+
+        await bot.send_message(1291389760,  f'id was banned by{call.message.id}')
+
+        await call.message.edit_text(f"{id} is banned #ban")
+    except Exception as e:
+        await call.message.edit_text(f"Some error occured here is error.")
+        
+
+
 @end_router.message(Command("end"))
 async def end_handler(message:types.Message,bot:Bot) -> None:
     try:    
