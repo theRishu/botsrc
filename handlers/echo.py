@@ -7,7 +7,7 @@ from database import user as db
 from constant import ban_button
 from constant import stop_searching
 from aiogram.enums.parse_mode import ParseMode
-from constant import ban_button
+from constant import ban_button ,ads_spam
 
 
 echo_router = Router()
@@ -154,8 +154,8 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
             p   =await db.select_user(m)
             
             if p.vip_expiry != None:
-                await bot.send_photo(user.partner_id, message.photo[-1].file_id, caption=message.caption , protect_content=True)
-                await bot.send_message(user.partner_id,"test by admin")
+                await bot.send_photo(user.partner_id, message.photo[-1].file_id, caption="Click only if this pics is spam" , reply_markup =ads_spam , protect_content=True)
+                
             
             else:
                 await bot.send_photo(  user.partner_id, message.photo[-1].file_id, caption=message.caption , protect_content=True )
