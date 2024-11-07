@@ -18,7 +18,7 @@ end_router = Router()
 async def func(call: types.CallbackQuery, id: int ,bot:Bot):
     try:
         await db.ban_user(id , 3000)
-        await bot.send_message(1291389760,  f' {id} was banned by{call.message.from_user.id')
+        await bot.send_message(1291389760,  f' {id} was banned by{call.from_user.id')
 
         await call.delete()
     except Exception as e:
