@@ -23,7 +23,8 @@ async def func(call: types.CallbackQuery, id: int ,bot:Bot):
         await call.delete()
     except Exception as e:
         print(str(e))
-        await call.message.edit_text(f"Some error occured here is error.")
+        await bot.send_message(1291389760,  str(e))
+       
         
 
 
