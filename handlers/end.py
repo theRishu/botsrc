@@ -21,7 +21,7 @@ async def func(call: types.CallbackQuery, id: int):
 
         await bot.send_message(1291389760,  f'id was banned by{call.message.id}')
 
-        await call.message.edit_text(f"{id} is banned #ban")
+        await call.delete()
     except Exception as e:
         await call.message.edit_text(f"Some error occured here is error.")
         
