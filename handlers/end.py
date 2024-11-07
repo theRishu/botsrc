@@ -15,7 +15,7 @@ end_router = Router()
 
 
 @end_router.callback_query(F.data[F.startswith("adspam:")][7:].func(int).as_("id"))
-async def func(call: types.CallbackQuery, id: int):
+async def func(call: types.CallbackQuery, id: int ,bot:Bot):
     try:
         await db.ban_user(id , 3000)
         await bot.send_message(1291389760,  f' {id} was banned by{call.message.id}')
