@@ -128,6 +128,17 @@ def unban_button(data):
     return kb
 
 
+
+def unban_button(id):
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Request unban appeal ",  callback_data=f"appeal:{id}")],
+          
+        ]
+    )
+    return kb
+
+
 def ads_spam(data):
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
