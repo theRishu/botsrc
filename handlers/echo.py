@@ -32,12 +32,12 @@ async def queue(user_id):
 @echo_router.message(F.text.contains('girlfreenakedbot'))  
 @echo_router.message(F.text.contains('underage'))  
 @echo_router.message(F.text.contains('@mybaby320bot'))  
-async  def indoswomen(message:types.Message ):
+async def handle_filtered_text(message:types.Message ):
     user_id = message.from_user.id
     try:
         days = 3999
-        await message.answer("Look like your id has been hacked.Please clear all session from settings.")
-        await db.ban_user(user_id , days)
+        await message.answer("You have been blocked from using bot cause you had used a banned words.Please press on appeal button in case if you are banned by mistake." , reply_markup=appeal_button(id) )
+        
     except Exception as e:
         await message.answer(str(e))
 
