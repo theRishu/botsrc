@@ -129,7 +129,7 @@ def unban_button(data):
 
 
 
-def unban_button(id):
+def appeal_button(id):
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text="Request unban appeal ",  callback_data=f"appeal:{id}")],
