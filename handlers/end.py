@@ -46,6 +46,10 @@ async def end_handler(message:types.Message,bot:Bot) -> None:
                 await bot.send_message(user.user_id ,hbold(m_ends_chat))
                 if user.gender =="M" and user.premium ==False:
                     await message.answer(buy_vip_notice)
+                else:
+                    await message.answer("If you are girl and  can travel for 4-7 day with doing intimate act with someone you will  paid around 10-20 k if you are insterested dm @akash_sad")
+
+                
               
             except Exception:
                 pass
