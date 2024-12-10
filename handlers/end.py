@@ -47,7 +47,7 @@ async def end_handler(message:types.Message,bot:Bot) -> None:
                 if user.gender =="M" and user.premium ==False:
                     await message.answer(buy_vip_notice)
                 else:
-                    await message.answer("If you are girl and  can travel for 4-7 day with doing intimate act with someone you will  paid around 10-20 k if you are insterested dm @akash_sad")
+                    await message.answer("Bot ads  If you are girl want to earn 150 rupees  per video  call for 10-15 min dm @akash_sad Note you have video call first then you will be paid.")
 
                 
               
