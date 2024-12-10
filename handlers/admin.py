@@ -271,7 +271,7 @@ async def user_d(message: types.Message, command: Command, bot: Bot):
                     f"Bonus Count: `{user.bonus_count}`\n"
                     f"Chat Count: `{user.chat_count}`\n"
                     f"Age: `{user.age}`\n"
-                    f"Partner id : `{user.partner_id`n"
+                    f"Partner id : `{user.partner_id}`n"
                     f"Gender: `{user.gender}`\n"
                     f"request: `{user.request}`\n"
                     f"reopen: `{user.reopen}`\n"
