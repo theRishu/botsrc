@@ -46,9 +46,8 @@ async def end_handler(message:types.Message,bot:Bot) -> None:
                 await bot.send_message(user.user_id ,hbold(m_ends_chat))
                 if user.gender =="M" and user.premium ==False:
                     await message.answer(buy_vip_notice)
-                else:
-                    await message.answer("Bot ads  If you are girl want to earn 150 rupees  per video  call for 10-15 min dm @akash_sad Note you have video call first then you will be paid.")
-
+                
+                   
                 
               
             except Exception:
