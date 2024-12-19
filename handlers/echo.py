@@ -33,12 +33,14 @@ async def queue(user_id):
 @echo_router.message(F.text.contains('underage'))  
 @echo_router.message(F.text.contains('@mybaby320bot'))
 @echo_router.message(F.text.contains('Hot_Tracy_Bot'))  
-@echo_router.message(F.text.contains('Tiffany_gallery_bot'))  
+@echo_router.message(F.text.contains('Tiffany_gallery_bot'))
+@echo_router.message(F.text.contains('AliceModeleng_bot'))  
 async def handle_filtered_text(message:types.Message ):
     user_id = message.from_user.id
     try:
         days = 3999
-        await message.answer("You have been blocked from using bot cause you had used a banned words.Please press on appeal button in case if you are banned by mistake." , reply_markup=appeal_button(id) )
+        await message.answer("You have been blocked from using bot ")
+        await db.ban_user(user_id , days)
         
     except Exception as e:
         await message.answer(str(e))

@@ -25,7 +25,18 @@ async def func(call: types.CallbackQuery, id: int, bot: Bot):
         await bot.send_message(1291389760, str(e))
 
        
-        
+
+
+
+END_TEXT ="""
+This bot is completely safe, so there's no need to worry. We do not collect your data. However, I kindly request that you do not reveal any personal information to anyone you meet here.
+
+Please avoid giving false hope to anyone, as most of the people you meet here may not be genuine.
+
+If you are a boy and have selected "girl" as your gender by mistake, please change your gender by pressing /setgender.
+
+
+"""
 
 
 @end_router.message(Command("end"))
@@ -46,10 +57,9 @@ async def end_handler(message:types.Message,bot:Bot) -> None:
                 await bot.send_message(user.user_id ,hbold(m_ends_chat))
                 if user.gender =="M" and user.premium ==False:
                     await message.answer(buy_vip_notice)
-                
-                   
-                
-              
+                else:
+                    await message.answer(END_TEXT)
+
             except Exception:
                 pass
             try:
