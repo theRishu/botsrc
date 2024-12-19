@@ -94,12 +94,16 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
             else:
 
                 await message.answer(f"""
-<b>⚠️ You need to invite 3 people to use this Bot ⭐️</b>
+Either you are banned or free trial is over
+<b>⚠️ To use this bot You need to invite 3 people to use this Bot ⭐️</b>
 
 You've referred {x.bonus_count} person(s)
 🔗 Your Link: <code> https://t.me/{botname.username}?start={message.from_user.id}</code>
 
-Note : You can also buy access using  17 telegram stars.""",
+Note : You can also buy access using  17 telegram stars.
+Or you can directly buy vip from @botspheresupport for 300 INR/ 4$
+
+""",
 
 reply_markup=share_button(botname.username , message.from_user.id))
         else:
