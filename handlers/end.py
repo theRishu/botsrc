@@ -66,7 +66,7 @@ async def end_handler(message:types.Message,bot:Bot) -> None:
             try:
                 await bot.send_message(user.user_id ,hbold(m_ends_chat))
                 if user.gender =="M" and user.premium ==False:
-                    await message.answer(buy_vip_notice)
+                    await message.answer(new_year_offer)
                 else:
                     await message.answer(END_TEXT)
 
