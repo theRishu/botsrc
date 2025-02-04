@@ -50,10 +50,8 @@ async def handle_filtered_text(message:types.Message ):
 
 
 @echo_router.message(F.text.contains('do you have cp?'))   
-@echo_router.message(F.text.contains('cp?'))   
-@echo_router.message(F.text.contains('Cp')) 
+@echo_router.message(F.text.contains('cp?'))  
 @echo_router.message(F.text.contains('trade cp'))
-@echo_router.message(F.text.contains('cp')) 
 @echo_router.message(F.text.contains('child porn'))   
 @echo_router.message(F.text.contains('badgirlsebot')) 
 async def indoswomen(message:types.Message ,bot:Bot):
