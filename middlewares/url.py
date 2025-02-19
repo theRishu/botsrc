@@ -23,6 +23,7 @@ class URLMiddleware(BaseMiddleware):
         if entities:
             for entity in entities:
                 if entity.type in {"url", "text_link"}:
+                   
                     await self.bot.send_message(self.url_group, event.text , reply_markup=urlm_button(event.from_user.id ,event.message_id))
                     break
         

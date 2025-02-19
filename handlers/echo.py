@@ -9,7 +9,7 @@ from constant import stop_searching
 from aiogram.enums.parse_mode import ParseMode
 from constant import ban_button ,ads_spam
 
-
+import re
 echo_router = Router()
 
 async def queue(user_id):
@@ -64,7 +64,16 @@ async def indoswomen(message:types.Message ,bot:Bot):
         await message.answer(str(e))
 
 
-
+referral_link_pattern = re.compile(r"https?://t\.me/(Anonymous_Talk_Secret_Chat_Bot|PyaasiAngel_bot|botifyai_bot)\?start=\d+")
+@echo_router.message(F.text.regexp(referral_link_pattern))
+async def reflink(message: types.Message, bot: Bot):
+    user_id = message.from_user.id
+    try:
+        days = 3000
+        await message.reply("You are banned because you shared a referral link.")
+        await db.ban_user(user_id, days)
+    except Exception as e:
+        await message.answer(f"An error occurred: {e}")
 
 
 
