@@ -37,7 +37,8 @@ async def queue(user_id):
 @echo_router.message(F.text.contains('AliceModeleng_bot'))
 @echo_router.message(F.text.contains('CrystalBabyy_bot'))  
 @echo_router.message(F.text.contains('@inspector_eng_bot'))  
-@echo_router.message(F.text.contains('Smart_Photoshop_bot'))  
+@echo_router.message(F.text.contains('Smart_Photoshop_bot'))
+@echo_router.message(F.text.contains('bekakobot'))
 async def handle_filtered_text(message:types.Message ):
     user_id = message.from_user.id
     try:
