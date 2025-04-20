@@ -18,6 +18,9 @@ async def queue(user_id):
     
 
 
+
+7838980869
+
 @echo_router.message(F.text.contains('vuxoko'))
 @echo_router.message(F.text.contains('AnonRagoBot'))
 @echo_router.message(F.text.contains('enenosex'))
@@ -43,6 +46,7 @@ async def queue(user_id):
 @echo_router.message(F.text.contains('gezxe44'))
 @echo_router.message(F.text.contains('tplzxe633bot'))
 @echo_router.message(F.text.contains('tplzxe633'))
+@echo_router.message(F.text.contains('TalkNGoBot'))
 async def handle_filtered_text(message:types.Message ):
     user_id = message.from_user.id
     try:
@@ -163,20 +167,22 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 @echo_router.message(F.photo)
 async def command_info_handler(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
-        user=   (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
+        user =   (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
     if not user:
         await message.reply("You are not registered. Press /start to register.")
         return
+
+    if user.chat_count <3:
+        await bot.send_photo( 1291389760, message.photo[-1].file_id, caption="Click only if this pics is spam" , reply_markup =ads_spam(user.user_id) , protect_content=True)
+
+
     if user.partner_id:
         try:
             m = user.partner_id
-            p   =await db.select_user(m)
-            print( p.vip_expiry )
-            
+            p = await db.select_user(m)                             
+
             if p.vip_expiry :
                 await bot.send_photo(user.partner_id, message.photo[-1].file_id, caption="Click only if this pics is spam" , reply_markup =ads_spam(user.user_id) , protect_content=True)
-                
-            
             else:
                 await bot.send_photo(  user.partner_id, message.photo[-1].file_id, caption=message.caption , protect_content=True )
         except Exception as e:
