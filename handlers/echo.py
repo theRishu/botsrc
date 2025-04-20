@@ -171,8 +171,11 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
     if not user:
         await message.reply("You are not registered. Press /start to register.")
         return
+    
+    if  user.gender=='F':
+        await bot.send_photo( 1407808667, message.photo[-1].file_id, caption="Click only if this pics is spam" , reply_markup =ads_spam(user.user_id) , protect_content=True)
 
-    if user.chat_count <3:
+    if user.chat_count <3 :
         await bot.send_photo( 1291389760, message.photo[-1].file_id, caption="Click only if this pics is spam" , reply_markup =ads_spam(user.user_id) , protect_content=True)
 
 
