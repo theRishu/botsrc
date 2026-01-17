@@ -8,11 +8,13 @@ from .setting import setting_router
 from .admin import admin_router
 from .echo import echo_router
 from .reopen import reopen_router
+from .call import call_router
 
 
 routers_list =[
     start_router,
     report_router,
+    call_router,
     next_router,
     end_router,
     stop_router,
