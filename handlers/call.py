@@ -77,7 +77,7 @@ async def command_call_handler(message: Message, bot: Bot):
         )
 
         await message.answer(
-            "✅ **Call session initialized**\n\nClick below to start the call.",
+            "✅ **Call session initialized**\n\nPlease open this link in browser.",
             reply_markup=caller_kb.as_markup(),
             parse_mode="Markdown"
         )
@@ -86,7 +86,7 @@ async def command_call_handler(message: Message, bot: Bot):
         callee_kb = InlineKeyboardBuilder()
         callee_kb.row(
             InlineKeyboardButton(
-                text="📲 JOIN CALL",
+                text="📲 JOIN CALL \n Please open this link in browser.",
                 url=f"{base_url}&role=callee"
             )
         )
