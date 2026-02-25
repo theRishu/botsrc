@@ -6,11 +6,7 @@ from aiogram.types import (
 )
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-import base64
-import hmac
-import hashlib
-import uuid
-
+import aiohttp
 from database import user as db
 from constant import (
     m_is_banned,
@@ -19,9 +15,7 @@ from constant import (
 
 # ================= CONFIG =================
 
-SECRET_KEY = b"SUPER_SECRET_HMAC_KEY_2026"
-WEB_URL = "https://lovetender.in"
-
+WEB_URL = "https://3849-2401-4900-4e5a-7457-6031-6d95-109-cd72.ngrok-free.app"
 call_router = Router()
 
 # =========================================
@@ -46,57 +40,42 @@ async def command_call_handler(message: Message, bot: Bot):
             await message.answer("❌ You are not currently in an active chat.")
             return
 
-        # 4. Generate secure call session
-        tag = "None"
-        meta = f"partner:{user.partner_id}"
+        # Request new call session from the FastApi Server
+        api_url = f"{WEB_URL}/api/create_call"
+        async with aiohttp.ClientSession() as session:
+            async with session.post(api_url) as resp:
+                data = await resp.json()
+        
+        caller_token = data.get("caller_token")
+        callee_token = data.get("callee_token")
+        
+        # Build links
+        link1 = f"{WEB_URL}/join/{caller_token}"
+        link2 = f"{WEB_URL}/join/{callee_token}"
 
-        rid = str(uuid.uuid4())[:8]
-
-        raw_payload = f"{message.from_user.id}|{tag}|{meta}"
-        payload = (
-            base64.urlsafe_b64encode(raw_payload.encode())
-            .decode()
-            .rstrip("=")
-        )
-
-        signature = hmac.new(
-            SECRET_KEY,
-            payload.encode(),
-            hashlib.sha256
-        ).hexdigest()[:8]
-
-        base_url = f"{WEB_URL}/go/{rid}?p={payload}&h={signature}"
-
-        # 5. Caller keyboard
+        # 1. Send Caller Link to the user who typed /call
         caller_kb = InlineKeyboardBuilder()
-        caller_kb.row(
-            InlineKeyboardButton(
-                text="📞 START CALL",
-                url=f"{base_url}&role=caller"
-            )
-        )
-
+        caller_kb.row(InlineKeyboardButton(text="📞 START CALL", url=link1))
+        
         await message.answer(
-            "✅ **Call session initialized**\n\nPlease open this link in browser.",
+            "✅ *Call session initialized*\n\nOpen the link below in your browser to start the call.",
             reply_markup=caller_kb.as_markup(),
             parse_mode="Markdown"
         )
 
-        # 6. Callee keyboard (partner)
+        # 2. Send Callee Link to the partner
         callee_kb = InlineKeyboardBuilder()
-        callee_kb.row(
-            InlineKeyboardButton(
-                text="📲 JOIN CALL \n Please open this link in browser.",
-                url=f"{base_url}&role=callee"
-            )
-        )
-
+        callee_kb.row(InlineKeyboardButton(text="📲 JOIN AS PARTNER", url=link2))
+        
         await bot.send_message(
-            user.partner_id,
-            "📞 **Incoming Call**\n\nClick below to join the call.",
+            chat_id=user.partner_id,
+            text=f"📞 *Incoming Call*\n\nYour partner has started a video call. Join using the button below:",
             reply_markup=callee_kb.as_markup(),
-            parse_mode="Markdown"
+            parse_mode="Markdown",
+            disable_web_page_preview=True
         )
 
     except Exception as e:
         await message.answer(f"⚠️ Internal error: {e}")
+
+

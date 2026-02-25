@@ -70,14 +70,19 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
             await db.delist_user(message.from_user.id)
             await db.delist_user(match)
             await db.create_match(user_id=message.from_user.id, partner_id=match)
+            match_msg = (
+                "🎉 <b>Partner Found!</b>\n\n"
+                "You are now connected. Say hello! 👋\n"
+                "Type /end to leave or /next for a new partner."
+            )
             try:
-                await bot.send_message(message.from_user.id, hbold("Partner Found!"), reply_markup=backup_button())
+                await bot.send_message(message.from_user.id, match_msg, reply_markup=backup_button())
             except Exception as e:
-                print(str(e))
+                print(f"Error sending match to user: {e}")
             try:
-                await bot.send_message(match, hbold("Partner Found!"), reply_markup=backup_button())
+                await bot.send_message(match, match_msg, reply_markup=backup_button())
             except Exception as e:
-                print(str(e))
+                print(f"Error sending match to partner: {e}")
         else:
             await message.answer("🚀 Start looking for a partner for you..." , reply_markup=stop_searching())
 
@@ -177,8 +182,8 @@ async def show_gender(msg: types.Message , bot:Bot):
     await bot.send_invoice(
         chat_id=msg.from_user.id,
         provider_token="",
-        title="Buy vip",
-        description = "VIP for 1 month.",
+        title="⭐ VIP Subscription",
+        description = "Get 1 month of VIP access and match with girls!",
         payload="payload",
         currency="XTR",  # XTR only, don't change
         prices=[

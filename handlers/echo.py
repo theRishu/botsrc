@@ -21,119 +21,118 @@ async def queue(user_id):
 
 7838980869
 
-@echo_router.message(F.text.contains('vuxoko'))
-@echo_router.message(F.text.contains('AnonRagoBot'))
-@echo_router.message(F.text.contains('enenosex'))
-@echo_router.message(F.text.contains('xux731'))
-@echo_router.message(F.text.contains('＠'))
-@echo_router.message(F.text.contains('fooliak'))
-@echo_router.message(F.text.contains('enter in the search 👉🏻 '))
-@echo_router.message(F.text.contains('👉🏻'))
-@echo_router.message(F.text.contains('anony210'))
-@echo_router.message(F.text.contains('@Hotsqw'))
-@echo_router.message(F.text.contains('Hotsqw'))
-@echo_router.message(F.text.contains('girlfreenakedbot'))  
-@echo_router.message(F.text.contains('underage'))  
-@echo_router.message(F.text.contains('@mybaby320bot'))
-@echo_router.message(F.text.contains('Hot_Tracy_Bot'))  
-@echo_router.message(F.text.contains('Tiffany_gallery_bot'))
-@echo_router.message(F.text.contains('AliceModeleng_bot'))
-@echo_router.message(F.text.contains('CrystalBabyy_bot'))  
-@echo_router.message(F.text.contains('@inspector_eng_bot'))  
-@echo_router.message(F.text.contains('Smart_Photoshop_bot'))
-@echo_router.message(F.text.contains('bekakobot'))
-@echo_router.message(F.text.contains('gezxe44bot'))
-@echo_router.message(F.text.contains('gezxe44'))
-@echo_router.message(F.text.contains('tplzxe633bot'))
-@echo_router.message(F.text.contains('tplzxe633'))
-@echo_router.message(F.text.contains('TalkNGoBot'))
-async def handle_filtered_text(message:types.Message ):
-    user_id = message.from_user.id
-    try:
-        days = 3999
-        await message.answer("You have been blocked from using bot ")
-        await db.ban_user(user_id , days)
-        
-    except Exception as e:
-        await message.answer(str(e))
+# --- Content Filtering Configuration ---
 
+# Level 1: General Spam & Low-Quality Bot Promotion (3999 days ban)
+BANNED_KEYWORDS_L1 = [
+    'vuxoko', 'AnonRagoBot', 'enenosex', 'xux731', '＠', 'fooliak', 
+    'enter in the search 👉🏻 ', '👉🏻', 'anony210', '@Hotsqw', 'Hotsqw', 
+    'girlfreenakedbot', 'underage', '@mybaby320bot', 'Hot_Tracy_Bot', 
+    'Tiffany_gallery_bot', 'AliceModeleng_bot', 'CrystalBabyy_bot', 
+    '@inspector_eng_bot', 'Smart_Photoshop_bot', 'bekakobot', 
+    'gezxe44bot', 'gezxe44', 'tplzxe633bot', 'tplzxe633', 'TalkNGoBot'
+]
 
-@echo_router.message(F.text.contains('do you have cp?'))   
-@echo_router.message(F.text.contains('cp?'))  
-@echo_router.message(F.text.contains('trade cp'))
-@echo_router.message(F.text.contains('child porn'))   
-@echo_router.message(F.text.contains('badgirlsebot')) 
-async def indoswomen(message:types.Message ,bot:Bot):
-    user_id = message.from_user.id
-    try:
-        days = 3000
-        await message.reply("You are banned cause u asked for cp.")
-        await db.ban_user(user_id , days)
-    except Exception as e:
-        await message.answer(str(e))
+# Level 2: Highly Illegal or Harmful Content (3000 days ban)
+BANNED_KEYWORDS_L2 = [
+    'do you have cp?', 'cp?', 'trade cp', 'child porn', 'badgirlsebot'
+]
 
+# Generic pattern for Telegram bot referral links: t.me/botname?start=... or t.me/botname/app?startapp=...
+REFERRAL_PATTERN = re.compile(r"t\.me/([a-zA-Z0-9_]+)(?:/app)?\?start(?:app)?=[a-zA-Z0-9_-]+", re.IGNORECASE)
 
-referral_link_pattern = re.compile(r"https?://t\.me/(Anonymous_Talk_Secret_Chat_Bot|PyaasiAngel_bot|botifyai_bot)\?start=\d+")
-@echo_router.message(F.text.regexp(referral_link_pattern))
-async def reflink(message: types.Message, bot: Bot):
-    user_id = message.from_user.id
-    try:
-        days = 3000
-        await message.reply("You are banned because you shared a referral link.")
-        await db.ban_user(user_id, days)
-    except Exception as e:
-        await message.answer(f"An error occurred: {e}")
-
-
+# --- Consolidated Text Handler ---
 
 @echo_router.message(F.text)
-async def command_info_handler(message: types.Message, bot: Bot) -> None: 
+async def handle_all_text(message: types.Message, bot: Bot):
+    user_id = message.from_user.id
+    text_lower = message.text.lower()
+    
+    # 1. Check for Level 1 Banned Keywords
+    if any(keyword.lower() in text_lower for keyword in BANNED_KEYWORDS_L1):
+        await apply_ban(message, user_id, 3999, "🚫 You have been blocked for violating bot rules.")
+        return
+
+    # 2. Check for Level 2 Banned Keywords
+    if any(keyword.lower() in text_lower for keyword in BANNED_KEYWORDS_L2):
+        await apply_ban(message, user_id, 3000, "🚫 You are banned for sharing or asking for prohibited content.")
+        return
+
+    # 3. Check for External Referral Links
+    match = REFERRAL_PATTERN.search(message.text)
+    if match:
+        bot_info = await bot.get_me()
+        found_bot_username = match.group(1).lower()
+        
+        # If the referral link is NOT for our own bot, it's a violation
+        if found_bot_username != bot_info.username.lower():
+            await apply_ban(message, user_id, 3000, "🚫 External referral links are strictly prohibited. You have been banned.")
+            return
+
+    # 4. If all checks pass, handle as a regular chat message
+    await process_chat_message(message, bot)
+
+async def apply_ban(message: types.Message, user_id: int, days: int, reason: str):
+    """Helper to apply a ban and cleanup the message."""
+    try:
+        await message.reply(hbold(reason))
+        await db.ban_user(user_id, days)
+        try:
+            await message.delete()
+        except:
+            pass
+    except Exception as e:
+        print(f"Error applying ban for {user_id}: {e}")
+
+async def process_chat_message(message: types.Message, bot: Bot) -> None: 
     async with async_session() as session:
         user = (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
+    
     if not user:
-        await message.reply(" Press /start to continue.")
+        await message.reply("⚠️ You are not registered. Press /start to continue.")
         return
 
     if user.partner_id:
         try:
-            # Assuming user.gender is guaranteed to be either "male", "female", or something else.
+            # Emoji indicators for gender
             gender_to_emoji = {"M": "🙎‍♂️", "F": "🙍‍♀️", "U": "👤"}
-            emoji = gender_to_emoji.get(user.gender, "👤")  # Default to "👤" for unknown
+            emoji = gender_to_emoji.get(user.gender, "👤")
 
-            if message.reply_to_message is None:
-                await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
-            else:
-                try:
-                    await bot.send_message(user.partner_id, f"{emoji}: {message.text}",reply_to_message_id=message.reply_to_message.message_id -1)
+            # Handle replies
+            reply_to = None
+            if message.reply_to_message:
+                # Basic relative reply logic (can be complex in forwarded contexts)
+                reply_to = message.reply_to_message.message_id - 1
 
-                except Exception as e:
-                    try:
-                        await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
-                    except Exception:
-                        pass
             try:
-                await bot.send_message('-1002081276415',  f"{emoji}: {message.text}", reply_markup=ban_button(user.user_id))
+                await bot.send_message(
+                    chat_id=user.partner_id,
+                    text=f"{emoji}: {message.text}",
+                    reply_to_message_id=reply_to
+                )
+            except Exception:
+                # Fallback if reply_to_message_id fails
+                await bot.send_message(user.partner_id, f"{emoji}: {message.text}")
+
+            # Send to logging group (if exists)
+            try:
+                await bot.send_message('-1002081276415', f"Log [{user.user_id}]: {message.text}", reply_markup=ban_button(user.user_id))
             except Exception:
                 pass
 
-        except Exception:
-            pass
-
-
+        except Exception as e:
+            print(f"Error forwarding message: {e}")
+            await message.reply(hbold("❌ Your partner might have blocked the bot or left."))
 
     elif user.banned:
-        await message.reply(hbold("Some error occurred. Press /start"))
+        await message.reply(hbold("🚫 You are currently banned from using this bot."))
     elif await queue(user.user_id):
-        await message.answer(hbold("Waiting for someone...."), reply_markup=stop_searching())
+        await message.answer(hbold("⏳ Please wait... We are still looking for a partner for you."), reply_markup=stop_searching())
     else:
-        await message.reply("You are not currently in a chat. Use /start to find a new chat.")
-
-
-        
-
+        await message.reply("💡 You are not in a chat. Type /start to find someone!")
 
 @echo_router.message(F.sticker)
-async def command_info_handler(message: types.Message, bot: Bot) -> None:
+async def handle_sticker(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
         user=   (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
     if not user:
@@ -165,7 +164,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
 
 @echo_router.message(F.photo)
-async def command_info_handler(message: types.Message, bot: Bot) -> None:
+async def handle_photo(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
         user =   (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
     if not user:
@@ -217,7 +216,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
 
 @echo_router.message(F.animation)
-async def command_info_handler(message: types.Message, bot: Bot) -> None:
+async def handle_animation(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
         user=   (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
     if not user:
@@ -242,7 +241,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
 
 @echo_router.message(F.audio)
-async def command_info_handler(message: types.Message, bot: Bot) -> None:
+async def handle_audio(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
         user=   (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
     if not user:
@@ -267,7 +266,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
 
 @echo_router.message(F.document)
-async def command_info_handler(message: types.Message, bot: Bot) -> None:
+async def handle_document(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
         user=   (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
     if not user:
@@ -290,7 +289,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
 
 @echo_router.message(F.video)
-async def command_info_handler(message: types.Message, bot: Bot) -> None:
+async def handle_video(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
         user=   (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
     if not user:
@@ -313,7 +312,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
 
 @echo_router.message(F.video_note)
-async def command_info_handler(message: types.Message, bot: Bot) -> None:
+async def handle_video_note(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
         user=   (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
     if not user:
@@ -336,7 +335,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
 
 @echo_router.message(F.voice)
-async def command_info_handler(message: types.Message, bot: Bot) -> None:
+async def handle_voice(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
         user=   (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
     if not user:
@@ -359,7 +358,7 @@ async def command_info_handler(message: types.Message, bot: Bot) -> None:
 
 
 @echo_router.message(F.location)
-async def command_info_handler(message: types.Message, bot: Bot) -> None:
+async def handle_location(message: types.Message, bot: Bot) -> None:
     async with async_session() as session:
         user=   (await session.execute(select(User).where(User.user_id == message.from_user.id))).scalar_one_or_none()
     if not user:

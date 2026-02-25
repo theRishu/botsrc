@@ -70,12 +70,17 @@ async def command_start_handler(message: types.Message, bot: Bot) -> None:
                 await db.delist_user(message.from_user.id)
                 await db.delist_user(match)
                 await db.create_match(user_id=message.from_user.id, partner_id=match)
+                match_msg = (
+                    "🎉 <b>Partner Found!</b>\n\n"
+                    "You are now connected. Say hello! 👋\n"
+                    "Type /end to leave or /next for a new partner."
+                )
                 try:
-                    await bot.send_message(message.from_user.id, "Partner Found!", reply_markup=types.ReplyKeyboardRemove())
+                    await bot.send_message(message.from_user.id, match_msg, reply_markup=types.ReplyKeyboardRemove())
                 except Exception:
                     pass
                 try:
-                    await bot.send_message(match, "Partner Found!", reply_markup=types.ReplyKeyboardRemove())
+                    await bot.send_message(match, match_msg, reply_markup=types.ReplyKeyboardRemove())
                 except Exception:
                     pass
             else:

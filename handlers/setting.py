@@ -120,19 +120,19 @@ async def show_gender(call: CallbackQuery, state: FSMContext):
 
 
 VIP_TEXT ="""
-Unlock VIP Privileges in 2 Simple Ways:
+🔥 <b>Want to meet girls?</b>
+
+Upgrade to VIP for just <b>₹300 per month</b> and start matching with girls instantly! 
+
+<b>Ways to get VIP:</b>
 
 1) Invite Friends:
-   - Obtain a  5-day VIP license by inviting 3 new users through your referral link. 
-   - Invite a minimum of 3 users to get VIP benefits.
+   - Get 5 days VIP by inviting 3 friends through your referral link. 
 
 2) Purchase VIP:
-   - For Global Users: 💵 $4 
-   - For Indian Users: 🇮🇳 ₹300
-   - For Indo Users: 🇮🇩 Rp 50.000
-   Duration: 30 days.
-
-To buy VIP, just message @BotsphereSupport !
+   - Monthly Pass: ₹300 ($4)
+   
+To buy, DM us here: @botspheresupport
 """
 
 from constant import SUPPORT_URL

@@ -1,1 +1,1 @@
-python3 main.py 7344858592:AAH74r31ugK8Av0IYuWRSxoTGM0epiI3cNM botsrc 
+python3.14 main.py 7186020446:AAHc529DYDxKaEq8Bw-O8tWZmyHi1dmC2BQ botsrc

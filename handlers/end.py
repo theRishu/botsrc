@@ -41,13 +41,12 @@ If you are a boy and have selected "girl" as your gender by mistake, please chan
 
 
 new_year_offer ="""
-Get a 12-month premium subscription for all bots at just $24.99 or ₹1999!
+🔥 <b>Want to meet girls?</b>
 
-Match with girls effortlessly as a premium user.
+Upgrade to VIP for just <b>₹300 per month</b> and start matching with girls instantly! 
 
-Hurry, this limited-time offer ends on January 6, 2025.
-
-💎 To upgrade to VIP, contact @botsphereSupport."""
+To buy, DM us here: @botspheresupport
+"""
 
 @end_router.message(Command("end"))
 async def end_handler(message:types.Message,bot:Bot) -> None:

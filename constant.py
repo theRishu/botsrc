@@ -18,14 +18,15 @@ For assistance, contact @RandomMode_Bot.
 To purchase VIP, contact @BotSpheresupport.
 """
 vip_features = """
-<b>Unlock VIP Benefits!</b>
+🔥 <b>Want to meet girls?</b>
 
-When you buy a VIP package, you support the bot and get these awesome perks:
+Upgrade to VIP for just <b>₹300 per month</b> and start matching with girls instantly! 
 
-💖 <b>Match with Girls</b>
+✅ <b>Match with Girls</b>
 🛡️ <b>Ban Protection</b>
+✨ <b>Premium Badge</b>
 
-<i>Note: There are no refunds, so make sure you're ready before you buy. Nobody has regretted buying VIP!</i>
+To buy, DM us here: @botspheresupport
 """
 
 
