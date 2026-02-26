@@ -15,7 +15,7 @@ from constant import (
 
 # ================= CONFIG =================
 
-WEB_URL = "https://3849-2401-4900-4e5a-7457-6031-6d95-109-cd72.ngrok-free.app"
+from config import WEB_URL
 call_router = Router()
 
 # =========================================
