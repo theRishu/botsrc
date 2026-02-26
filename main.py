@@ -46,20 +46,6 @@ async def x(engine):
         await conn.run_sync(lambda conn: conn.execute(text("UPDATE users SET reopen = TRUE, request = FALSE")))
 
 
-from aiohttp import web
-
-async def handle(request):
-    return web.Response(text="Bot is running!")
-
-async def start_web_server():
-    app = web.Application()
-    app.router.add_get('/', handle)
-    runner = web.AppRunner(app)
-    await runner.setup()
-    site = web.TCPSite(runner, '0.0.0.0', 8084)
-    await site.start()
-    print("Web server started on port 8081")
-
 async def main():
     try:
         await x(engine)
@@ -73,9 +59,6 @@ async def main():
     dp.include_routers(*routers_list)
     register_global_middlewares(dp , bot)
     await initialize_database(reset_db=False)
-    
-    # Start web server in the background
-    await start_web_server()
     
     await dp.start_polling(bot)
 
