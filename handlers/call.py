@@ -24,7 +24,6 @@ call_router = Router()
 
 @call_router.message(Command("call"))
 async def command_call_handler(message: Message, bot: Bot):
-    await message.answer(WEB_URL)
     try:
         # 1. Fetch user from DB
         user = await db.select_user(message.from_user.id)
@@ -67,7 +66,7 @@ async def command_call_handler(message: Message, bot: Bot):
 
         # 1. Start Button for Caller
         caller_kb = InlineKeyboardBuilder()
-        caller_kb.row(InlineKeyboardButton(text="Enter Session", url=link1))
+        caller_kb.row(InlineKeyboardButton(text="Enter Session", web_app=WebAppInfo(url=link1)))
         
         await message.answer(
             "*Video Session*\n\nYour secure connection is established. Select below to enter.",
@@ -77,7 +76,7 @@ async def command_call_handler(message: Message, bot: Bot):
 
         # 2. Invitation to Partner
         callee_kb = InlineKeyboardBuilder()
-        callee_kb.row(InlineKeyboardButton(text="Join Session", url=link2))
+        callee_kb.row(InlineKeyboardButton(text="Join Session", web_app=WebAppInfo(url=link2)))
         
         await bot.send_message(
             chat_id=user.partner_id,
