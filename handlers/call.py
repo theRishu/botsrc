@@ -16,7 +16,9 @@ from constant import (
 
 # ================= CONFIG =================
 
-from config import WEB_URL
+import config
+WEB_URL = config.WEB_URL
+API_URL = getattr(config, "API_URL", WEB_URL)
 call_router = Router()
 
 # =========================================
@@ -42,7 +44,7 @@ async def command_call_handler(message: Message, bot: Bot):
             return
 
         # Request new call session from the FastApi Server
-        api_url = f"{WEB_URL}/api/create_call"
+        api_url = f"{API_URL}/api/create_call"
         payload = {
             "caller_id": str(message.from_user.id),
             "callee_id": str(user.partner_id)
